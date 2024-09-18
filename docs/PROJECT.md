@@ -42,6 +42,6 @@ El objetivo es simplificar la operatoria dentro del local, mediante una interfaz
 
 - Se podrán crear, editar, modificar y eliminar productos de un local
 
-## Venta
+### Venta
 
 - Cada mesa podrá generar una venta en un determinado turno.
