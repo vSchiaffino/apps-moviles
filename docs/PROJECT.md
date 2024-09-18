@@ -1,10 +1,10 @@
 # Descripcion del proyecto
 
-Nuestro proyecto se va a tratar de la gestión del stock de los productos y las ventas dentro de un local nocturno, permitiendo al usuario administrar el inventario y la operativa dentro del mismo.
+Nuestro proyecto se va a tratar de la gestión del stock de productos y las ventas de un local nocturno, permitiendo al usuario administrar el inventario y la operativa dentro del mismo.
 
-La aplicación generará reportes y estadísticas claves para el negocio y para el proceso de auditoría.
+La aplicación generará reportes y estadísticas claves para el negocio y brindará información esencial para la administración de un local, como el faltante de productos, las existencias disponibles por cada depósito, el resultado de las ventas en cierto período de tiempo, las mesas disponibles, etc.
 
-El objetivo es simplificar la operatoria dentro del local, mediante una interfaz amigable con el usuario y proporcionando un análisis en tiempo real del stock y las ventas.
+El objetivo es simplificar la operatoria dentro del local, a través de una interfaz amigable con el usuario y proporcionando un análisis en tiempo real del stock y las ventas.
 
 ---
 
@@ -41,7 +41,9 @@ El objetivo es simplificar la operatoria dentro del local, mediante una interfaz
 ### Productos
 
 - Se podrán crear, editar, modificar y eliminar productos de un local
+- Se podrá consultar las existencias de productos dentro de un depósito
 
 ### Venta
 
-- Cada mesa podrá generar una venta en un determinado turno.
+- Cada mesa podrá generar una venta en un determinado turno
+- Se podrá generar un reporte de las ventas en un período de tiempo
