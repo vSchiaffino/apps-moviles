@@ -32,6 +32,11 @@ const responsiveBackground = `
 body {
   background-color: #fff;
 }
+
+input:focus {
+  outline: none;
+}
+
 @media (prefers-color-scheme: dark) {
   body {
     background-color: #000;
