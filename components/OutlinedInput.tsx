@@ -1,16 +1,22 @@
 import { View, Text, TextInput, TextInputProps, StyleSheet } from 'react-native'
 import React, { useState } from 'react'
 import { Colors } from '@/constants/Colors'
+import Typography from './Typography'
 
 interface OutlinedInputProps extends TextInputProps {
   label: string
+  error?: boolean
+  errorMessage?: string
 }
 
 const OutlinedInput: React.FC<OutlinedInputProps> = ({
   label,
   value,
+  error = false,
+  errorMessage = '',
   ...rest
 }) => {
+  const showError = error === true || errorMessage !== ''
   const isEmpty = value === ''
   const [isFocused, setIsFocused] = useState(false)
   return (
@@ -20,7 +26,11 @@ const OutlinedInput: React.FC<OutlinedInputProps> = ({
           styles.label,
           {
             top: isFocused || !isEmpty ? -7 : 19,
-            color: isFocused ? Colors.primary : '#666666',
+            color: isFocused
+              ? Colors.primary
+              : showError
+              ? Colors.danger
+              : '#666666',
           },
         ]}
       >
@@ -32,13 +42,22 @@ const OutlinedInput: React.FC<OutlinedInputProps> = ({
         style={[
           styles.input,
           {
-            borderWidth: isFocused ? 1.5 : 0.75,
-            borderColor: isFocused ? Colors.primary : '#6c6c6c',
+            borderWidth: isFocused || showError ? 1.5 : 0.75,
+            borderColor: isFocused
+              ? Colors.primary
+              : showError
+              ? Colors.danger
+              : '#6c6c6c',
           },
         ]}
         value={value}
         {...rest}
       />
+      {errorMessage && (
+        <Typography variant='subtitle' color='danger'>
+          {errorMessage}
+        </Typography>
+      )}
     </View>
   )
 }

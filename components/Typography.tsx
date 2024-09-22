@@ -1,9 +1,9 @@
-import { StyleProp, StyleSheet, Text, TextStyle, View } from 'react-native'
+import { StyleProp, StyleSheet, Text, TextStyle } from 'react-native'
 import React from 'react'
 import { Colors } from '@/constants/Colors'
 
 type Variants = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'subtitle' | 'body'
-type Colors = 'dark' | 'light' | 'primary'
+type Colors = 'dark' | 'light' | 'primary' | 'danger'
 
 export interface TypographyProps {
   variant: Variants
@@ -36,6 +36,9 @@ const styles = StyleSheet.create({
   },
   light: {
     color: 'white',
+  },
+  danger: {
+    color: Colors.danger,
   },
   primary: {
     color: Colors.primary,

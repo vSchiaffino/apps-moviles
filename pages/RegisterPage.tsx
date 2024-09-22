@@ -1,11 +1,16 @@
 import { StyleSheet, View } from 'react-native'
 import React, { useState } from 'react'
-import { Link } from 'expo-router'
 import OutlinedInput from '@/components/OutlinedInput'
 import StyledButton from '@/components/StyledButton'
 import Typography from '@/components/Typography'
 
 const RegisterPage = () => {
+  const onSubmit = () => {
+    setPasswordError(
+      password !== confirmPassword ? 'Las contraseñas debe coincidir' : ''
+    )
+  }
+  const [passwordError, setPasswordError] = useState('')
   const [user, setUser] = useState('')
   const [name, setName] = useState('')
   const [lastname, setLastname] = useState('')
@@ -24,16 +29,18 @@ const RegisterPage = () => {
       />
       <OutlinedInput label='Email' value={email} onChangeText={setEmail} />
       <OutlinedInput
+        errorMessage={passwordError}
         label='Contraseña'
         value={password}
         onChangeText={setPassword}
       />
       <OutlinedInput
+        error={passwordError !== ''}
         label='Repetir contraseña'
         value={confirmPassword}
         onChangeText={setConfirmPassword}
       />
-      <StyledButton label='Entrar' />
+      <StyledButton label='Entrar' onPress={onSubmit} />
     </View>
   )
 }
