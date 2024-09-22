@@ -1,13 +1,6 @@
-import { View, Text } from 'react-native'
 import React from 'react'
-import Register from '@/components/Register'
+import RegisterPage from '@/pages/RegisterPage'
 
-const register = () => {
-  return (
-    <>
-      <Register/>
-    </>
-  )
+export default function () {
+  return <RegisterPage />
 }
-
-export default register
