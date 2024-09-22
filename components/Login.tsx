@@ -9,6 +9,7 @@ import {
 import React, { useState } from 'react'
 import { Link } from 'expo-router'
 import OutlinedInput from './OutlinedInput'
+import StyledButton from './StyledButton'
 
 const Login = () => {
   const [user, setUser] = useState('')
@@ -33,11 +34,11 @@ const Login = () => {
         value={password}
         onChangeText={setPassword}
       />
-
+      <StyledButton label='Entrar' />
       <Text>
         ¿No tenés cuenta? <Link href='../register'>Crear usuario</Link>
       </Text>
-      <Button title='Entrar' />
+      {/* <Button title='Entrar' /> */}
     </View>
   )
 }
