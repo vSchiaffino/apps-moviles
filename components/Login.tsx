@@ -10,6 +10,7 @@ import React, { useState } from 'react'
 import { Link } from 'expo-router'
 import OutlinedInput from './OutlinedInput'
 import StyledButton from './StyledButton'
+import Typography from './Typography'
 
 const Login = () => {
   const [user, setUser] = useState('')
@@ -26,8 +27,7 @@ const Login = () => {
         gap: 30,
       }}
     >
-      <Text style={{ fontSize: 32, fontFamily: 'Poppins' }}>Login</Text>
-
+      <Typography variant='h3'>Login</Typography>
       <OutlinedInput label='Usuario' value={user} onChangeText={setUser} />
       <OutlinedInput
         label='Contraseña'
@@ -35,10 +35,9 @@ const Login = () => {
         onChangeText={setPassword}
       />
       <StyledButton label='Entrar' />
-      <Text>
-        ¿No tenés cuenta? <Link href='../register'>Crear usuario</Link>
-      </Text>
-      {/* <Button title='Entrar' /> */}
+      <Typography variant='subtitle' color='primary'>
+        <Link href='../register'>¿No tenés cuenta? Crear usuario</Link>
+      </Typography>
     </View>
   )
 }

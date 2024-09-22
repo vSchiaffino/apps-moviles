@@ -1,5 +1,6 @@
 import { View, Text, TextInput, TextInputProps, StyleSheet } from 'react-native'
 import React, { useState } from 'react'
+import { Colors } from '@/constants/Colors'
 
 interface OutlinedInputProps extends TextInputProps {
   label: string
@@ -19,7 +20,7 @@ const OutlinedInput: React.FC<OutlinedInputProps> = ({
           styles.label,
           {
             top: isFocused || !isEmpty ? -7 : 19,
-            color: isFocused ? '#1976d2' : '#666666',
+            color: isFocused ? Colors.primary : '#666666',
           },
         ]}
       >
@@ -32,7 +33,7 @@ const OutlinedInput: React.FC<OutlinedInputProps> = ({
           styles.input,
           {
             borderWidth: isFocused ? 1.5 : 0.75,
-            borderColor: isFocused ? '#1976d2' : '#6c6c6c',
+            borderColor: isFocused ? Colors.primary : '#6c6c6c',
           },
         ]}
         value={value}

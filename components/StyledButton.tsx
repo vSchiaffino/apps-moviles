@@ -1,5 +1,7 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
+import Typography from './Typography'
+import { Colors } from '@/constants/Colors'
 
 export interface StyledButtonProps {
   label: string
@@ -14,20 +16,17 @@ const StyledButton: React.FC<StyledButtonProps> = ({
     <TouchableOpacity
       style={{
         width: '100%',
-        paddingVertical: 15,
-        backgroundColor: '#1976d2',
+        paddingVertical: 14,
+        backgroundColor: Colors.primary,
       }}
     >
-      <Text
-        style={{
-          textAlign: 'center',
-          color: 'white',
-          fontSize: 16,
-          fontWeight: 400,
-        }}
+      <Typography
+        variant='subtitle'
+        color='light'
+        style={{ textAlign: 'center' }}
       >
         {label}
-      </Text>
+      </Typography>
     </TouchableOpacity>
   )
 }
