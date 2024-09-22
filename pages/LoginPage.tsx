@@ -1,32 +1,15 @@
-import {
-  Pressable,
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  Button,
-} from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import React, { useState } from 'react'
 import { Link } from 'expo-router'
-import OutlinedInput from './OutlinedInput'
-import StyledButton from './StyledButton'
-import Typography from './Typography'
+import OutlinedInput from '@/components/OutlinedInput'
+import StyledButton from '@/components/StyledButton'
+import Typography from '@/components/Typography'
 
-const Login = () => {
+const LoginPage = () => {
   const [user, setUser] = useState('')
   const [password, setPassword] = useState('')
   return (
-    <View
-      style={{
-        marginHorizontal: 'auto',
-        width: '80%',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100%',
-        gap: 30,
-      }}
-    >
+    <View style={styles.container}>
       <Typography variant='h3'>Login</Typography>
       <OutlinedInput label='Usuario' value={user} onChangeText={setUser} />
       <OutlinedInput
@@ -42,6 +25,16 @@ const Login = () => {
   )
 }
 
-export default Login
+export default LoginPage
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  container: {
+    marginHorizontal: 'auto',
+    width: '80%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%',
+    gap: 30,
+  },
+})
