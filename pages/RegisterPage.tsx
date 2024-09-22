@@ -34,9 +34,6 @@ const RegisterPage = () => {
         onChangeText={setConfirmPassword}
       />
       <StyledButton label='Entrar' />
-      <Typography variant='subtitle' color='primary'>
-        <Link href='../register'>¿No tenés cuenta? Crear usuario</Link>
-      </Typography>
     </View>
   )
 }
