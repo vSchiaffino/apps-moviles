@@ -17,10 +17,10 @@ const LoginPage = () => {
         value={password}
         onChangeText={setPassword}
       />
-      <StyledButton label='Entrar' />
-      <Typography variant='subtitle' color='primary'>
-        <Link href='../register'>¿No tenés cuenta? Crear usuario</Link>
+      <Typography variant='subtitle' color='dark'>
+        ¿No tenés cuenta? <Link href='../register'>Crear usuario</Link>
       </Typography>
+      <StyledButton label='Entrar' />
     </View>
   )
 }
