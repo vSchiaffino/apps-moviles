@@ -19,7 +19,7 @@ const Typography: React.FC<TypographyProps> = ({
   children,
   style = {},
   color = 'dark',
-  font = 'roboto'
+  font = 'poppins'
 }) => {
   return (
     <Text style={[styles[font], styles[variant], styles[color], style]}>
