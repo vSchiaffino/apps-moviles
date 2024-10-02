@@ -6,29 +6,18 @@ import Typography from '@/components/Typography'
 import { Link } from 'expo-router'
 
 const RegisterPage = () => {
-  
-  const checkPassword = (password : string, confirmPassword : string) => {
-    const errorMsg = 
-    password !== confirmPassword ? 'Las contraseñas debe coincidir' :
-    password == '' || password.length < 8 ? 'La contraseña debe tener más de 8 caracteres' :
-    ''
-    return errorMsg
-  } 
-
   const checkEmail = (email : string) => {
-    let errorMsg = ''
     const regexp = new RegExp(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/i)
-    if (!regexp.test(email)) {
-      errorMsg = 'El mail es inválido'
-    }
-    return errorMsg
+    return !regexp.test(email) ? 'El mail es inválido' : ''
   }
   
   const onSubmit = () => {
     setUserError(
       user.length > 20 || user.length < 4 ? 'El usuario debe tener entre 4 y 20 caracteres' : ''
     )
-    setPasswordError(checkPassword(password, confirmPassword))
+    setPasswordError(password !== confirmPassword ? 'Las contraseñas deben coincidir' : 
+      password == '' || password.length < 8 ? 'La contraseña debe tener más de 8 caracteres' : 
+      '')
     setNameError(name == '' ? 'Completa un nombre' : '')
     setLastNameError(lastname == '' ? 'Completa un apellido' : '')
     setEmailError(checkEmail(email))
