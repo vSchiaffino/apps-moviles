@@ -95,7 +95,7 @@ export default RegisterPage
 const styles = StyleSheet.create({
   container: {
     marginHorizontal: 'auto',
-    width: '60%',
+    width: '80%',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
