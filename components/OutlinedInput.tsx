@@ -26,11 +26,13 @@ const OutlinedInput: React.FC<OutlinedInputProps> = ({
           styles.label,
           {
             top: isFocused || !isEmpty ? -7 : 19,
+            zIndex: !isFocused ? -1 : 1,
             color: isFocused
               ? Colors.primary
               : showError
               ? Colors.danger
               : '#666666',
+              userSelect: 'none',
           },
         ]}
       >
