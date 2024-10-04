@@ -4,14 +4,20 @@ import OutlinedInput from '@/components/OutlinedInput'
 import StyledButton from '@/components/StyledButton'
 import Typography from '@/components/Typography'
 import { Link } from 'expo-router'
+import userService from '@/services/user.service'
 
 const RegisterPage = () => {
+
   const checkEmail = (email : string) => {
     const regexp = new RegExp(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/i)
     return !regexp.test(email) ? 'El mail es inválido' : ''
   }
   
-  const onSubmit = () => {
+  const onSubmit = async () => {
+    const response = await userService.register({user, name, lastName, mail, password})
+    const valid = response.status === 201
+    const data = await response.json()
+
     setUserError(
       user.length > 20 || user.length < 4 ? 'El usuario debe tener entre 4 y 20 caracteres' : ''
     )
@@ -19,19 +25,37 @@ const RegisterPage = () => {
       password == '' || password.length < 8 ? 'La contraseña debe tener más de 8 caracteres' : 
       '')
     setNameError(name == '' ? 'Completa un nombre' : '')
-    setLastNameError(lastname == '' ? 'Completa un apellido' : '')
-    setEmailError(checkEmail(email))
+    setLastNameError(lastName == '' ? 'Completa un apellido' : '')
+    setMailError(checkEmail(mail))
+
+    if(!valid){
+      if (data.field === 'user'){
+        setUserError(data.message)
+      }
+      if (data.field === 'mail'){
+        setMailError(data.message)
+      }
+      console.log(data)
+    } 
+    else{
+      setUser('')
+      setName('')
+      setLastName('')
+      setMail('')
+      setPassword('')
+      setConfirmPassword('')
+    }
   }
 
   const [passwordError, setPasswordError] = useState('')
   const [userError, setUserError] = useState('')
   const [nameError, setNameError] = useState('')
   const [lastNameError, setLastNameError] = useState('')
-  const [emailError, setEmailError] = useState('')
+  const [mailError, setMailError] = useState('')
   const [user, setUser] = useState('')
   const [name, setName] = useState('')
-  const [lastname, setLastname] = useState('')
-  const [email, setEmail] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [mail, setMail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
 
@@ -56,15 +80,15 @@ const RegisterPage = () => {
       <OutlinedInput
         errorMessage={lastNameError}
         label='Apellido'
-        value={lastname}
-        onChangeText={setLastname}
+        value={lastName}
+        onChangeText={setLastName}
       />
 
       <OutlinedInput 
-        errorMessage={emailError}
+        errorMessage={mailError}
         label='Email' 
-        value={email} 
-        onChangeText={setEmail} 
+        value={mail} 
+        onChangeText={setMail} 
       />
 
       <OutlinedInput

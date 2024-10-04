@@ -9,7 +9,7 @@ import userService from '@/services/user.service'
 const LoginPage = () => {
   const handleLogin = async () => {
     const response = await userService.login(user, password)
-    const valid = response.status === 200
+    const valid = response.status === 201
     const data = await response.json()
     if (valid) {
       setError('')
