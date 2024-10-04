@@ -81,11 +81,11 @@ const RegisterPage = () => {
         onChangeText={setConfirmPassword}
       />
 
+      <StyledButton label='Entrar' onPress={onSubmit} />
+
       <Typography variant='subtitle' color='dark'>
         ¿Ya tenés cuenta? <Link href='../login'>Ingresar</Link>
       </Typography>
-
-      <StyledButton label='Entrar' onPress={onSubmit} />
     </View>
   )
 }
