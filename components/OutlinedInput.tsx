@@ -19,20 +19,21 @@ const OutlinedInput: React.FC<OutlinedInputProps> = ({
   const showError = error === true || errorMessage !== ''
   const isEmpty = value === ''
   const [isFocused, setIsFocused] = useState(false)
+  const isLabelOnTop = isFocused || !isEmpty
   return (
     <View style={styles.container}>
       <Text
         style={[
           styles.label,
           {
-            top: isFocused || !isEmpty ? -7 : 19,
-            zIndex: !isFocused ? -1 : 1,
+            top: isLabelOnTop ? -7 : 19,
+            zIndex: isLabelOnTop ? 1 : -1,
             color: isFocused
               ? Colors.primary
               : showError
               ? Colors.danger
               : '#666666',
-              userSelect: 'none',
+            userSelect: 'none',
           },
         ]}
       >
