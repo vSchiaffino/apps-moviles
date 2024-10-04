@@ -9,6 +9,7 @@ interface OutlinedInputProps extends TextInputProps {
   errorMessage?: string
 }
 
+// TODO: fix the styles when nighht mode is enabled
 const OutlinedInput: React.FC<OutlinedInputProps> = ({
   label,
   value,
