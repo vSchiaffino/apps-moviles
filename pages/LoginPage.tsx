@@ -11,15 +11,22 @@ const LoginPage = () => {
   return (
     <View style={styles.container}>
       <Typography variant='h3'>Iniciá sesión</Typography>
-      <OutlinedInput label='Usuario' value={user} onChangeText={setUser} />
+
+      <OutlinedInput 
+        label='Usuario' 
+        value={user} 
+        onChangeText={setUser} />
+      
       <OutlinedInput
         label='Contraseña'
         value={password}
         onChangeText={setPassword}
       />
+      
       <StyledButton label='Entrar' />
-      <Typography variant='subtitle' color='primary'>
-        <Link href='../register'>¿No tenés cuenta? Crear usuario</Link>
+      
+      <Typography variant='subtitle' color='dark'>
+        ¿No tenés cuenta? <Link href='../register'>Crear usuario</Link>
       </Typography>
     </View>
   )
