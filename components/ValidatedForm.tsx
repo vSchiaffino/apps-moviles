@@ -7,6 +7,8 @@ import {
 import OutlinedInput from './OutlinedInput'
 import StyledButton from './StyledButton'
 import React from 'react'
+import { ApiValidationError } from '@/services/api.service'
+import Typography from './Typography'
 
 export type ValidatedField = {
   name: string
@@ -16,7 +18,7 @@ export type ValidatedField = {
 
 export interface ValidatedFormProps {
   formProps?: UseFormProps
-  onSubmit: (form: any) => void
+  onSubmit: (form: any) => Promise<void>
   submitLabel?: string
   fields: ValidatedField[]
 }
@@ -27,8 +29,22 @@ const ValidatedForm = ({
   onSubmit,
   submitLabel = 'Enviar',
 }: ValidatedFormProps) => {
-  const { control, handleSubmit, formState } = useForm(formProps)
+  const { control, handleSubmit, formState, setError } = useForm(formProps)
   const { errors } = formState
+  const submitWrapper = async (form: any) => {
+    try {
+      await onSubmit(form)
+    } catch (error) {
+      if (error instanceof ApiValidationError) {
+        setError(error.field || 'form', {
+          message: error.message,
+          type: 'server',
+        })
+      } else {
+        throw error
+      }
+    }
+  }
   return (
     <>
       {fields.map(({ name, label, rules }) => (
@@ -48,7 +64,12 @@ const ValidatedForm = ({
           name={name}
         />
       ))}
-      <StyledButton label={submitLabel} onPress={handleSubmit(onSubmit)} />
+      <StyledButton label={submitLabel} onPress={handleSubmit(submitWrapper)} />
+      {errors.form && (
+        <Typography variant='body' color='danger'>
+          {errors.form.message as string}
+        </Typography>
+      )}
     </>
   )
 }

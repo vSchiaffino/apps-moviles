@@ -3,10 +3,13 @@ import React from 'react'
 import Typography from '@/components/Typography'
 import { Link } from 'expo-router'
 import ValidatedForm, { ValidatedField } from '@/components/ValidatedForm'
+import userService from '@/services/user.service'
 
 const RegisterPage = () => {
-  const onSubmit = (form: any) => {
-    // TODO: Implementar conexion con api
+  const onSubmit = async (form: any) => {
+    const response = await userService.register(form)
+    // TODO: handle user creation
+    console.log(response)
   }
   const fields: ValidatedField[] = [
     {
