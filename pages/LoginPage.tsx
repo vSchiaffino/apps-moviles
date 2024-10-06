@@ -3,8 +3,14 @@ import React from 'react'
 import { Link } from 'expo-router'
 import Typography from '@/components/Typography'
 import ValidatedForm from '@/components/ValidatedForm'
+import userService from '@/services/user.service'
 
 const LoginPage = () => {
+  const onSubmit = async (form: any) => {
+    const response = await userService.login(form.user, form.password)
+    // TODO handle correct login  properly
+    console.log(response)
+  }
   const fields = [
     {
       name: 'user',
@@ -26,9 +32,7 @@ const LoginPage = () => {
       <Typography variant='h3'>Iniciá sesión</Typography>
       <ValidatedForm
         fields={fields}
-        onSubmit={() => {
-          // TODO implementar conexion con la API
-        }}
+        onSubmit={onSubmit}
         formProps={{
           defaultValues: {
             user: '',
