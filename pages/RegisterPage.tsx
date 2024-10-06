@@ -1,88 +1,89 @@
 import { StyleSheet, View } from 'react-native'
-import React, { useState } from 'react'
-import OutlinedInput from '@/components/OutlinedInput'
-import StyledButton from '@/components/StyledButton'
+import React from 'react'
 import Typography from '@/components/Typography'
 import { Link } from 'expo-router'
+import ValidatedForm, { ValidatedField } from '@/components/ValidatedForm'
 
 const RegisterPage = () => {
-  const checkEmail = (email : string) => {
-    const regexp = new RegExp(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/i)
-    return !regexp.test(email) ? 'El mail es inválido' : ''
+  const onSubmit = (form: any) => {
+    // TODO: Implementar conexion con api
   }
-  
-  const onSubmit = () => {
-    setUserError(
-      user.length > 20 || user.length < 4 ? 'El usuario debe tener entre 4 y 20 caracteres' : ''
-    )
-    setPasswordError(password !== confirmPassword ? 'Las contraseñas deben coincidir' : 
-      password == '' || password.length < 8 ? 'La contraseña debe tener más de 8 caracteres' : 
-      '')
-    setNameError(name == '' ? 'Completa un nombre' : '')
-    setLastNameError(lastname == '' ? 'Completa un apellido' : '')
-    setEmailError(checkEmail(email))
-  }
-
-  const [passwordError, setPasswordError] = useState('')
-  const [userError, setUserError] = useState('')
-  const [nameError, setNameError] = useState('')
-  const [lastNameError, setLastNameError] = useState('')
-  const [emailError, setEmailError] = useState('')
-  const [user, setUser] = useState('')
-  const [name, setName] = useState('')
-  const [lastname, setLastname] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
-
+  const fields: ValidatedField[] = [
+    {
+      name: 'user',
+      label: 'Usuario',
+      rules: {
+        required: 'El usuario es requerido',
+        minLength: {
+          value: 4,
+          message: 'El usuario debe tener más de 4 caracteres',
+        },
+        maxLength: {
+          value: 20,
+          message: 'El usuario debe tener menos de 20 caracteres',
+        },
+      },
+    },
+    {
+      name: 'name',
+      label: 'Nombre',
+      rules: { required: 'El nombre es requerido' },
+    },
+    {
+      name: 'lastName',
+      label: 'Apellido',
+      rules: { required: 'El apellido es requerido' },
+    },
+    {
+      name: 'mail',
+      label: 'Mail',
+      rules: {
+        required: 'El mail es requerido',
+        pattern: {
+          value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/i,
+          message: 'El mail es inválido',
+        },
+      },
+    },
+    {
+      name: 'password',
+      label: 'Contraseña',
+      rules: {
+        required: 'La contraseña es requerida',
+        minLength: {
+          value: 8,
+          message: 'La contraseña debe tener más de 8 caracteres',
+        },
+      },
+    },
+    {
+      name: 'repeatPassword',
+      label: 'Repetir contraseña',
+      rules: {
+        required: 'La contraseña es requerida',
+        validate: (value: string, { password }: { password: string }) =>
+          value === password || 'Las contraseñas deben coincidir',
+      },
+    },
+  ]
   return (
     <View style={styles.container}>
       <Typography variant='h3'>Registrate</Typography>
-
-      <OutlinedInput
-        errorMessage={userError}
-        label='Usuario' 
-        value={user} 
-        onChangeText={setUser} 
+      <ValidatedForm
+        formProps={{
+          defaultValues: {
+            user: '',
+            name: '',
+            lastName: '',
+            mail: '',
+            password: '',
+            repeatPassword: '',
+          },
+        }}
+        submitLabel='Registrarse'
+        onSubmit={onSubmit}
+        fields={fields}
       />
-
-      <OutlinedInput
-        errorMessage={nameError}
-        label='Nombre' 
-        value={name} 
-        onChangeText={setName} 
-      />
-
-      <OutlinedInput
-        errorMessage={lastNameError}
-        label='Apellido'
-        value={lastname}
-        onChangeText={setLastname}
-      />
-
-      <OutlinedInput 
-        errorMessage={emailError}
-        label='Email' 
-        value={email} 
-        onChangeText={setEmail} 
-      />
-
-      <OutlinedInput
-        errorMessage={passwordError}
-        label='Contraseña'
-        value={password}
-        onChangeText={setPassword}
-      />
-
-      <OutlinedInput
-        error={passwordError !== ''}
-        label='Repetir contraseña'
-        value={confirmPassword}
-        onChangeText={setConfirmPassword}
-      />
-
-      <StyledButton label='Entrar' onPress={onSubmit} />
-
       <Typography variant='subtitle' color='dark'>
         ¿Ya tenés cuenta? <Link href='../login'>Ingresar</Link>
       </Typography>
