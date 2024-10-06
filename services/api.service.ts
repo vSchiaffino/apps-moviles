@@ -1,5 +1,5 @@
 export class ApiService {
-  private baseUrl = 'http://192.168.100.9:9000'
+  private baseUrl = process.env.EXPO_PUBLIC_API_BASE_URL
   async post(endpoint: string, body: any) {
     // TODO: handle api errors
     const response = await fetch(this.baseUrl + endpoint, {
