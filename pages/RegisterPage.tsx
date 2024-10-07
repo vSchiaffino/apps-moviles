@@ -51,6 +51,7 @@ const RegisterPage = () => {
     {
       name: 'password',
       label: 'Contraseña',
+      password: true,
       rules: {
         required: 'La contraseña es requerida',
         minLength: {
@@ -62,6 +63,7 @@ const RegisterPage = () => {
     {
       name: 'repeatPassword',
       label: 'Repetir contraseña',
+      password: true,
       rules: {
         required: 'La contraseña es requerida',
         validate: (value: string, { password }: { password: string }) =>

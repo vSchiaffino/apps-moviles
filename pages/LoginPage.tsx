@@ -22,6 +22,7 @@ const LoginPage = () => {
     {
       name: 'password',
       label: 'Contraseña',
+      password: true,
       rules: {
         required: 'La contraseña es requerida',
       },

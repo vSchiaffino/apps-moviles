@@ -13,6 +13,7 @@ import Typography from './Typography'
 export type ValidatedField = {
   name: string
   label: string
+  password?: boolean
   rules: RegisterOptions<any>
 }
 
@@ -47,7 +48,7 @@ const ValidatedForm = ({
   }
   return (
     <>
-      {fields.map(({ name, label, rules }) => (
+      {fields.map(({ name, label, password, rules }) => (
         <Controller
           key={name}
           control={control}
@@ -55,6 +56,7 @@ const ValidatedForm = ({
           render={({ field: { onChange, onBlur, value } }) => (
             <OutlinedInput
               errorMessage={errors[name]?.message as string}
+              secureTextEntry={password}
               label={label}
               onBlur={onBlur}
               onChangeText={onChange}
