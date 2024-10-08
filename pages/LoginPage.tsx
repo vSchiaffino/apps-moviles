@@ -1,15 +1,22 @@
 import { StyleSheet, View } from 'react-native'
 import React from 'react'
-import { Link } from 'expo-router'
+import { Link, router } from 'expo-router'
 import Typography from '@/components/Typography'
 import ValidatedForm from '@/components/ValidatedForm'
 import userService from '@/services/user.service'
+import { UserPayload } from '@/context/AuthContext'
+import useUser from '@/hooks/useUser'
 
 const LoginPage = () => {
+  const { user, setUser } = useUser()
   const onSubmit = async (form: any) => {
     const response = await userService.login(form.user, form.password)
-    // TODO handle correct login  properly
-    console.log(response)
+    const json = await response.json()
+    const jwtToken = json.token
+    const payloadBase64 = jwtToken.split('.')[1]
+    const payload: UserPayload = JSON.parse(atob(payloadBase64))
+    setUser(payload)
+    router.push('/')
   }
   const fields = [
     {
