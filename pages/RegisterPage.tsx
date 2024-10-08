@@ -1,15 +1,15 @@
 import { StyleSheet, View } from 'react-native'
 import React from 'react'
 import Typography from '@/components/Typography'
-import { Link } from 'expo-router'
+import { Link, router } from 'expo-router'
 import ValidatedForm, { ValidatedField } from '@/components/ValidatedForm'
 import userService from '@/services/user.service'
 
 const RegisterPage = () => {
   const onSubmit = async (form: any) => {
     const response = await userService.register(form)
-    // TODO: handle user creation
-    console.log(response)
+    // TODO: show success message
+    router.push('/login')
   }
   const fields: ValidatedField[] = [
     {
