@@ -16,7 +16,7 @@ interface UserPayload {
 }
 
 type AuthContextType = {
-  user: { [key: string]: any } | null
+  user: UserPayload | null
   setUser: Dispatch<SetStateAction<UserPayload | null>>
 }
 
