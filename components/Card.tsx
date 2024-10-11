@@ -1,29 +1,31 @@
-import { View, StyleProp, ViewStyle } from 'react-native'
+import { View, StyleProp, ViewStyle, TouchableOpacity } from 'react-native'
 import React from 'react'
 
 export interface CardProps {
   children: React.ReactNode
-  style: StyleProp<ViewStyle>
+  style?: StyleProp<ViewStyle>
+  pressable: boolean
 }
 
-const Card: React.FC<CardProps> = ({ children, style }) => {
+const Card: React.FC<CardProps> = ({ children, style, pressable }) => {
+  const MainComponent: any = pressable ? TouchableOpacity : View
   return (
-    <View
+    <MainComponent
       style={{
         width: '100%',
         height: '100%',
         padding: 8,
         backgroundColor: 'white',
-        borderRadius: 4,
+        borderRadius: 16,
         shadowColor: 'black',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.1,
         shadowRadius: 4,
-        ...(style as any),
+        ...Object(style),
       }}
     >
       {children}
-    </View>
+    </MainComponent>
   )
 }
 
