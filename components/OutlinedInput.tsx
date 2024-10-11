@@ -65,7 +65,7 @@ const OutlinedInput: React.FC<OutlinedInputProps> = ({
         value={value}
         {...rest}
       />
-      {errorMessage && (
+      {!!errorMessage && (
         <Typography variant='subtitle' color='danger'>
           {errorMessage}
         </Typography>
