@@ -15,15 +15,18 @@ export interface StyledButtonProps extends TouchableOpacityProps {
 const StyledButton: React.FC<StyledButtonProps> = ({
   label,
   type = 'filled',
+  disabled,
   ...rest
 }) => {
+  const backgroundColor = disabled ? Colors.primaryDisabled : Colors.primary
   return (
     <TouchableOpacity
       style={{
         width: '100%',
         paddingVertical: 14,
-        backgroundColor: Colors.primary,
+        backgroundColor,
       }}
+      disabled={disabled}
       {...rest}
     >
       <Typography

@@ -70,7 +70,11 @@ const ValidatedForm = ({
           name={name}
         />
       ))}
-      <StyledButton label={submitLabel} onPress={handleSubmit(submitWrapper)} />
+      <StyledButton
+        label={submitLabel}
+        onPress={handleSubmit(submitWrapper)}
+        disabled={errors && Object.entries(errors).length > 0}
+      />
       {errors.form && (
         <Typography variant='body' color='danger'>
           {errors.form.message as string}
