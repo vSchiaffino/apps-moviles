@@ -14,7 +14,7 @@ const StyledButton: React.FC<StyledButtonProps> = ({
   disabled,
   ...rest
 }) => {
-  const backgroundColor = disabled ? Colors.primaryDisabled : Colors.primary
+  const backgroundColor = disabled ? Colors.primary[300] : Colors.primary[600]
   return (
     <TouchableOpacity
       style={{

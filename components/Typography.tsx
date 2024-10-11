@@ -34,16 +34,16 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins',
   },
   dark: {
-    color: 'rgb(26, 30, 35)',
+    color: Colors.gray[900],
   },
   light: {
     color: 'white',
   },
   danger: {
-    color: Colors.danger,
+    color: Colors.danger[600],
   },
   primary: {
-    color: Colors.primary,
+    color: Colors.primary[600],
   },
   h1: {
     fontSize: 96,

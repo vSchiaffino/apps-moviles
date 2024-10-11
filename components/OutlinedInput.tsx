@@ -9,7 +9,6 @@ interface OutlinedInputProps extends TextInputProps {
   errorMessage?: string
 }
 
-// TODO: fix the styles when nighht mode is enabled
 const OutlinedInput: React.FC<OutlinedInputProps> = ({
   label,
   value,
@@ -31,7 +30,11 @@ const OutlinedInput: React.FC<OutlinedInputProps> = ({
           {
             top: isLabelOnTop ? -7 : 19,
             zIndex: isLabelOnTop ? 1 : -1,
-            color: showError ? Colors.danger : isFocused ? Colors.primary : '#666666',
+            color: showError
+              ? Colors.danger[600]
+              : isFocused
+                ? Colors.primary[600]
+                : Colors.gray[900],
             userSelect: 'none',
           },
         ]}
@@ -51,7 +54,11 @@ const OutlinedInput: React.FC<OutlinedInputProps> = ({
           styles.input,
           {
             borderWidth: isFocused || showError ? 1.5 : 0.75,
-            borderColor: showError ? Colors.danger : isFocused ? Colors.primary : '#6c6c6c',
+            borderColor: showError
+              ? Colors.danger[600]
+              : isFocused
+                ? Colors.primary[600]
+                : Colors.gray[900],
           },
         ]}
         value={value}
@@ -79,10 +86,10 @@ const styles = StyleSheet.create({
     zIndex: 1,
     paddingHorizontal: 5,
     paddingVertical: 0,
-    backgroundColor: '#f2f2f2',
+    backgroundColor: Colors.gray[100],
   },
   input: {
-    color: '#212121',
+    color: Colors.gray[900],
     fontSize: 16,
     width: '100%',
     paddingTop: 12,
