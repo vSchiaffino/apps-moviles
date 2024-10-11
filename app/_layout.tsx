@@ -1,6 +1,6 @@
-import { DarkTheme, DefaultTheme, ThemeProvider, useRoute } from '@react-navigation/native'
+import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native'
 import { useFonts } from 'expo-font'
-import { Stack, Tabs } from 'expo-router'
+import { Tabs } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
 import React, { useEffect } from 'react'
 import 'react-native-reanimated'
@@ -8,6 +8,7 @@ import 'react-native-reanimated'
 import { useColorScheme } from '@/hooks/useColorScheme'
 import { AuthProvider } from '@/context/AuthContext'
 import { Ionicons } from '@expo/vector-icons'
+import { Colors } from '@/constants/Colors'
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync()
@@ -47,7 +48,7 @@ export default function RootLayout() {
           <Tabs.Screen
             name="index"
             options={{
-              tabBarIcon: ({ color }) => <Ionicons name="home" size={24} color={color} />,
+              tabBarIcon: () => <Ionicons name="home" size={24} color={Colors.primary[600]} />,
             }}
           />
           <Tabs.Screen name="login" options={{ href: null }} />
