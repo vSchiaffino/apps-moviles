@@ -5,11 +5,9 @@ import { Redirect } from 'expo-router'
 import ProfilePage from '@/pages/ProfilePage'
 
 const profile = () => {
-    const { user } = useUser()
-    if (!user) return <Redirect href='/' />
-    return (
-        <ProfilePage user={user}/>
-    )
+  const { user } = useUser()
+  if (!user) return <Redirect href="/" />
+  return <ProfilePage user={user} />
 }
 
 export default profile

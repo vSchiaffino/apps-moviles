@@ -31,11 +31,7 @@ const OutlinedInput: React.FC<OutlinedInputProps> = ({
           {
             top: isLabelOnTop ? -7 : 19,
             zIndex: isLabelOnTop ? 1 : -1,
-            color: showError
-              ? Colors.danger
-              : isFocused
-              ? Colors.primary
-              : '#666666',
+            color: showError ? Colors.danger : isFocused ? Colors.primary : '#666666',
             userSelect: 'none',
           },
         ]}
@@ -55,18 +51,14 @@ const OutlinedInput: React.FC<OutlinedInputProps> = ({
           styles.input,
           {
             borderWidth: isFocused || showError ? 1.5 : 0.75,
-            borderColor: showError
-              ? Colors.danger
-              : isFocused
-              ? Colors.primary
-              : '#6c6c6c',
+            borderColor: showError ? Colors.danger : isFocused ? Colors.primary : '#6c6c6c',
           },
         ]}
         value={value}
         {...rest}
       />
       {!!errorMessage && (
-        <Typography variant='subtitle' color='danger'>
+        <Typography variant="subtitle" color="danger">
           {errorMessage}
         </Typography>
       )}

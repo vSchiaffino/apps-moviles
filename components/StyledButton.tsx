@@ -1,8 +1,4 @@
-import {
-  StyleSheet,
-  TouchableOpacity,
-  TouchableOpacityProps,
-} from 'react-native'
+import { StyleSheet, TouchableOpacity, TouchableOpacityProps } from 'react-native'
 import React from 'react'
 import Typography from './Typography'
 import { Colors } from '@/constants/Colors'
@@ -29,11 +25,7 @@ const StyledButton: React.FC<StyledButtonProps> = ({
       disabled={disabled}
       {...rest}
     >
-      <Typography
-        variant='subtitle'
-        color='light'
-        style={{ textAlign: 'center' }}
-      >
+      <Typography variant="subtitle" color="light" style={{ textAlign: 'center' }}>
         {label}
       </Typography>
     </TouchableOpacity>

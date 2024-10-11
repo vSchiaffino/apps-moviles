@@ -73,7 +73,7 @@ const RegisterPage = () => {
   ]
   return (
     <View style={styles.container}>
-      <Typography variant='h3'>Registrate</Typography>
+      <Typography variant="h3">Registrate</Typography>
       <ValidatedForm
         formProps={{
           defaultValues: {
@@ -85,12 +85,12 @@ const RegisterPage = () => {
             repeatPassword: '',
           },
         }}
-        submitLabel='Registrarse'
+        submitLabel="Registrarse"
         onSubmit={onSubmit}
         fields={fields}
       />
-      <Typography variant='subtitle' color='dark'>
-        ¿Ya tenés cuenta? <Link href='../login'>Ingresar</Link>
+      <Typography variant="subtitle" color="dark">
+        ¿Ya tenés cuenta? <Link href="../login">Ingresar</Link>
       </Typography>
     </View>
   )

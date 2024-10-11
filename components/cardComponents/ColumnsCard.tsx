@@ -3,21 +3,50 @@ import React from 'react'
 import Typography from '../Typography'
 
 interface CardProps {
-    title: string
+  title: string
 }
 
 const Card = (props: CardProps) => {
   return (
     <View style={styles.container}>
-      <View style={{display: 'flex', width: '100%', height:'100%', justifyContent: 'center', alignItems: 'center', gap: 20}}>
-        <Typography variant={'h5'} color={'light'}>{props.title}</Typography>
+      <View
+        style={{
+          display: 'flex',
+          width: '100%',
+          height: '100%',
+          justifyContent: 'center',
+          alignItems: 'center',
+          gap: 20,
+        }}
+      >
+        <Typography variant={'h5'} color={'light'}>
+          {props.title}
+        </Typography>
         <View style={styles.content}>
-            <Image src={'https://reactnative.dev/img/tiny_logo.png'} style={{resizeMode: 'contain', width: 50, height: 50}}/>
-            <Image src={'https://reactnative.dev/img/tiny_logo.png'} style={{resizeMode: 'contain', width: 50, height: 50}}/>
-            <Image src={'https://reactnative.dev/img/tiny_logo.png'} style={{resizeMode: 'contain', width: 50, height: 50}}/>
-            <Image src={'https://reactnative.dev/img/tiny_logo.png'} style={{resizeMode: 'contain', width: 50, height: 50}}/>
-            <Image src={'https://reactnative.dev/img/tiny_logo.png'} style={{resizeMode: 'contain', width: 50, height: 50}}/>
-            <Image src={'https://reactnative.dev/img/tiny_logo.png'} style={{resizeMode: 'contain', width: 50, height: 50}}/>
+          <Image
+            src={'https://reactnative.dev/img/tiny_logo.png'}
+            style={{ resizeMode: 'contain', width: 50, height: 50 }}
+          />
+          <Image
+            src={'https://reactnative.dev/img/tiny_logo.png'}
+            style={{ resizeMode: 'contain', width: 50, height: 50 }}
+          />
+          <Image
+            src={'https://reactnative.dev/img/tiny_logo.png'}
+            style={{ resizeMode: 'contain', width: 50, height: 50 }}
+          />
+          <Image
+            src={'https://reactnative.dev/img/tiny_logo.png'}
+            style={{ resizeMode: 'contain', width: 50, height: 50 }}
+          />
+          <Image
+            src={'https://reactnative.dev/img/tiny_logo.png'}
+            style={{ resizeMode: 'contain', width: 50, height: 50 }}
+          />
+          <Image
+            src={'https://reactnative.dev/img/tiny_logo.png'}
+            style={{ resizeMode: 'contain', width: 50, height: 50 }}
+          />
         </View>
       </View>
     </View>
@@ -27,23 +56,22 @@ const Card = (props: CardProps) => {
 export default Card
 
 const styles = StyleSheet.create({
-    container: {
-        backgroundColor: '#323232',
-        width: '100%',
-        height: '50%',
-        borderRadius: 10,
-        padding: 20
-    },
-    content: {
-      display: 'flex',
-      flexDirection: 'row',
-      justifyContent: 'space-evenly',
-      flexBasis: '100%',
-      flex: 1,
-      width: '100%',
-      height: '80%',
-      gap: 10,
-      borderWidth: 4,
-  }
-
+  container: {
+    backgroundColor: '#323232',
+    width: '100%',
+    height: '50%',
+    borderRadius: 10,
+    padding: 20,
+  },
+  content: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    flexBasis: '100%',
+    flex: 1,
+    width: '100%',
+    height: '80%',
+    gap: 10,
+    borderWidth: 4,
+  },
 })

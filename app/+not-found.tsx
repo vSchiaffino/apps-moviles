@@ -1,9 +1,9 @@
-import { Link, Stack } from 'expo-router';
-import { StyleSheet } from 'react-native';
+import { Link, Stack } from 'expo-router'
+import { StyleSheet } from 'react-native'
 
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-import React from 'react';
+import { ThemedText } from '@/components/ThemedText'
+import { ThemedView } from '@/components/ThemedView'
+import React from 'react'
 
 export default function NotFoundScreen() {
   return (
@@ -16,7 +16,7 @@ export default function NotFoundScreen() {
         </Link>
       </ThemedView>
     </>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -30,4 +30,4 @@ const styles = StyleSheet.create({
     marginTop: 15,
     paddingVertical: 15,
   },
-});
+})

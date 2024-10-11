@@ -1,9 +1,4 @@
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-  useRoute,
-} from '@react-navigation/native'
+import { DarkTheme, DefaultTheme, ThemeProvider, useRoute } from '@react-navigation/native'
 import { useFonts } from 'expo-font'
 import { Stack, Tabs } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
@@ -45,23 +40,19 @@ export default function RootLayout() {
           screenOptions={({ route }) => ({
             headerShown: false,
             tabBarStyle: {
-              display: ['login', 'register'].includes(route.name)
-                ? 'none'
-                : 'flex',
+              display: ['login', 'register'].includes(route.name) ? 'none' : 'flex',
             },
           })}
         >
           <Tabs.Screen
-            name='index'
+            name="index"
             options={{
-              tabBarIcon: ({ color }) => (
-                <Ionicons name='home' size={24} color={color} />
-              ),
+              tabBarIcon: ({ color }) => <Ionicons name="home" size={24} color={color} />,
             }}
           />
-          <Tabs.Screen name='login' options={{ href: null }} />
-          <Tabs.Screen name='register' options={{ href: null }} />
-          <Tabs.Screen name='+not-found' options={{ href: null }} />
+          <Tabs.Screen name="login" options={{ href: null }} />
+          <Tabs.Screen name="register" options={{ href: null }} />
+          <Tabs.Screen name="+not-found" options={{ href: null }} />
         </Tabs>
       </AuthProvider>
     </ThemeProvider>

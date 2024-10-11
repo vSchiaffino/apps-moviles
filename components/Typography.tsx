@@ -4,7 +4,7 @@ import { Colors } from '@/constants/Colors'
 
 type Variants = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'subtitle' | 'body'
 type Colors = 'dark' | 'light' | 'primary' | 'danger'
-type Fonts = 'roboto'| 'poppins'
+type Fonts = 'roboto' | 'poppins'
 
 export interface TypographyProps {
   variant: Variants
@@ -19,23 +19,19 @@ const Typography: React.FC<TypographyProps> = ({
   children,
   style = {},
   color = 'dark',
-  font = 'poppins'
+  font = 'poppins',
 }) => {
-  return (
-    <Text style={[styles[font], styles[variant], styles[color], style]}>
-      {children}
-    </Text>
-  )
+  return <Text style={[styles[font], styles[variant], styles[color], style]}>{children}</Text>
 }
 
 export default Typography
 
 const styles = StyleSheet.create({
   roboto: {
-    fontFamily: 'Roboto'
+    fontFamily: 'Roboto',
   },
-  poppins : {
-    fontFamily: 'Poppins'
+  poppins: {
+    fontFamily: 'Poppins',
   },
   dark: {
     color: 'rgb(26, 30, 35)',

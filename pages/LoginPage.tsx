@@ -37,7 +37,7 @@ const LoginPage = () => {
   ]
   return (
     <View style={styles.container}>
-      <Typography variant='h3'>Iniciá sesión</Typography>
+      <Typography variant="h3">Iniciá sesión</Typography>
       <ValidatedForm
         fields={fields}
         onSubmit={onSubmit}
@@ -48,8 +48,8 @@ const LoginPage = () => {
           },
         }}
       />
-      <Typography variant='subtitle' color='dark'>
-        ¿No tenés cuenta? <Link href='../register'>Crear usuario</Link>
+      <Typography variant="subtitle" color="dark">
+        ¿No tenés cuenta? <Link href="../register">Crear usuario</Link>
       </Typography>
     </View>
   )

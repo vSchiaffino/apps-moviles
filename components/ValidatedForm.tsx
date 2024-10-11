@@ -1,9 +1,4 @@
-import {
-  Controller,
-  RegisterOptions,
-  useForm,
-  UseFormProps,
-} from 'react-hook-form'
+import { Controller, RegisterOptions, useForm, UseFormProps } from 'react-hook-form'
 import OutlinedInput from './OutlinedInput'
 import StyledButton from './StyledButton'
 import React from 'react'
@@ -30,8 +25,7 @@ const ValidatedForm = ({
   onSubmit,
   submitLabel = 'Enviar',
 }: ValidatedFormProps) => {
-  const { control, handleSubmit, formState, setError, clearErrors } =
-    useForm(formProps)
+  const { control, handleSubmit, formState, setError, clearErrors } = useForm(formProps)
   const { errors } = formState
   const submitWrapper = async (form: any) => {
     try {
@@ -76,7 +70,7 @@ const ValidatedForm = ({
         disabled={errors && Object.entries(errors).length > 0}
       />
       {errors.form && (
-        <Typography variant='body' color='danger'>
+        <Typography variant="body" color="danger">
           {errors.form.message as string}
         </Typography>
       )}
