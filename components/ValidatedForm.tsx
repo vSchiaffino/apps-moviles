@@ -30,7 +30,8 @@ const ValidatedForm = ({
   onSubmit,
   submitLabel = 'Enviar',
 }: ValidatedFormProps) => {
-  const { control, handleSubmit, formState, setError } = useForm(formProps)
+  const { control, handleSubmit, formState, setError, clearErrors } =
+    useForm(formProps)
   const { errors } = formState
   const submitWrapper = async (form: any) => {
     try {
@@ -59,7 +60,10 @@ const ValidatedForm = ({
               secureTextEntry={password}
               label={label}
               onBlur={onBlur}
-              onChangeText={onChange}
+              onChangeText={(value) => {
+                clearErrors()
+                onChange(value)
+              }}
               value={value}
             />
           )}
