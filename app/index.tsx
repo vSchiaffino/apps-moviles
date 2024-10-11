@@ -11,7 +11,7 @@ import { Text, View, Image }  from 'react-native'
 
 const Dashboard = () => {
   const { user } = useUser()
-  if (!user) return <Redirect href='/card' />
+  if (!user) return <Redirect href='/login' />
   return( 
     <View style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%'}}>        
       <Typography variant='h5'>Hola, {user.user}</Typography>
