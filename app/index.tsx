@@ -1,23 +1,28 @@
+import Container from '@/components/Container'
+import IconCard from '@/components/IconCard'
 import Typography from '@/components/Typography'
-import CenteredCard from '@/components/cardComponents/CenteredCard'
-import AsideCard from '@/components/cardComponents/AsideCard'
-import ColumnsCard from '@/components/cardComponents/ColumnsCard'
-import ListCard from '@/components/cardComponents/ListCard'
-import QuartersCard from '@/components/cardComponents/QuartersCard'
 import useUser from '@/hooks/useUser'
 import { Redirect } from 'expo-router'
 import React from 'react'
-import { Text, View, Image } from 'react-native'
+import { View } from 'react-native'
 
 const Dashboard = () => {
   const { user } = useUser()
   if (!user) return <Redirect href="/login" />
   return (
-    <View
-      style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}
-    >
-      <Typography variant="h5">Hola, {user.user}</Typography>
-    </View>
+    <Container style={{ gap: 20 }}>
+      <Typography variant="h4">Bienvenido {user.user}</Typography>
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          gap: 20,
+        }}
+      >
+        <IconCard icon="cube-outline" color={'primary'} text="Productos" />
+        <IconCard icon="ban-outline" color={'danger'} text="Anulaciones" />
+      </View>
+    </Container>
   )
 }
 
