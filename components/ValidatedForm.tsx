@@ -9,6 +9,7 @@ export type ValidatedField = {
   name: string
   label: string
   password?: boolean
+  disabled?: boolean
   rules: RegisterOptions<any>
 }
 
@@ -43,13 +44,15 @@ const ValidatedForm = ({
   }
   return (
     <>
-      {fields.map(({ name, label, password, rules }) => (
+      {fields.map(({ name, label, password, disabled, rules }) => (
         <Controller
           key={name}
           control={control}
           rules={rules}
-          render={({ field: { onChange, onBlur, value } }) => (
+          disabled={disabled}
+          render={({ field: { onChange, onBlur, value, disabled} }) => (
             <OutlinedInput
+              disabled={disabled}
               errorMessage={errors[name]?.message as string}
               secureTextEntry={password}
               label={label}

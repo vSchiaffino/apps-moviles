@@ -7,6 +7,7 @@ interface OutlinedInputProps extends TextInputProps {
   label: string
   error?: boolean
   errorMessage?: string
+  disabled?: boolean
 }
 
 const OutlinedInput: React.FC<OutlinedInputProps> = ({
@@ -14,6 +15,7 @@ const OutlinedInput: React.FC<OutlinedInputProps> = ({
   value,
   error = false,
   errorMessage = '',
+  disabled,
   onBlur,
   onFocus,
   ...rest
@@ -30,7 +32,8 @@ const OutlinedInput: React.FC<OutlinedInputProps> = ({
           {
             top: isLabelOnTop ? -7 : 19,
             zIndex: isLabelOnTop ? 1 : -1,
-            color: showError
+            color: disabled ? Colors.gray[500] : 
+            showError
               ? Colors.danger[600]
               : isFocused
                 ? Colors.primary[600]
@@ -50,6 +53,8 @@ const OutlinedInput: React.FC<OutlinedInputProps> = ({
           setIsFocused(true)
           onFocus && onFocus(e)
         }}
+        editable={!disabled}
+        pointerEvents={disabled ? 'none' : undefined}
         style={[
           styles.input,
           {
@@ -59,6 +64,8 @@ const OutlinedInput: React.FC<OutlinedInputProps> = ({
               : isFocused
                 ? Colors.primary[600]
                 : Colors.gray[900],
+            opacity: disabled ? 0.4 : 1,
+            
           },
         ]}
         value={value}
