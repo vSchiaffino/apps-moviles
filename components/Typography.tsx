@@ -3,7 +3,7 @@ import React from 'react'
 import { Colors } from '@/constants/Colors'
 
 type Variants = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'subtitle' | 'body'
-type Colors = 'dark' | 'light' | 'primary' | 'danger'
+type Colors = 'dark' | 'light' | 'primary' | 'danger' | 'gray'
 type Fonts = 'roboto' | 'poppins'
 
 export interface TypographyProps {
@@ -44,6 +44,9 @@ const styles = StyleSheet.create({
   },
   primary: {
     color: Colors.primary[600],
+  },
+  gray: {
+    color: Colors.gray[600],
   },
   h1: {
     fontSize: 96,
