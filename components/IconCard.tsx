@@ -1,4 +1,3 @@
-import { View, Text } from 'react-native'
 import React from 'react'
 import Card from './Card'
 import { Ionicons } from '@expo/vector-icons'
