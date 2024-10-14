@@ -68,6 +68,16 @@ const ProfilePage = ({ user }: ProfilePageProps) => {
 
   const fields: ValidatedField[] = [
     {
+      name: 'name',
+      label: 'Nombre',
+      rules: { required: 'El nombre es requerido' },
+    },
+    {
+      name: 'lastName',
+      label: 'Apellido',
+      rules: { required: 'El apellido es requerido' },
+    },
+    {
       name: 'user',
       label: 'Usuario',
       rules: {
@@ -83,16 +93,6 @@ const ProfilePage = ({ user }: ProfilePageProps) => {
       },
     },
     {
-      name: 'name',
-      label: 'Nombre',
-      rules: { required: 'El nombre es requerido' },
-    },
-    {
-      name: 'lastName',
-      label: 'Apellido',
-      rules: { required: 'El apellido es requerido' },
-    },
-    {
       name: 'mail',
       label: 'Mail',
       disabled: true,
@@ -104,6 +104,9 @@ const ProfilePage = ({ user }: ProfilePageProps) => {
         },
       },
     },
+  ]
+
+  const fields2: ValidatedField[] = [
     {
       name: 'actualPassword',
       label: 'Contraseña Actual',
@@ -279,14 +282,27 @@ const ProfilePage = ({ user }: ProfilePageProps) => {
                   name: user.name,
                   lastName: user.lastName,
                   mail: user.mail,
-                  actualPassword: '',
-                  newPassword: '',
-                  repeatPassword: '',
                 },
               }}
               submitLabel="Guardar"
               onSubmit={() => onSubmit()}
               fields={fields}
+            />
+
+            <Typography variant="h6" color="gray">
+              Contraseña
+            </Typography>
+            <ValidatedForm
+              formProps={{
+                defaultValues: {
+                  actualPassword: '',
+                  newPassword: '',
+                  repeatPassword: '',
+                },
+              }}
+              submitLabel="Cambiar Contraseña"
+              onSubmit={() => onSubmit()}
+              fields={fields2}
             />
           </Container>
         </Container>
