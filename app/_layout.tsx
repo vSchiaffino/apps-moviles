@@ -48,7 +48,15 @@ export default function RootLayout() {
           <Tabs.Screen
             name="index"
             options={{
+              title: 'Home',
               tabBarIcon: () => <Ionicons name="home" size={24} color={Colors.primary[600]} />,
+            }}
+          />
+          <Tabs.Screen
+            name="profile"
+            options={{
+              title: 'Perfil',
+              tabBarIcon: () => <Ionicons name="person" size={24} color={Colors.primary[600]} />,
             }}
           />
           <Tabs.Screen name="login" options={{ href: null }} />
