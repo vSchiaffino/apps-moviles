@@ -9,8 +9,8 @@ const IconCard = ({
   color,
   text,
 }: {
-  icon: 'cube-outline' | 'ban-outline'
-  color: 'primary' | 'danger'
+  icon: 'cube-outline' | 'ban-outline' | 'camera-outline' | 'image-outline' | 'trash-outline'
+  color: 'primary' | 'danger' | 'gray'
   text: string
 }) => {
   const colorPallete = Colors[color]
