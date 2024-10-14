@@ -1,4 +1,4 @@
-import { StyleSheet, View, Image, Pressable, Modal } from 'react-native'
+import { StyleSheet, View, Image, Pressable } from 'react-native'
 import React, { useState } from 'react'
 import Typography from '@/components/Typography'
 import { UserPayload } from '@/context/AuthContext'
@@ -8,6 +8,8 @@ import { Colors } from '../constants/Colors'
 import Container from '@/components/Container'
 import ValidatedForm, { ValidatedField } from '@/components/ValidatedForm'
 import { ScrollView } from 'react-native-gesture-handler'
+import Modal from 'react-native-modal'
+import * as ImagePicker from 'expo-image-picker'
 
 interface ProfilePageProps {
   user: UserPayload
@@ -17,13 +19,8 @@ const ProfilePage = ({ user }: ProfilePageProps) => {
   const [userPic, setUserPic] = useState('../assets/images/test.jpeg')
   const [modalVisible, setModalVisible] = useState(false)
 
-  const showModal = () => {
-    setModalVisible((prev) => !prev)
-  }
-
   const onSubmit = () => {
     //TODO: Handle onSubmit change user
-    console.log('on submit')
   }
 
   const fields: ValidatedField[] = [
@@ -102,8 +99,22 @@ const ProfilePage = ({ user }: ProfilePageProps) => {
 
   return (
     <ScrollView>
-      <Container style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <Modal visible={modalVisible} transparent={true}>
+      <Container
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <Modal
+          isVisible={modalVisible}
+          animationIn="fadeIn"
+          animationInTiming={300}
+          animationOut="fadeOut"
+          animationOutTiming={300}
+          hideModalContentWhileAnimating={true}
+          backdropOpacity={0.3}
+        >
           <View
             style={{
               display: 'flex',
@@ -111,41 +122,50 @@ const ProfilePage = ({ user }: ProfilePageProps) => {
               alignItems: 'center',
               width: '100%',
               height: '100%',
-              overflow: 'hidden',
-              backgroundColor: 'rgba(0, 0, 0, 0.3)',
             }}
           >
             <View
               style={{
-                width: 300,
-                height: 500,
+                gap: 10,
+                width: '80%',
+                height: '50%',
                 backgroundColor: 'white',
                 padding: 20,
                 borderRadius: 25,
               }}
             >
-              <Typography variant="h3">Choose a photo</Typography>
-              <StyledButton
-                label="Cancel"
-                style={{ backgroundColor: Colors.danger[600] }}
-                onPress={() => showModal()}
-              />
-              <StyledButton
-                label="Cancel"
-                style={{ backgroundColor: Colors.danger[600] }}
-                onPress={() => showModal()}
-              />
+              <Typography variant="h5">Elegí una foto</Typography>
+              <View
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  width: '100%',
+                  justifyContent: 'center',
+                  gap: 10,
+                }}
+              >
+                <StyledButton
+                  label="Cancelar"
+                  style={{ backgroundColor: Colors.danger[600], width: '50%' }}
+                  onPress={() => setModalVisible(false)}
+                />
+                <StyledButton
+                  label="Guardar"
+                  style={{ backgroundColor: Colors.primary[600], width: '50%' }}
+                  onPress={() => setModalVisible(false)}
+                />
+              </View>
             </View>
           </View>
         </Modal>
 
         <View
           style={{
-            backgroundColor: '#3795BD',
+            backgroundColor: Colors.primary[600],
             width: 200,
             height: 200,
             marginTop: 250,
-            padding: 10,
+            padding: 7,
             borderRadius: '50%',
           }}
         >
@@ -157,14 +177,14 @@ const ProfilePage = ({ user }: ProfilePageProps) => {
               position: 'absolute',
               zIndex: 100,
               left: '70%',
-              backgroundColor: '#3795BD',
+              backgroundColor: Colors.primary[600],
               borderRadius: '50%',
               padding: 20,
               width: 25,
               height: 25,
             }}
           >
-            <Pressable onPress={() => showModal()} style={{ position: 'absolute' }}>
+            <Pressable onPress={() => setModalVisible(true)} style={{ position: 'absolute' }}>
               <MaterialIcons name="edit" size={25} color={'white'} />
             </Pressable>
           </View>
@@ -179,10 +199,12 @@ const ProfilePage = ({ user }: ProfilePageProps) => {
           />
         </View>
 
-        <Typography variant="h3">{user.user}</Typography>
+        <Typography variant="h4">{user.user}</Typography>
 
-        <Container style={{ gap: 15 }}>
-          <Typography variant="h6">Cambiar Datos</Typography>
+        <Container style={{ gap: 15, marginTop: 0 }}>
+          <Typography variant="h6" color="gray">
+            Datos Personales
+          </Typography>
           <ValidatedForm
             formProps={{
               defaultValues: {
@@ -196,7 +218,7 @@ const ProfilePage = ({ user }: ProfilePageProps) => {
               },
             }}
             submitLabel="Guardar"
-            onSubmit={onSubmit}
+            onSubmit={() => onSubmit()}
             fields={fields}
           />
         </Container>
