@@ -19,8 +19,8 @@ const ProfilePage = ({ user }: ProfilePageProps) => {
   const [userPic, setUserPic] = useState('../assets/images/test.jpeg')
   const [modalVisible, setModalVisible] = useState(false)
 
-  const onSubmit = () => {
-    //TODO: Handle onSubmit change user
+  const onSubmit = async () => {
+    return //TODO: Handle onSubmit change user
   }
 
   const uploadImageCamera = async () => {
@@ -169,6 +169,15 @@ const ProfilePage = ({ user }: ProfilePageProps) => {
                 height: 'auto',
               }}
             >
+              <Pressable
+                style={{
+                  borderColor: 'red',
+                  width: '100%',
+                  height: '100%',
+                  position: 'absolute',
+                }}
+                onPress={() => setModalVisible(false)}
+              />
               <View
                 style={{
                   gap: 10,
@@ -178,19 +187,7 @@ const ProfilePage = ({ user }: ProfilePageProps) => {
                   borderRadius: 25,
                 }}
               >
-                <View
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                  }}
-                >
-                  <Typography variant="h5">Elegí una foto</Typography>
-                  <Pressable onPress={() => setModalVisible(false)}>
-                    <MaterialIcons name="close" size={24}></MaterialIcons>
-                  </Pressable>
-                </View>
+                <Typography variant="h5">Elegí una foto</Typography>
                 <View
                   style={{
                     flexDirection: 'row',
@@ -250,8 +247,11 @@ const ProfilePage = ({ user }: ProfilePageProps) => {
                 height: 25,
               }}
             >
-              {/*Temporary: should close by tapping outside of Modal*/}
-              <Pressable onPress={() => setModalVisible(true)} style={{ position: 'absolute' }}>
+              <Pressable
+                hitSlop={30}
+                onPress={() => setModalVisible(true)}
+                style={{ position: 'absolute' }}
+              >
                 <MaterialIcons name="edit" size={25} color={'white'} />
               </Pressable>
             </View>
@@ -285,7 +285,7 @@ const ProfilePage = ({ user }: ProfilePageProps) => {
                 },
               }}
               submitLabel="Guardar"
-              onSubmit={() => {}}
+              onSubmit={() => onSubmit()}
               fields={fields}
             />
           </Container>
