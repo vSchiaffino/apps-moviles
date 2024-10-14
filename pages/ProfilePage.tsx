@@ -3,7 +3,6 @@ import React, { useState } from 'react'
 import Typography from '@/components/Typography'
 import { UserPayload } from '@/context/AuthContext'
 import { MaterialIcons } from '@expo/vector-icons'
-import StyledButton from '@/components/StyledButton'
 import { Colors } from '../constants/Colors'
 import Container from '@/components/Container'
 import ValidatedForm, { ValidatedField } from '@/components/ValidatedForm'
@@ -24,11 +23,29 @@ const ProfilePage = ({ user }: ProfilePageProps) => {
     //TODO: Handle onSubmit change user
   }
 
-  const uploadImage = async () => {
+  const uploadImageCamera = async () => {
     try {
       await ImagePicker.getCameraPermissionsAsync()
       let result = await ImagePicker.launchCameraAsync({
         cameraType: ImagePicker.CameraType.front,
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 1,
+      })
+      if (!result.canceled) {
+        await saveImage(result.assets[0].uri)
+      }
+    } catch (error: any) {
+      alert('Error uploading image: ' + error.message)
+      setModalVisible(false)
+    }
+  }
+
+  const uploadImageGallery = async () => {
+    try {
+      await ImagePicker.requestMediaLibraryPermissionsAsync()
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
         aspect: [1, 1],
         quality: 1,
@@ -140,16 +157,16 @@ const ProfilePage = ({ user }: ProfilePageProps) => {
             animationOut="fadeOut"
             animationOutTiming={300}
             hideModalContentWhileAnimating={true}
-            backdropOpacity={0.3}
+            useNativeDriver={true}
             onBackButtonPress={() => setModalVisible(false)}
           >
             <View
               style={{
-                display: 'flex',
+                flex: 1,
                 justifyContent: 'center',
                 alignItems: 'center',
                 width: '100%',
-                height: '25%', //Hardcoded, should be fit-content like property
+                height: 'auto',
               }}
             >
               <View
@@ -176,17 +193,33 @@ const ProfilePage = ({ user }: ProfilePageProps) => {
                 </View>
                 <View
                   style={{
-                    display: 'flex',
                     flexDirection: 'row',
-                    height: '100%',
-                    width: '100%',
-                    justifyContent: 'center',
                     gap: 10,
+                    height: 'auto',
+                    flexWrap: 'wrap',
                   }}
                 >
-                  <IconCard icon="camera-outline" color={'gray'} text="Camera" />
-                  <IconCard icon="image-outline" color={'gray'} text="Gallery" />
-                  <IconCard icon="trash-outline" color={'danger'} text="Remove" />
+                  <IconCard
+                    icon="camera-outline"
+                    color={'gray'}
+                    text="Cámara"
+                    onPress={() => uploadImageCamera()}
+                  />
+                  <IconCard
+                    icon="image-outline"
+                    color={'gray'}
+                    text="Galería"
+                    onPress={() => uploadImageGallery()}
+                  />
+                  <IconCard
+                    icon="trash-outline"
+                    color={'danger'}
+                    text="Remover"
+                    onPress={() => {
+                      setUserPic('../assets/images/test.jpeg')
+                      setModalVisible(false)
+                    }}
+                  />
                 </View>
               </View>
             </View>
@@ -217,6 +250,7 @@ const ProfilePage = ({ user }: ProfilePageProps) => {
                 height: 25,
               }}
             >
+              {/*Temporary: should close by tapping outside of Modal*/}
               <Pressable onPress={() => setModalVisible(true)} style={{ position: 'absolute' }}>
                 <MaterialIcons name="edit" size={25} color={'white'} />
               </Pressable>
@@ -251,7 +285,7 @@ const ProfilePage = ({ user }: ProfilePageProps) => {
                 },
               }}
               submitLabel="Guardar"
-              onSubmit={() => onSubmit()}
+              onSubmit={() => {}}
               fields={fields}
             />
           </Container>
