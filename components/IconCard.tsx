@@ -8,15 +8,18 @@ const IconCard = ({
   icon,
   color,
   text,
+  onPress,
 }: {
   icon: 'cube-outline' | 'ban-outline' | 'camera-outline' | 'image-outline' | 'trash-outline'
   color: 'primary' | 'danger' | 'gray'
   text: string
+  onPress?: Function
 }) => {
   const colorPallete = Colors[color]
   return (
     <Card
       pressable
+      onPress={onPress}
       style={{
         flex: 1,
         height: 150,

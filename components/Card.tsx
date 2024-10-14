@@ -5,10 +5,12 @@ export interface CardProps {
   children: React.ReactNode
   style?: StyleProp<ViewStyle>
   pressable: boolean
+  onPress?: Function
 }
 
-const Card: React.FC<CardProps> = ({ children, style, pressable }) => {
+const Card: React.FC<CardProps> = ({ children, style, pressable, onPress }) => {
   const MainComponent: any = pressable ? TouchableOpacity : View
+
   return (
     <MainComponent
       style={{
@@ -22,6 +24,9 @@ const Card: React.FC<CardProps> = ({ children, style, pressable }) => {
         shadowOpacity: 0.1,
         shadowRadius: 4,
         ...Object(style),
+      }}
+      onPress={() => {
+        onPress !== undefined ? onPress() : console.log('sape')
       }}
     >
       {children}
