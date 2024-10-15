@@ -15,7 +15,6 @@ const ProfilePicture: React.FC<ProfilePictureProps> = ({ onClickEdit, picUrl }) 
         backgroundColor: Colors.primary[600],
         width: 200,
         height: 200,
-        marginTop: 250,
         padding: 7,
         borderRadius: 999,
       }}
