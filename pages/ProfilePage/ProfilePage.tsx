@@ -32,7 +32,7 @@ const ProfilePage = ({ user }: ProfilePageProps) => {
   return (
     <GestureHandlerRootView>
       <ScrollView>
-        <Container style={{ alignItems: 'center', height: 'auto' }}>
+        <Container style={{ alignItems: 'center', height: 'auto', gap: 10 }}>
           <ChangeProfilePictureModal
             saveImage={saveImage}
             setUserPic={setUserPic}
@@ -41,7 +41,7 @@ const ProfilePage = ({ user }: ProfilePageProps) => {
           />
           <ProfilePicture onClickEdit={() => setModalVisible(true)} picUrl={userPic} />
           <Typography variant="h4">{user.user}</Typography>
-          <Container style={{ gap: 15, marginTop: 0, height: 'auto' }}>
+          <Container style={{ gap: 15, padding: 0, marginTop: 0, height: 'auto' }}>
             <TabsSelector
               tabs={['Datos personales', 'Contraseña']}
               selected={selectedTab}
