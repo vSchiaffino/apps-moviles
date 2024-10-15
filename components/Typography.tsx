@@ -9,6 +9,7 @@ type Fonts = 'roboto' | 'poppins'
 export interface TypographyProps {
   variant: Variants
   children: React.ReactNode
+  justify?: 'left' | 'right' | 'center'
   style?: StyleProp<TextStyle>
   color?: Colors
   font?: Fonts
@@ -18,10 +19,15 @@ const Typography: React.FC<TypographyProps> = ({
   variant,
   children,
   style = {},
+  justify = undefined,
   color = 'dark',
   font = 'poppins',
 }) => {
-  return <Text style={[styles[font], styles[variant], styles[color], style]}>{children}</Text>
+  return (
+    <Text style={[{ textAlign: justify }, styles[font], styles[variant], styles[color], style]}>
+      {children}
+    </Text>
+  )
 }
 
 export default Typography
