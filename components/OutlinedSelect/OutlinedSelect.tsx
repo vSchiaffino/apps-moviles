@@ -1,29 +1,40 @@
-import { View, Text, TextInput, TextInputProps, StyleSheet } from 'react-native'
-import React, { useState } from 'react'
+import { View, Text, StyleSheet, Pressable } from 'react-native'
+import React, { useRef, useState } from 'react'
 import { Colors } from '@/constants/Colors'
-import Typography from './Typography'
+import Typography from '../Typography'
+import SelectItems from './SelectItems'
 
-export interface OutlinedInputProps extends TextInputProps {
+export interface OutlinedInputProps {
   label: string
+  option: string
+  options: string[]
+  setOption: (option: string) => void
   error?: boolean
   errorMessage?: string
   disabled?: boolean
 }
 
-const OutlinedInput: React.FC<OutlinedInputProps> = ({
+const OutlinedSelect: React.FC<OutlinedInputProps> = ({
   label,
-  value,
+  option,
+  setOption,
+  options,
   error = false,
   errorMessage = '',
   disabled,
-  onBlur,
-  onFocus,
-  ...rest
 }) => {
+  const inputRef = useRef<View>(null)
+  const [inputMeasures, setInputMeasures] = useState({ top: 0, left: 0, width: 0, height: 0 })
+  const handlePress = () => {
+    if (!inputRef.current) return
+    inputRef.current.measure((fx, fy, width, height, px, py) => {
+      setInputMeasures({ top: py, left: px, width, height })
+      setIsFocused(true)
+    })
+  }
   const showError = error === true || errorMessage !== ''
-  const isEmpty = value === ''
   const [isFocused, setIsFocused] = useState(false)
-  const isLabelOnTop = isFocused || !isEmpty
+  const isLabelOnTop = isFocused || option !== ''
   return (
     <View style={styles.container}>
       <Text
@@ -45,17 +56,9 @@ const OutlinedInput: React.FC<OutlinedInputProps> = ({
       >
         {label}
       </Text>
-      <TextInput
-        onBlur={(e) => {
-          setIsFocused(false)
-          onBlur && onBlur(e)
-        }}
-        onFocus={(e) => {
-          setIsFocused(true)
-          onFocus && onFocus(e)
-        }}
-        editable={!disabled}
-        pointerEvents={disabled ? 'none' : undefined}
+      <Pressable
+        ref={inputRef}
+        onPress={handlePress}
         style={[
           styles.input,
           {
@@ -68,13 +71,27 @@ const OutlinedInput: React.FC<OutlinedInputProps> = ({
             opacity: disabled ? 0.4 : 1,
           },
         ]}
-        value={value}
-        {...rest}
-      />
+      >
+        <Typography variant="body" color="dark">
+          {option}
+        </Typography>
+      </Pressable>
       {!!errorMessage && (
         <Typography variant="subtitle" color="danger">
           {errorMessage}
         </Typography>
+      )}
+
+      {isFocused && (
+        <SelectItems
+          inputMeasures={inputMeasures}
+          onDismiss={() => setIsFocused(false)}
+          options={options}
+          onSelectOption={(selectedOption) => {
+            setOption(selectedOption)
+            setIsFocused(false)
+          }}
+        />
       )}
     </View>
   )
@@ -83,9 +100,11 @@ const OutlinedInput: React.FC<OutlinedInputProps> = ({
 const styles = StyleSheet.create({
   container: {
     width: '100%',
+    position: 'relative',
+    zIndex: 2,
   },
   label: {
-    fontWeight: 400,
+    fontWeight: '400',
     fontSize: 16,
     lineHeight: 16,
     position: 'absolute',
@@ -96,6 +115,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.gray[100],
   },
   input: {
+    height: 52,
     color: Colors.gray[900],
     fontSize: 16,
     width: '100%',
@@ -104,7 +124,8 @@ const styles = StyleSheet.create({
     paddingBottom: 12,
     paddingLeft: 15,
     borderRadius: 8,
+    zIndex: -1,
   },
 })
 
-export default OutlinedInput
+export default OutlinedSelect
