@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'; 
 import { StyleSheet, View, Alert, Pressable } from 'react-native';
 import Typography from '@/components/Typography';
 import ProductCard from '@/components/ProductCard';
+import OutlinedInput from '@/components/OutlinedInput';
 
 const WarehouseTransferPage: React.FC = () => {
   const [selectedProductId, setSelectedProductId] = useState<number | null>(null);
 
   const handleSelectProduct = (id: number) => {
+    setSelectedProductId(id === selectedProductId ? null : id); 
     console.log('Selected product', id);
-    setSelectedProductId(id);
   };
-  
+
   const handleSubmit = () => {
     console.log('Submit');
-
   };
 
   const products = [
@@ -27,9 +27,22 @@ const WarehouseTransferPage: React.FC = () => {
   return (
     <View style={styles.container}>
       <Typography variant="h5" style={styles.header}>Warehouse Transfer</Typography>
+      <View>
+        <View style={{ margin: '1%' }}>
+          <OutlinedInput label="From" />
+        </View>
+        <View style={{ margin: '1%' }}>
+          <OutlinedInput label="To" />
+        </View>
+      </View>
       <View style={styles.productList}>
         {products.map((product) => (
-          <ProductCard key={product.id} product={product} onSelect={handleSelectProduct} />
+          <ProductCard
+            key={product.id}
+            product={product}
+            onSelect={handleSelectProduct}
+            isSelected={selectedProductId === product.id} 
+          />
         ))}
       </View>
       <Pressable style={styles.submitButton} onPress={handleSubmit}>
@@ -67,4 +80,5 @@ const styles = StyleSheet.create({
 });
 
 export default WarehouseTransferPage;
+
 
