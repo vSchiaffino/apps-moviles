@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Typography from '@/components/Typography'
 import { UserPayload } from '@/context/AuthContext'
 import Container from '@/components/Container'
-import { GestureHandlerRootView, ScrollView } from 'react-native-gesture-handler'
+import { ScrollView } from 'react-native-gesture-handler'
 import ChangeProfilePictureModal from './ChangeProfilePictureModal'
 import ProfilePicture from './ProfilePicture'
 import TabsSelector from './TabsSelector'
@@ -30,28 +30,26 @@ const ProfilePage = ({ user }: ProfilePageProps) => {
   }
 
   return (
-    <GestureHandlerRootView>
-      <ScrollView>
-        <Container style={{ alignItems: 'center', height: 'auto', gap: 10 }}>
-          <ChangeProfilePictureModal
-            saveImage={saveImage}
-            setUserPic={setUserPic}
-            setShow={setModalVisible}
-            show={modalVisible}
+    <ScrollView>
+      <Container style={{ alignItems: 'center', height: 'auto', gap: 10 }}>
+        <ChangeProfilePictureModal
+          saveImage={saveImage}
+          setUserPic={setUserPic}
+          setShow={setModalVisible}
+          show={modalVisible}
+        />
+        <ProfilePicture onClickEdit={() => setModalVisible(true)} picUrl={userPic} />
+        <Typography variant="h4">{user.user}</Typography>
+        <Container style={{ gap: 15, padding: 0, marginTop: 0, height: 'auto' }}>
+          <TabsSelector
+            tabs={['Datos personales', 'Contraseña']}
+            selected={selectedTab}
+            setSelected={setSelectedTab}
           />
-          <ProfilePicture onClickEdit={() => setModalVisible(true)} picUrl={userPic} />
-          <Typography variant="h4">{user.user}</Typography>
-          <Container style={{ gap: 15, padding: 0, marginTop: 0, height: 'auto' }}>
-            <TabsSelector
-              tabs={['Datos personales', 'Contraseña']}
-              selected={selectedTab}
-              setSelected={setSelectedTab}
-            />
-            {selectedTab === 0 ? <PersonalDataTab user={user} /> : <ChangePasswordTab />}
-          </Container>
+          {selectedTab === 0 ? <PersonalDataTab user={user} /> : <ChangePasswordTab />}
         </Container>
-      </ScrollView>
-    </GestureHandlerRootView>
+      </Container>
+    </ScrollView>
   )
 }
 
