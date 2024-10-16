@@ -1,5 +1,5 @@
 import { View, Text, TextInput, TextInputProps, StyleSheet } from 'react-native'
-import React, { forwardRef, useState } from 'react'
+import React, { useState } from 'react'
 import { Colors } from '@/constants/Colors'
 import Typography from './Typography'
 
@@ -8,72 +8,81 @@ export interface OutlinedInputProps extends TextInputProps {
   error?: boolean
   errorMessage?: string
   disabled?: boolean
+  inputRef?: React.LegacyRef<TextInput>
 }
 
-const OutlinedInput = forwardRef<TextInput, OutlinedInputProps>(
-  ({ label, value, error = false, errorMessage = '', disabled, onBlur, onFocus, ...rest }, ref) => {
-    const showError = error === true || errorMessage !== ''
-    const isEmpty = value === ''
-    const [isFocused, setIsFocused] = useState(false)
-    const isLabelOnTop = isFocused || !isEmpty
-    return (
-      <View style={styles.container}>
-        <Text
-          style={[
-            styles.label,
-            {
-              top: isLabelOnTop ? -7 : 19,
-              zIndex: isLabelOnTop ? 1 : -1,
-              color: disabled
-                ? Colors.gray[500]
-                : showError
-                  ? Colors.danger[600]
-                  : isFocused
-                    ? Colors.primary[600]
-                    : Colors.gray[900],
-              userSelect: 'none',
-            },
-          ]}
-        >
-          {label}
-        </Text>
-        <TextInput
-          ref={ref}
-          onBlur={(e) => {
-            setIsFocused(false)
-            onBlur && onBlur(e)
-          }}
-          onFocus={(e) => {
-            setIsFocused(true)
-            onFocus && onFocus(e)
-          }}
-          editable={!disabled}
-          pointerEvents={disabled ? 'none' : undefined}
-          autoCapitalize="none"
-          style={[
-            styles.input,
-            {
-              borderWidth: isFocused || showError ? 1.5 : 0.75,
-              borderColor: showError
+const OutlinedInput: React.FC<OutlinedInputProps> = ({
+  label,
+  value,
+  error = false,
+  errorMessage = '',
+  disabled,
+  onBlur,
+  onFocus,
+  inputRef,
+  ...rest
+}) => {
+  const showError = error === true || errorMessage !== ''
+  const isEmpty = value === ''
+  const [isFocused, setIsFocused] = useState(false)
+  const isLabelOnTop = isFocused || !isEmpty
+  return (
+    <View style={styles.container}>
+      <Text
+        style={[
+          styles.label,
+          {
+            top: isLabelOnTop ? -7 : 19,
+            zIndex: isLabelOnTop ? 1 : -1,
+            color: disabled
+              ? Colors.gray[500]
+              : showError
                 ? Colors.danger[600]
                 : isFocused
                   ? Colors.primary[600]
                   : Colors.gray[900],
-              opacity: disabled ? 0.4 : 1,
-            },
-          ]}
-          value={value}
-          {...rest}
-        />
-        {!!errorMessage && (
-          <Typography variant="subtitle" color="danger">
-            {errorMessage}
-          </Typography>
-        )}
-      </View>
-    )
-  },
-)
+            userSelect: 'none',
+          },
+        ]}
+      >
+        {label}
+      </Text>
+      <TextInput
+        ref={inputRef}
+        onBlur={(e) => {
+          setIsFocused(false)
+          onBlur && onBlur(e)
+        }}
+        onFocus={(e) => {
+          setIsFocused(true)
+          onFocus && onFocus(e)
+        }}
+        editable={!disabled}
+        pointerEvents={disabled ? 'none' : undefined}
+        autoCapitalize="none"
+        style={[
+          styles.input,
+          {
+            borderWidth: isFocused || showError ? 1.5 : 0.75,
+            borderColor: showError
+              ? Colors.danger[600]
+              : isFocused
+                ? Colors.primary[600]
+                : Colors.gray[900],
+            opacity: disabled ? 0.4 : 1,
+          },
+        ]}
+        value={value}
+        {...rest}
+      />
+      {!!errorMessage && (
+        <Typography variant="subtitle" color="danger">
+          {errorMessage}
+        </Typography>
+      )}
+    </View>
+  )
+}
 
 const styles = StyleSheet.create({
   container: {

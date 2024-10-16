@@ -55,7 +55,7 @@ const ValidatedForm = ({
           render={({ field: { onChange, onBlur, value, disabled } }) => (
             <OutlinedInput
               blurOnSubmit={false}
-              ref={(input: TextInput) => {
+              inputRef={(input: TextInput) => {
                 refs[index] = input
               }}
               onSubmitEditing={() => {
@@ -67,7 +67,7 @@ const ValidatedForm = ({
                   if (input) refs[index + 1].focus()
                 }
               }}
-              returnKeyType="next"
+              returnKeyType={index === fields.length - 1 ? 'send' : 'next'}
               disabled={disabled}
               errorMessage={errors[name]?.message as string}
               label={label}
