@@ -1,6 +1,7 @@
 import CardLineChart from '@/components/charts/CardLineChart'
 import Container from '@/components/Container'
 import IconCard from '@/components/IconCard'
+import OutlinedSelect from '@/components/OutlinedSelect/OutlinedSelect'
 import Typography from '@/components/Typography'
 import useUser from '@/hooks/useUser'
 import { Redirect } from 'expo-router'
@@ -48,6 +49,12 @@ const Dashboard = () => {
         />
       </View>
       <CardLineChart data={lineData} />
+      {/* <OutlinedSelect
+        setOption={() => {}}
+        option=""
+        label="Equipoos de futbol"
+        options={['Boca', 'River', 'Racing', 'Independiente']}
+      /> */}
     </Container>
   )
 }

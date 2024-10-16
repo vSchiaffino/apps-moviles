@@ -30,11 +30,9 @@ const LoginPage = () => {
     {
       name: 'password',
       label: 'Contraseña',
+      component: 'input-password',
       rules: {
         required: 'La contraseña es requerida',
-      },
-      inputProps: {
-        secureTextEntry: true,
       },
     },
   ]
