@@ -7,6 +7,7 @@ import userService from '@/services/user.service'
 import { UserPayload } from '@/context/AuthContext'
 import useUser from '@/hooks/useUser'
 import { Spacing } from '@/constants/Spacing'
+import { Colors } from '../constants/Colors'
 
 const LoginPage = () => {
   const { user, setUser } = useUser()
@@ -60,8 +61,10 @@ export default LoginPage
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: Colors.gray[100],
     marginHorizontal: 'auto',
-    width: '80%',
+    paddingHorizontal: '10%',
+    width: '100%',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',

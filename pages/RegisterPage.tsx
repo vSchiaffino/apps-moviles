@@ -5,6 +5,7 @@ import { Link, router } from 'expo-router'
 import ValidatedForm, { ValidatedField } from '@/components/ValidatedForm'
 import userService from '@/services/user.service'
 import { Spacing } from '@/constants/Spacing'
+import { Colors } from '@/constants/Colors'
 
 const RegisterPage = () => {
   const onSubmit = async (form: any) => {
@@ -111,8 +112,10 @@ export default RegisterPage
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: Colors.gray[100],
     marginHorizontal: 'auto',
-    width: '80%',
+    width: '100%',
+    padding: '10%',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
