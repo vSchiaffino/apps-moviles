@@ -4,7 +4,7 @@ import StyledButton from './StyledButton'
 import React from 'react'
 import { ApiValidationError } from '@/services/api.service'
 import Typography from './Typography'
-import { TextInputProps } from 'react-native'
+import { TextInput, TextInputProps } from 'react-native'
 
 export type ValidatedField = {
   name: string
@@ -27,7 +27,8 @@ const ValidatedForm = ({
   onSubmit,
   submitLabel = 'Enviar',
 }: ValidatedFormProps) => {
-  const { control, handleSubmit, formState, setError, clearErrors } = useForm(formProps)
+  const refs: TextInput[] = []
+  const { control, handleSubmit, formState, setError, clearErrors, setFocus } = useForm(formProps)
   const { errors } = formState
   const submitWrapper = async (form: any) => {
     try {
@@ -45,7 +46,7 @@ const ValidatedForm = ({
   }
   return (
     <>
-      {fields.map(({ name, label, disabled, rules, inputProps }) => (
+      {fields.map(({ name, label, disabled, rules, inputProps }, index) => (
         <Controller
           key={name}
           control={control}
@@ -53,6 +54,20 @@ const ValidatedForm = ({
           disabled={disabled}
           render={({ field: { onChange, onBlur, value, disabled } }) => (
             <OutlinedInput
+              blurOnSubmit={false}
+              ref={(input: TextInput) => {
+                refs[index] = input
+              }}
+              onSubmitEditing={() => {
+                const isLastInput = index === fields.length - 1
+                if (isLastInput) {
+                  handleSubmit(submitWrapper)()
+                } else {
+                  const input = refs[index + 1]
+                  if (input) refs[index + 1].focus()
+                }
+              }}
+              returnKeyType="next"
               disabled={disabled}
               errorMessage={errors[name]?.message as string}
               label={label}
