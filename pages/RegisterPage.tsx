@@ -4,6 +4,7 @@ import Typography from '@/components/Typography'
 import { Link, router } from 'expo-router'
 import ValidatedForm, { ValidatedField } from '@/components/ValidatedForm'
 import userService from '@/services/user.service'
+import { Spacing } from '@/constants/Spacing'
 
 const RegisterPage = () => {
   const onSubmit = async (form: any) => {
@@ -116,6 +117,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     height: '100%',
-    gap: 20,
+    gap: Spacing.rowGap,
   },
 })

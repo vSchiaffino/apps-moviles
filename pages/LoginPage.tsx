@@ -6,6 +6,7 @@ import ValidatedForm, { ValidatedField } from '@/components/ValidatedForm'
 import userService from '@/services/user.service'
 import { UserPayload } from '@/context/AuthContext'
 import useUser from '@/hooks/useUser'
+import { Spacing } from '@/constants/Spacing'
 
 const LoginPage = () => {
   const { user, setUser } = useUser()
@@ -67,6 +68,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     height: '100%',
-    gap: 30,
+    gap: Spacing.rowGap,
   },
 })
