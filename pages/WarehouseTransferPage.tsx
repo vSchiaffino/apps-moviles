@@ -1,10 +1,8 @@
 import React, { useState } from 'react'; 
 import { StyleSheet, View, Alert, Pressable } from 'react-native';
 import Typography from '@/components/Typography';
-import ProductCard from '@/components/ProductCard';
 import OutlinedInput from '@/components/OutlinedInput';
 import OutlinedSelect from '@/components/OutlinedSelect/OutlinedSelect';
-import Counter from '@/components/Counter';
 import { MaterialIcons } from '@expo/vector-icons';
 
 const WarehouseTransferPage: React.FC = () => {
@@ -35,61 +33,48 @@ const WarehouseTransferPage: React.FC = () => {
     <View style={styles.container}>
       <View style={styles.headerContainer}>
         <MaterialIcons name="inventory" size={24} color="#007bff" />
-        <Typography variant="h5" style={styles.header}>Warehouse Transfer</Typography>
+        <Typography variant="h3" style={styles.header}>Transferencias</Typography>
       </View>
       <View style={styles.selectContainer}>
         <View style={styles.selectWrapper}>
-          <View style={styles.iconWrapper}> 
-            <MaterialIcons name="store" size={20} color="#333" style={styles.icon} />
+            <View style={styles.iconWrapper}> 
+              <MaterialIcons name="category" size={20} color="#333" style={styles.icon} />
+            </View>
+            <View style={{flex: 1}}>
+              <OutlinedSelect
+                label="Productos"
+                options={['Product 1', 'Product 2', 'Product 3', 'Product 4', 'Product 5']}
+                option={product}
+                setOption={setProduct}
+              />
+            </View>
           </View>
-          <View style={{flex: 1}}>
-            <OutlinedSelect
-              label="Origen"
-              options={['Deposito 1', 'Deposito 2', 'Deposito 3']}
-              option={origin}
-              setOption={setOrigin}
-            />
+          <View style={styles.selectWrapper}>
+            <View style={styles.iconWrapper}> 
+              <MaterialIcons name="store" size={20} color="#333" style={styles.icon} />
+            </View>
+            <View style={{flex: 1}}>
+              <OutlinedSelect
+                label="Origen"
+                options={['Deposito 1', 'Deposito 2', 'Deposito 3']}
+                option={origin}
+                setOption={setOrigin}
+              />
+            </View>
           </View>
-        </View>
-        <View style={styles.selectWrapper}>
-          <View style={styles.iconWrapper}>
-            <MaterialIcons name="local-shipping" size={20} color="#333" style={styles.icon} />
+          <View style={styles.selectWrapper}>
+            <View style={styles.iconWrapper}>
+              <MaterialIcons name="local-shipping" size={20} color="#333" style={styles.icon} />
+            </View>
+            <View style={{flex: 1}}>
+              <OutlinedSelect
+                label="Destino"
+                options={['Deposito 1', 'Deposito 2', 'Deposito 3']}
+                option={destination}
+                setOption={setDestination}
+              />
+            </View>
           </View>
-          <View style={{flex: 1}}>
-            <OutlinedSelect
-              label="Destino"
-              options={['Deposito 1', 'Deposito 2', 'Deposito 3']}
-              option={destination}
-              setOption={setDestination}
-            />
-          </View>
-        </View>
-        <View style={styles.selectWrapper}>
-          <View style={styles.iconWrapper}> 
-            <MaterialIcons name="category" size={20} color="#333" style={styles.icon} />
-          </View>
-          <View style={{flex: 1}}>
-            <OutlinedSelect
-              label="Productos"
-              options={['Product 1', 'Product 2', 'Product 3', 'Product 4', 'Product 5']}
-              option={product}
-              setOption={setProduct}
-            />
-          </View>
-        </View>
-        <View style={styles.selectWrapper}>
-          <View style={styles.iconWrapper}>
-            <MaterialIcons name="production-quantity-limits" size={20} color="#333" style={styles.icon} />
-          </View>
-          <View style={{flex: 1}}>
-            <OutlinedInput
-              label="Cantidad"
-              value={quantity}
-              onChangeText={setQuantity}
-              keyboardType="numeric"
-            />
-          </View>
-        </View>
       </View>
       <Pressable style={styles.submitButton} onPress={handleSubmit}>
         <MaterialIcons name="send" size={20} color="#fff" />
@@ -103,7 +88,7 @@ const WarehouseTransferPage: React.FC = () => {
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      justifyContent: 'space-between',
+      justifyContent: 'center',
       padding: '5%',
     },
     headerContainer: {
@@ -118,8 +103,7 @@ const WarehouseTransferPage: React.FC = () => {
     },
     selectContainer: {
       flex: 1,
-      justifyContent: 'space-evenly',
-      marginVertical: '7%',
+      justifyContent: 'center',
     },
     selectWrapper: {
       flexDirection: 'row',
