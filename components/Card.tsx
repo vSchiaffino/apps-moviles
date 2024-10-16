@@ -1,14 +1,14 @@
-import { View, StyleProp, ViewStyle, TouchableOpacity } from 'react-native'
+import { View, StyleProp, ViewStyle, TouchableOpacity, ViewProps } from 'react-native'
 import React from 'react'
 
-export interface CardProps {
+export interface CardProps extends ViewProps {
   children: React.ReactNode
   style?: StyleProp<ViewStyle>
   pressable?: boolean
   onPress?: Function
 }
 
-const Card: React.FC<CardProps> = ({ children, style, pressable = false, onPress = () => {} }) => {
+const Card: React.FC<CardProps> = ({ children, style, pressable = false, ...rest }) => {
   const MainComponent: any = pressable ? TouchableOpacity : View
 
   return (
@@ -26,8 +26,9 @@ const Card: React.FC<CardProps> = ({ children, style, pressable = false, onPress
         ...Object(style),
       }}
       onPress={() => {
-        onPress !== undefined ? onPress() : console.log('sape')
+        rest.onPress && rest.onPress()
       }}
+      {...rest}
     >
       {children}
     </MainComponent>
