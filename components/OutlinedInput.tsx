@@ -56,6 +56,7 @@ const OutlinedInput: React.FC<OutlinedInputProps> = ({
         }}
         editable={!disabled}
         pointerEvents={disabled ? 'none' : undefined}
+        autoCapitalize="none"
         style={[
           styles.input,
           {

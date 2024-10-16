@@ -4,13 +4,14 @@ import StyledButton from './StyledButton'
 import React from 'react'
 import { ApiValidationError } from '@/services/api.service'
 import Typography from './Typography'
+import { TextInputProps } from 'react-native'
 
 export type ValidatedField = {
   name: string
   label: string
-  password?: boolean
-  disabled?: boolean
   rules: RegisterOptions<any>
+  disabled?: boolean
+  inputProps?: TextInputProps
 }
 
 export interface ValidatedFormProps {
@@ -44,17 +45,16 @@ const ValidatedForm = ({
   }
   return (
     <>
-      {fields.map(({ name, label, password, disabled, rules }) => (
+      {fields.map(({ name, label, disabled, rules, inputProps }) => (
         <Controller
           key={name}
           control={control}
           rules={rules}
           disabled={disabled}
-          render={({ field: { onChange, onBlur, value, disabled} }) => (
+          render={({ field: { onChange, onBlur, value, disabled } }) => (
             <OutlinedInput
               disabled={disabled}
               errorMessage={errors[name]?.message as string}
-              secureTextEntry={password}
               label={label}
               onBlur={onBlur}
               onChangeText={(value) => {
@@ -62,6 +62,7 @@ const ValidatedForm = ({
                 onChange(value)
               }}
               value={value}
+              {...inputProps}
             />
           )}
           name={name}

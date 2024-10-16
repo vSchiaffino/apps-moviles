@@ -2,7 +2,7 @@ import { StyleSheet, View } from 'react-native'
 import React from 'react'
 import { Link, router } from 'expo-router'
 import Typography from '@/components/Typography'
-import ValidatedForm from '@/components/ValidatedForm'
+import ValidatedForm, { ValidatedField } from '@/components/ValidatedForm'
 import userService from '@/services/user.service'
 import { UserPayload } from '@/context/AuthContext'
 import useUser from '@/hooks/useUser'
@@ -18,7 +18,7 @@ const LoginPage = () => {
     setUser(payload)
     router.push('/')
   }
-  const fields = [
+  const fields: ValidatedField[] = [
     {
       name: 'user',
       label: 'Usuario',
@@ -29,9 +29,11 @@ const LoginPage = () => {
     {
       name: 'password',
       label: 'Contraseña',
-      password: true,
       rules: {
         required: 'La contraseña es requerida',
+      },
+      inputProps: {
+        secureTextEntry: true,
       },
     },
   ]
