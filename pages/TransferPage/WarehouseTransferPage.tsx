@@ -4,6 +4,8 @@ import Typography from '@/components/Typography'
 import { MaterialIcons } from '@expo/vector-icons'
 import IconSelect from '@/components/IconSelect'
 import TransferDetailsModal from '@/pages/TransferPage/TransferDetailsModal'
+import Container from '@/components/Container'
+import { ScrollView } from 'react-native-gesture-handler'
 interface Product {
   name: string
   stock: number
@@ -33,7 +35,7 @@ const WarehouseTransferPage: React.FC = () => {
   }
 
   return (
-    <View style={styles.container}>
+    <Container style={{ justifyContent: 'center', gap: 10 }}>
       <View style={styles.headerContainer}>
         <MaterialIcons name="inventory" size={24} color="#007bff" />
         <Typography variant="h4" style={styles.header}>
@@ -77,21 +79,15 @@ const WarehouseTransferPage: React.FC = () => {
           Enviar
         </Typography>
       </Pressable>
-    </View>
+    </Container>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    padding: '5%',
-  },
   headerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    margin: '5%',
   },
   header: {
     marginLeft: 8,
@@ -110,12 +106,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 16,
   },
   submitButtonText: {
     color: '#fff',
     fontSize: 18,
-    marginLeft: 8,
   },
 })
 

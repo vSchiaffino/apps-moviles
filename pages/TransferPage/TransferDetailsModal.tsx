@@ -4,7 +4,7 @@ import Modal from 'react-native-modal'
 import Typography from '@/components/Typography'
 import OutlinedInput from '@/components/OutlinedInput'
 import { MaterialIcons } from '@expo/vector-icons'
-
+import { Colors } from '@/constants/Colors'
 interface TransferDetailsModalProps {
   visible: boolean
   onClose: () => void
@@ -91,12 +91,13 @@ const styles = StyleSheet.create({
   modal: {
     justifyContent: 'center',
     alignItems: 'center',
+    borderRadius: 10,
   },
   modalContainer: {
     justifyContent: 'center',
     width: '90%',
     padding: 20,
-    backgroundColor: '#fff',
+    backgroundColor: Colors.gray[100],
     borderRadius: 10,
     alignItems: 'center',
     gap: 10,
