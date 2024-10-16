@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Pressable } from 'react-native';
+import { Text, View, StyleSheet, Pressable } from 'react-native';
 import Modal from 'react-native-modal';
 import Typography from '@/components/Typography';
 import OutlinedInput from '@/components/OutlinedInput';
@@ -37,7 +37,6 @@ interface TransferDetailsModalProps {
         animationInTiming={300}
         animationOutTiming={300}
         hideModalContentWhileAnimating={true}
-        useNativeDriver={true}
         onBackdropPress={onClose}
         onBackButtonPress={onClose}
         style={styles.modal}
@@ -48,11 +47,9 @@ interface TransferDetailsModalProps {
         />
         <View style={styles.modalContainer}>
           <Typography variant="h6" style={styles.title}>Detalles de Transferencia</Typography>
-          
           <Typography variant="subtitle" style={styles.label}>Producto: {product}</Typography>
           <Typography variant="subtitle" style={styles.label}>Origen: {origin}</Typography>
-          <Typography variant="subtitle" style={styles.label}>Destino: {destination}</Typography>
-          
+          <Typography variant="subtitle" style={styles.label}>Destino: {destination}</Typography>   
           <OutlinedInput
             label="Cantidad"
             value={quantity}
@@ -60,7 +57,7 @@ interface TransferDetailsModalProps {
             keyboardType="numeric" 
           />
           
-          <Typography variant="subtitle" style={styles.label}>Cantidad máxima disponible: {stock}</Typography> {/* Muestra el stock */}
+          <Typography variant="subtitle" style={styles.label}>Cantidad máxima disponible: {stock}</Typography> 
   
           <Pressable style={styles.submitButton} onPress={handleSubmit}>
             <MaterialIcons name="send" size={20} color="#fff" />

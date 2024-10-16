@@ -9,7 +9,7 @@ import { View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 
 const Dashboard = () => {
-  const { user } = useUser()
+  const user = {id:1, user: 'user1',name:'username',lastName:'userlastname',mail:'example@gmail.com'}
   if (!user) return <Redirect href="/login" />
   const [option, setOption] = React.useState('')
   return (
