@@ -36,7 +36,7 @@ const WarehouseTransferPage: React.FC = () => {
     <View style={styles.container}>
       <View style={styles.headerContainer}>
         <MaterialIcons name="inventory" size={24} color="#007bff" />
-        <Typography variant="h3" style={styles.header}>
+        <Typography variant="h4" style={styles.header}>
           Transferencias
         </Typography>
       </View>
@@ -69,7 +69,7 @@ const WarehouseTransferPage: React.FC = () => {
         product={selectedProduct ? selectedProduct.name : ''}
         origin={origin}
         destination={destination}
-        stock={selectedProduct ? selectedProduct.stock : 0} // Pasa el stock al modal
+        stock={selectedProduct ? selectedProduct.stock : 0}
       />
       <Pressable style={styles.submitButton} onPress={handleSubmit}>
         <MaterialIcons name="send" size={20} color="#fff" />
@@ -98,8 +98,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   selectContainer: {
-    flex: 1,
-    justifyContent: 'center',
+    display: 'flex',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
   },
   submitButton: {
     flexDirection: 'row',
