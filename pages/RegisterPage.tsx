@@ -31,11 +31,17 @@ const RegisterPage = () => {
       name: 'name',
       label: 'Nombre',
       rules: { required: 'El nombre es requerido' },
+      inputProps: {
+        autoCapitalize: 'words',
+      },
     },
     {
       name: 'lastName',
       label: 'Apellido',
       rules: { required: 'El apellido es requerido' },
+      inputProps: {
+        autoCapitalize: 'words',
+      },
     },
     {
       name: 'mail',
