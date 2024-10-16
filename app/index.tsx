@@ -22,8 +22,8 @@ const Dashboard = () => {
     { value: 75 },
   ]
   return (
-    <Container style={{ height: '100%', gap: 20 }}>
-      <Typography variant="h4">Bienvenido </Typography>
+    <Container style={{ height: '100%', gap: 20, alignItems: 'center' }}>
+      <Typography variant="h4">Bienvenido {user.user}</Typography>
       <View
         style={{
           flexDirection: 'row',
