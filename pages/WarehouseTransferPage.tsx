@@ -3,9 +3,12 @@ import { StyleSheet, View, Alert, Pressable } from 'react-native';
 import Typography from '@/components/Typography';
 import ProductCard from '@/components/ProductCard';
 import OutlinedInput from '@/components/OutlinedInput';
+import OutlinedSelect from '@/components/OutlinedSelect/OutlinedSelect';
 
 const WarehouseTransferPage: React.FC = () => {
   const [selectedProductId, setSelectedProductId] = useState<number | null>(null);
+  const [origin, setOrigin] = React.useState('')
+  const [destination, setDestination] = React.useState('')
 
   const handleSelectProduct = (id: number) => {
     setSelectedProductId(id === selectedProductId ? null : id); 
@@ -29,10 +32,28 @@ const WarehouseTransferPage: React.FC = () => {
       <Typography variant="h5" style={styles.header}>Warehouse Transfer</Typography>
       <View>
         <View style={{ margin: '1%' }}>
-          <OutlinedInput label="From" />
+        <OutlinedSelect
+            label="Origen"
+            options={[
+              'Deposito 1',
+              'Deposito 2',
+              'Deposito 3',
+            ]}
+            option={origin}
+            setOption={setOrigin}
+          />
         </View>
         <View style={{ margin: '1%' }}>
-          <OutlinedInput label="To" />
+        <OutlinedSelect
+            label="Destino"
+            options={[
+              'Deposito 1',
+              'Deposito 2',
+              'Deposito 3',
+            ]}
+            option={destination}
+            setOption={setDestination}
+          />
         </View>
       </View>
       <View style={styles.productList}>
