@@ -1,4 +1,4 @@
-import WarehouseTransferPage from '@/pages/WarehouseTransferPage'
+import WarehouseTransferPage from '@/pages/TransferPage/WarehouseTransferPage'
 
 export default function () {
   return <WarehouseTransferPage />
