@@ -5,11 +5,13 @@ import React from 'react'
 import { ApiValidationError } from '@/services/api.service'
 import Typography from './Typography'
 import { TextInput, TextInputProps } from 'react-native'
+import OutlinedInputPassword from './OutlinedInputPassword'
 
 export type ValidatedField = {
   name: string
   label: string
   rules: RegisterOptions<any>
+  component?: 'input' | 'input-password'
   disabled?: boolean
   inputProps?: TextInputProps
 }
@@ -46,43 +48,46 @@ const ValidatedForm = ({
   }
   return (
     <>
-      {fields.map(({ name, label, disabled, rules, inputProps }, index) => (
-        <Controller
-          key={name}
-          control={control}
-          rules={rules}
-          disabled={disabled}
-          render={({ field: { onChange, onBlur, value, disabled } }) => (
-            <OutlinedInput
-              blurOnSubmit={false}
-              inputRef={(input: TextInput) => {
-                refs[index] = input
-              }}
-              onSubmitEditing={() => {
-                const isLastInput = index === fields.length - 1
-                if (isLastInput) {
-                  handleSubmit(submitWrapper)()
-                } else {
-                  const input = refs[index + 1]
-                  if (input) refs[index + 1].focus()
-                }
-              }}
-              returnKeyType={index === fields.length - 1 ? 'send' : 'next'}
-              disabled={disabled}
-              errorMessage={errors[name]?.message as string}
-              label={label}
-              onBlur={onBlur}
-              onChangeText={(value) => {
-                clearErrors()
-                onChange(value)
-              }}
-              value={value}
-              {...inputProps}
-            />
-          )}
-          name={name}
-        />
-      ))}
+      {fields.map(({ name, label, disabled, rules, inputProps, component = 'input' }, index) => {
+        const Component = component === 'input' ? OutlinedInput : OutlinedInputPassword
+        return (
+          <Controller
+            key={name}
+            control={control}
+            rules={rules}
+            disabled={disabled}
+            render={({ field: { onChange, onBlur, value, disabled } }) => (
+              <Component
+                blurOnSubmit={false}
+                inputRef={(input: TextInput) => {
+                  refs[index] = input
+                }}
+                onSubmitEditing={() => {
+                  const isLastInput = index === fields.length - 1
+                  if (isLastInput) {
+                    handleSubmit(submitWrapper)()
+                  } else {
+                    const input = refs[index + 1]
+                    if (input) refs[index + 1].focus()
+                  }
+                }}
+                returnKeyType={index === fields.length - 1 ? 'send' : 'next'}
+                disabled={disabled}
+                errorMessage={errors[name]?.message as string}
+                label={label}
+                onBlur={onBlur}
+                onChangeText={(value) => {
+                  clearErrors()
+                  onChange(value)
+                }}
+                value={value}
+                {...inputProps}
+              />
+            )}
+            name={name}
+          />
+        )
+      })}
       <StyledButton
         label={submitLabel}
         onPress={handleSubmit(submitWrapper)}
