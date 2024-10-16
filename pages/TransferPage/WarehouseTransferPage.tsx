@@ -4,7 +4,16 @@ import Typography from '@/components/Typography';
 import { MaterialIcons } from '@expo/vector-icons';
 import IconSelect from '@/components/IconSelect';
 import TransferDetailsModal from '@/pages/TransferPage/TransferDetailsModal';
+import MapView, { Marker } from 'react-native-maps';
+import { Dimensions } from 'react-native';
 
+const { width, height } = Dimensions.get('window');
+const ASPECT_RATIO = width / height;
+const LATITUDE = 37.78825;
+const LONGITUDE = -122.4324;
+const LATITUDE_DELTA = 0.0922;
+const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+  
 interface Product {
   name: string;
   stock: number;
@@ -74,7 +83,9 @@ const WarehouseTransferPage: React.FC = () => {
         <MaterialIcons name="send" size={20} color="#fff" />
         <Typography variant="h6" style={styles.submitButtonText}>Enviar</Typography>
       </Pressable>
+      
     </View>
+    
   );
 };
 

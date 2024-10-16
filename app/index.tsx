@@ -3,12 +3,13 @@ import IconCard from '@/components/IconCard'
 import OutlinedSelect from '@/components/OutlinedSelect/OutlinedSelect'
 import Typography from '@/components/Typography'
 import useUser from '@/hooks/useUser'
-import { Redirect } from 'expo-router'
+import { Redirect, router } from 'expo-router'
 import React from 'react'
 import { View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 
 const Dashboard = () => {
+  //const { user } = useUser()
   const user = {id:1, user: 'user1',name:'username',lastName:'userlastname',mail:'example@gmail.com'}
   if (!user) return <Redirect href="/login" />
   const [option, setOption] = React.useState('')
@@ -23,7 +24,7 @@ const Dashboard = () => {
             gap: 20,
           }}
         >
-          <IconCard icon="cube-outline" color={'primary'} text="Productos" />
+          <IconCard icon="cube-outline" color={'primary'} text="Productos" onPress={() => router.push('/warehouseTransfer')}/>
           <IconCard icon="ban-outline" color={'danger'} text="Anulaciones" />
         </View>
         <View style={{ gap: 20, marginTop: 20 }}>
