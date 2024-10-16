@@ -88,13 +88,11 @@ const OutlinedInput: React.FC<OutlinedInputProps> = ({
             size={25}
             name={iconRight as any}
             style={{
-              icon: {
-                position: 'absolute',
-                right: 4,
-                top: '50%',
-                transform: [{ translateY: -20.5 }],
-                padding: 8,
-              },
+              position: 'absolute',
+              right: 4,
+              top: '50%',
+              transform: [{ translateY: -20.5 }],
+              padding: 8,
             }}
             onPress={onPressIconRight}
             color={borderColor}
