@@ -4,11 +4,11 @@ import React from 'react'
 export interface CardProps {
   children: React.ReactNode
   style?: StyleProp<ViewStyle>
-  pressable: boolean
+  pressable?: boolean
   onPress?: Function
 }
 
-const Card: React.FC<CardProps> = ({ children, style, pressable, onPress }) => {
+const Card: React.FC<CardProps> = ({ children, style, pressable = false, onPress = () => {} }) => {
   const MainComponent: any = pressable ? TouchableOpacity : View
 
   return (
