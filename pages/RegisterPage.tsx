@@ -4,7 +4,8 @@ import Typography from '@/components/Typography'
 import { Link, router } from 'expo-router'
 import ValidatedForm, { ValidatedField } from '@/components/ValidatedForm'
 import userService from '@/services/user.service'
-import Container from '@/components/Container'
+import { Spacing } from '@/constants/Spacing'
+import { Colors } from '@/constants/Colors'
 
 const RegisterPage = () => {
   const onSubmit = async (form: any) => {
@@ -32,11 +33,17 @@ const RegisterPage = () => {
       name: 'name',
       label: 'Nombre',
       rules: { required: 'El nombre es requerido' },
+      inputProps: {
+        autoCapitalize: 'words',
+      },
     },
     {
       name: 'lastName',
       label: 'Apellido',
       rules: { required: 'El apellido es requerido' },
+      inputProps: {
+        autoCapitalize: 'words',
+      },
     },
     {
       name: 'mail',
@@ -60,6 +67,9 @@ const RegisterPage = () => {
           message: 'La contraseña debe tener más de 8 caracteres',
         },
       },
+      inputProps: {
+        secureTextEntry: true,
+      },
     },
     {
       name: 'repeatPassword',
@@ -70,10 +80,13 @@ const RegisterPage = () => {
         validate: (value: string, { password }: { password: string }) =>
           value === password || 'Las contraseñas deben coincidir',
       },
+      inputProps: {
+        secureTextEntry: true,
+      },
     },
   ]
   return (
-    <Container style={{ justifyContent: 'center', alignItems: 'center', gap: 20 }}>
+    <View style={styles.container}>
       <Typography variant="h3">Registrate</Typography>
       <ValidatedForm
         formProps={{
@@ -93,10 +106,22 @@ const RegisterPage = () => {
       <Typography variant="subtitle" color="dark">
         ¿Ya tenés cuenta? <Link href="../login">Ingresar</Link>
       </Typography>
-    </Container>
+    </View>
   )
 }
 
 export default RegisterPage
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: Colors.gray[100],
+    marginHorizontal: 'auto',
+    width: '100%',
+    padding: '10%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%',
+    gap: Spacing.rowGap,
+  },
+})

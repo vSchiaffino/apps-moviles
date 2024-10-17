@@ -7,7 +7,6 @@ const ChangePasswordTab = () => {
     {
       name: 'actualPassword',
       label: 'Contraseña Actual',
-      password: true,
       rules: {
         required: 'La contraseña es requerida',
         minLength: {
@@ -15,11 +14,11 @@ const ChangePasswordTab = () => {
           message: 'La contraseña no coincide con la contraseña actual',
         },
       },
+      component: 'input-password',
     },
     {
       name: 'newPassword',
       label: 'Nueva Contraseña',
-      password: true,
       rules: {
         required: 'La contraseña es requerida',
         minLength: {
@@ -27,16 +26,17 @@ const ChangePasswordTab = () => {
           message: 'La contraseña debe tener más de 8 caracteres',
         },
       },
+      component: 'input-password',
     },
     {
       name: 'repeatPassword',
       label: 'Repetir contraseña',
-      password: true,
       rules: {
         required: 'La contraseña es requerida',
         validate: (value: string, { password }: { password: string }) =>
           value === password || 'Las contraseñas deben coincidir',
       },
+      component: 'input-password',
     },
   ]
   const onSubmit = async () => {
