@@ -4,6 +4,7 @@ import Typography from '@/components/Typography'
 import { Link, router } from 'expo-router'
 import ValidatedForm, { ValidatedField } from '@/components/ValidatedForm'
 import userService from '@/services/user.service'
+import Container from '@/components/Container'
 
 const RegisterPage = () => {
   const onSubmit = async (form: any) => {
@@ -72,7 +73,7 @@ const RegisterPage = () => {
     },
   ]
   return (
-    <View style={styles.container}>
+    <Container style={{ justifyContent: 'center', alignItems: 'center', gap: 20 }}>
       <Typography variant="h3">Registrate</Typography>
       <ValidatedForm
         formProps={{
@@ -92,20 +93,10 @@ const RegisterPage = () => {
       <Typography variant="subtitle" color="dark">
         ¿Ya tenés cuenta? <Link href="../login">Ingresar</Link>
       </Typography>
-    </View>
+    </Container>
   )
 }
 
 export default RegisterPage
 
-const styles = StyleSheet.create({
-  container: {
-    marginHorizontal: 'auto',
-    width: '80%',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '100%',
-    gap: 20,
-  },
-})
+const styles = StyleSheet.create({})

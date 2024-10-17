@@ -9,10 +9,9 @@ import { View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 
 const Dashboard = () => {
-  //const { user } = useUser()
-  const user = {id:1, user: 'user1',name:'username',lastName:'userlastname',mail:'example@gmail.com'}
-  if (!user) return <Redirect href="/login" />
   const [option, setOption] = React.useState('')
+  const { user } = useUser()
+  if (!user) return <Redirect href="/login" />
   return (
     <ScrollView style={{ height: 800 }}>
       <Container style={{ height: '100%' }}>
@@ -24,7 +23,12 @@ const Dashboard = () => {
             gap: 20,
           }}
         >
-          <IconCard icon="cube-outline" color={'primary'} text="Productos" onPress={() => router.push('/warehouseTransfer')}/>
+          <IconCard
+            icon="cube-outline"
+            color={'primary'}
+            text="Productos"
+            onPress={() => router.push('/warehouseTransfer')}
+          />
           <IconCard icon="ban-outline" color={'danger'} text="Anulaciones" />
         </View>
         <View style={{ gap: 20, marginTop: 20 }}>
