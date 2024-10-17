@@ -4,7 +4,7 @@ import IconCard from '@/components/IconCard'
 import OutlinedSelect from '@/components/OutlinedSelect/OutlinedSelect'
 import Typography from '@/components/Typography'
 import useUser from '@/hooks/useUser'
-import { Redirect } from 'expo-router'
+import { Redirect, router } from 'expo-router'
 import React from 'react'
 import { View } from 'react-native'
 
@@ -36,7 +36,7 @@ const Dashboard = () => {
           color={'primary'}
           text="Productos"
           onPress={() => {
-            console.log('sape')
+            router.push('/warehouseTransfer')
           }}
         />
         <IconCard

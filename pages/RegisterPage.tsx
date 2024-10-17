@@ -59,6 +59,8 @@ const RegisterPage = () => {
     {
       name: 'password',
       label: 'Contraseña',
+      password: true,
+      component: 'input-password',
       rules: {
         required: 'La contraseña es requerida',
         minLength: {
@@ -66,13 +68,12 @@ const RegisterPage = () => {
           message: 'La contraseña debe tener más de 8 caracteres',
         },
       },
-      inputProps: {
-        secureTextEntry: true,
-      },
     },
     {
       name: 'repeatPassword',
       label: 'Repetir contraseña',
+      component: 'input-password',
+      password: true,
       rules: {
         required: 'La contraseña es requerida',
         validate: (value: string, { password }: { password: string }) =>
