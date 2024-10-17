@@ -2,27 +2,40 @@ import { View, Text, TextInput, TextInputProps, StyleSheet } from 'react-native'
 import React, { useState } from 'react'
 import { Colors } from '@/constants/Colors'
 import Typography from './Typography'
+import { Ionicons } from '@expo/vector-icons'
 
-interface OutlinedInputProps extends TextInputProps {
+export interface OutlinedInputProps extends TextInputProps {
   label: string
   error?: boolean
   errorMessage?: string
+  disabled?: boolean
+  inputRef?: React.LegacyRef<TextInput>
+  iconRight?: string
+  onPressIconRight?: () => void
 }
 
-// TODO: fix the styles when nighht mode is enabled
 const OutlinedInput: React.FC<OutlinedInputProps> = ({
   label,
   value,
   error = false,
   errorMessage = '',
+  disabled,
   onBlur,
   onFocus,
+  inputRef,
+  iconRight = '',
+  onPressIconRight = () => {},
   ...rest
 }) => {
   const showError = error === true || errorMessage !== ''
   const isEmpty = value === ''
   const [isFocused, setIsFocused] = useState(false)
   const isLabelOnTop = isFocused || !isEmpty
+  const borderColor = showError
+    ? Colors.danger[600]
+    : isFocused
+      ? Colors.primary[600]
+      : Colors.gray[900]
   return (
     <View style={styles.container}>
       <Text
@@ -31,42 +44,63 @@ const OutlinedInput: React.FC<OutlinedInputProps> = ({
           {
             top: isLabelOnTop ? -7 : 19,
             zIndex: isLabelOnTop ? 1 : -1,
-            color: showError
-              ? Colors.danger
-              : isFocused
-              ? Colors.primary
-              : '#666666',
+            color: disabled
+              ? Colors.gray[500]
+              : showError
+                ? Colors.danger[600]
+                : isFocused
+                  ? Colors.primary[600]
+                  : Colors.gray[900],
             userSelect: 'none',
           },
         ]}
       >
         {label}
       </Text>
-      <TextInput
-        onBlur={(e) => {
-          setIsFocused(false)
-          onBlur && onBlur(e)
-        }}
-        onFocus={(e) => {
-          setIsFocused(true)
-          onFocus && onFocus(e)
-        }}
-        style={[
-          styles.input,
-          {
-            borderWidth: isFocused || showError ? 1.5 : 0.75,
-            borderColor: showError
-              ? Colors.danger
-              : isFocused
-              ? Colors.primary
-              : '#6c6c6c',
-          },
-        ]}
-        value={value}
-        {...rest}
-      />
-      {errorMessage && (
-        <Typography variant='subtitle' color='danger'>
+      <View>
+        <TextInput
+          ref={inputRef}
+          onBlur={(e) => {
+            setIsFocused(false)
+            onBlur && onBlur(e)
+          }}
+          onFocus={(e) => {
+            setIsFocused(true)
+            onFocus && onFocus(e)
+          }}
+          editable={!disabled}
+          pointerEvents={disabled ? 'none' : undefined}
+          autoCapitalize="none"
+          style={[
+            styles.input,
+            {
+              position: 'relative',
+              borderWidth: isFocused || showError ? 1.5 : 0.75,
+              borderColor,
+              opacity: disabled ? 0.4 : 1,
+            },
+          ]}
+          value={value}
+          {...rest}
+        />
+        {iconRight && (
+          <Ionicons
+            size={25}
+            name={iconRight as any}
+            style={{
+              position: 'absolute',
+              right: 4,
+              top: '50%',
+              transform: [{ translateY: -20.5 }],
+              padding: 8,
+            }}
+            onPress={onPressIconRight}
+            color={borderColor}
+          />
+        )}
+      </View>
+      {!!errorMessage && (
+        <Typography variant="subtitle" color="danger">
           {errorMessage}
         </Typography>
       )}
@@ -87,14 +121,14 @@ const styles = StyleSheet.create({
     zIndex: 1,
     paddingHorizontal: 5,
     paddingVertical: 0,
-    backgroundColor: '#f2f2f2',
+    backgroundColor: Colors.gray[100],
   },
   input: {
-    color: '#212121',
+    color: Colors.gray[900],
     fontSize: 16,
     width: '100%',
     paddingTop: 12,
-    paddingRight: 10,
+    paddingRight: 40,
     paddingBottom: 12,
     paddingLeft: 15,
     borderRadius: 8,

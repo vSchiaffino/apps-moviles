@@ -2,13 +2,14 @@ import { StyleProp, StyleSheet, Text, TextStyle } from 'react-native'
 import React from 'react'
 import { Colors } from '@/constants/Colors'
 
-type Variants = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'subtitle' | 'body'
-type Colors = 'dark' | 'light' | 'primary' | 'danger'
-type Fonts = 'roboto'| 'poppins'
+type Variants = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'subtitle' | 'body' | 'bold' | 'bolder'
+type Colors = 'dark' | 'light' | 'primary' | 'danger' | 'gray'
+type Fonts = 'roboto' | 'poppins'
 
 export interface TypographyProps {
   variant: Variants
   children: React.ReactNode
+  justify?: 'left' | 'right' | 'center'
   style?: StyleProp<TextStyle>
   color?: Colors
   font?: Fonts
@@ -18,11 +19,12 @@ const Typography: React.FC<TypographyProps> = ({
   variant,
   children,
   style = {},
+  justify = undefined,
   color = 'dark',
-  font = 'poppins'
+  font = 'poppins',
 }) => {
   return (
-    <Text style={[styles[font], styles[variant], styles[color], style]}>
+    <Text style={[{ textAlign: justify }, styles[font], styles[variant], styles[color], style]}>
       {children}
     </Text>
   )
@@ -32,22 +34,35 @@ export default Typography
 
 const styles = StyleSheet.create({
   roboto: {
-    fontFamily: 'Roboto'
+    fontFamily: 'Roboto',
   },
-  poppins : {
-    fontFamily: 'Poppins'
+  poppins: {
+    fontFamily: 'Poppins',
   },
   dark: {
-    color: 'rgb(26, 30, 35)',
+    color: Colors.gray[900],
   },
   light: {
     color: 'white',
   },
   danger: {
-    color: Colors.danger,
+    color: Colors.danger[600],
   },
   primary: {
-    color: Colors.primary,
+    color: Colors.primary[600],
+  },
+  gray: {
+    color: Colors.gray[600],
+  },
+  bold: {
+    fontWeight: 600,
+    color: Colors.primary[800],
+  },
+  bolder: {
+    lineHeight: 32,
+    fontSize: 24,
+    fontWeight: 900,
+    color: Colors.primary[800],
   },
   h1: {
     fontSize: 96,
