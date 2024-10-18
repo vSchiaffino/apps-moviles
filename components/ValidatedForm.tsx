@@ -10,6 +10,8 @@ import OutlinedInputPassword from './OutlinedInputPassword'
 export type ValidatedField = {
   name: string
   label: string
+  password?: boolean
+  disabled?: boolean
   rules: RegisterOptions<any>
   component?: 'input' | 'input-password'
   disabled?: boolean
