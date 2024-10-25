@@ -14,7 +14,6 @@ export type ValidatedField = {
   disabled?: boolean
   rules: RegisterOptions<any>
   component?: 'input' | 'input-password'
-  disabled?: boolean
   inputProps?: TextInputProps
 }
 
