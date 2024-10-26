@@ -3,6 +3,7 @@ import React from 'react'
 import { ScrollView } from 'react-native-gesture-handler'
 import Typography from '../Typography'
 import usePressOptionAnimation from './usePressOptionAnimation'
+import { Colors } from '@/constants/Colors'
 
 export interface SelectItemProps {
   inputMeasures: { top: number; left: number; width: number }
@@ -26,7 +27,7 @@ const SelectItems: React.FC<SelectItemProps> = ({
           <ScrollView
             showsVerticalScrollIndicator
             style={{
-              paddingTop: 5,
+              padding: 5,
               display: 'flex',
               backgroundColor: 'white',
               rowGap: 20,
@@ -35,6 +36,8 @@ const SelectItems: React.FC<SelectItemProps> = ({
               top: top + 14,
               left,
               borderRadius: 10,
+              borderWidth: 1,
+              borderColor: Colors.gray[200],
             }}
           >
             {options.map((option) => (
