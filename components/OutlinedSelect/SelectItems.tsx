@@ -34,6 +34,7 @@ const SelectItems: React.FC<SelectItemProps> = ({
               width: width,
               top: top + 14,
               left,
+              borderRadius: 10,
             }}
           >
             {options.map((option) => (
