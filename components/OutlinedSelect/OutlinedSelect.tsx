@@ -42,7 +42,7 @@ const OutlinedSelect: React.FC<OutlinedInputProps> = ({
     Animated.timing(animatedValue, {
       toValue,
       duration: 50,
-      useNativeDriver: true,
+      useNativeDriver: false,
     }).start()
   }
 
@@ -105,7 +105,7 @@ const OutlinedSelect: React.FC<OutlinedInputProps> = ({
           inputMeasures={inputMeasures}
           onDismiss={() => {
             setIsFocused(false)
-            option === '' ? animateLabel(0) : ''
+            option === '' ? animateLabel(0) : undefined
           }}
           options={options}
           onSelectOption={(selectedOption) => {
