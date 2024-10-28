@@ -9,9 +9,9 @@ import { Redirect, router } from 'expo-router'
 import React from 'react'
 import { View } from 'react-native'
 
-const Dashboard = (user: UserPayload) => {
-  // const { user } = useUser()
-  // if (!user) return <Redirect href="/login" />
+const Dashboard = () => {
+  const { user } = useUser()
+  if (!user) return <Redirect href="/login" />
   const lineData = [
     { value: 0 },
     { value: 20 },

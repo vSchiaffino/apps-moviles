@@ -4,18 +4,12 @@ import { Redirect } from 'expo-router'
 import ProfilePage from '@/pages/ProfilePage/ProfilePage'
 
 const profile = () => {
-  // const { user } = useUser()
-  // if (!user) return <Redirect href="/" />
+  const { user } = useUser()
+  if (!user) return <Redirect href="/" />
 
   return (
     <ProfilePage
-      user={{
-        id: 1,
-        name: 'Valentin',
-        lastName: 'Schiaffino',
-        mail: 'valenschg@gmail.com',
-        user: 'valen',
-      }}
+      user={{user}}
     />
   )
 }
