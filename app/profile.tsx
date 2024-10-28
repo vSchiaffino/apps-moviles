@@ -6,7 +6,12 @@ import ProfilePage from '@/pages/ProfilePage/ProfilePage'
 const profile = () => {
   const { user } = useUser()
   if (!user) return <Redirect href="/" />
-  return <ProfilePage user={user} />
+
+  return (
+    <ProfilePage
+      user={{user}}
+    />
+  )
 }
 
 export default profile

@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Pressable } from 'react-native'
+import { View, Text, StyleSheet, Pressable, Animated } from 'react-native'
 import React, { useRef, useState } from 'react'
 import { Colors } from '@/constants/Colors'
 import Typography from '../Typography'
@@ -30,18 +30,33 @@ const OutlinedSelect: React.FC<OutlinedInputProps> = ({
     inputRef.current.measure((fx, fy, width, height, px, py) => {
       setInputMeasures({ top: py, left: px, width, height })
       setIsFocused(true)
+      animateLabel(1)
     })
   }
   const showError = error === true || errorMessage !== ''
   const [isFocused, setIsFocused] = useState(false)
   const isLabelOnTop = isFocused || option !== ''
+  const animatedValue = useRef(new Animated.Value(0)).current
+
+  const animateLabel = (toValue: number) => {
+    Animated.timing(animatedValue, {
+      toValue,
+      duration: 50,
+      useNativeDriver: false,
+    }).start()
+  }
+
+  const labelPosition = animatedValue.interpolate({
+    inputRange: [0, 1],
+    outputRange: [19, -7],
+  })
+
   return (
     <View style={styles.container}>
-      <Text
+      <Animated.Text
         style={[
           styles.label,
           {
-            top: isLabelOnTop ? -7 : 19,
             zIndex: isLabelOnTop ? 1 : -1,
             color: disabled
               ? Colors.gray[500]
@@ -52,10 +67,13 @@ const OutlinedSelect: React.FC<OutlinedInputProps> = ({
                   : Colors.gray[900],
             userSelect: 'none',
           },
+          {
+            transform: [{ translateY: labelPosition }],
+          },
         ]}
       >
         {label}
-      </Text>
+      </Animated.Text>
       <Pressable
         ref={inputRef}
         onPress={handlePress}
@@ -85,7 +103,10 @@ const OutlinedSelect: React.FC<OutlinedInputProps> = ({
       {isFocused && (
         <SelectItems
           inputMeasures={inputMeasures}
-          onDismiss={() => setIsFocused(false)}
+          onDismiss={() => {
+            setIsFocused(false)
+            option === '' ? animateLabel(0) : undefined
+          }}
           options={options}
           onSelectOption={(selectedOption) => {
             setOption(selectedOption)

@@ -6,6 +6,7 @@ import IconSelect from '@/components/IconSelect'
 import TransferDetailsModal from '@/pages/TransferPage/TransferDetailsModal'
 import Container from '@/components/Container'
 import { ScrollView } from 'react-native-gesture-handler'
+import { Spacing } from '@/constants/Spacing'
 interface Product {
   name: string
   stock: number
@@ -76,7 +77,7 @@ const WarehouseTransferPage: React.FC = () => {
       <Pressable style={styles.submitButton} onPress={handleSubmit}>
         <MaterialIcons name="send" size={20} color="#fff" />
         <Typography variant="h6" style={styles.submitButtonText}>
-          Enviar
+          Transferir
         </Typography>
       </Pressable>
     </Container>
@@ -106,6 +107,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     alignItems: 'center',
     justifyContent: 'center',
+    gap: 10,
   },
   submitButtonText: {
     color: '#fff',
