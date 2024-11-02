@@ -9,7 +9,7 @@ const profile = () => {
 
   return (
     <ProfilePage
-      user={{user}}
+      user={user}
     />
   )
 }
