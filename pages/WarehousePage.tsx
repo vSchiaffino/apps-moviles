@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native'
+import { View, Text, ScrollView } from 'react-native'
 import React from 'react'
 import { Product } from './TransferPage/WarehouseTransferPage'
 import Container from '@/components/Container'
@@ -42,26 +42,38 @@ const warehouses: Warehouse[] = [
     location: 'd',
     capacity: 300,
   },
+  {
+    id: 4,
+    location: 'd',
+    capacity: 300,
+  },
+  {
+    id: 5,
+    location: 'Alicia Moreau de Justo 1189',
+    capacity: 300,
+  },
 ]
 
 const WarehousePage = () => {
   return (
-    <Container style={{ gap: Spacing.rowGap }}>
-      <Typography variant="h3">Depósitos</Typography>
-      {warehouses.map(({ id, name, location, productList, capacity }) => {
-        let productsAmount = 0
-        const res = productList?.forEach((p) => (productsAmount += p.stock))
-        return (
-          <WarehouseCard
-            key={id}
-            warehouseName={name}
-            location={location}
-            capacity={capacity}
-            productsAmount={productsAmount}
-          ></WarehouseCard>
-        )
-      })}
-    </Container>
+    <ScrollView>
+      <Container style={{ gap: Spacing.rowGap, alignItems: 'center', height: '50%' }}>
+        <Typography variant="h3">Depósitos</Typography>
+        {warehouses.map(({ id, name, location, productList, capacity }) => {
+          let productsAmount = 0
+          const res = productList?.forEach((p) => (productsAmount += p.stock))
+          return (
+            <WarehouseCard
+              key={id}
+              warehouseName={name}
+              location={location}
+              capacity={capacity}
+              productsAmount={productsAmount}
+            ></WarehouseCard>
+          )
+        })}
+      </Container>
+    </ScrollView>
   )
 }
 
