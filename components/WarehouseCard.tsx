@@ -18,7 +18,7 @@ const WarehouseCard = ({
   return (
     <IconCard
       icon="warehouse"
-      color={productsAmount / capacity <= 0.1 ? 'danger' : 'primary'}
+      color={productsAmount / capacity >= 0.9 ? 'danger' : 'primary'}
       text={warehouseName ? warehouseName : 'Depósito de ' + location}
     />
   )
