@@ -7,16 +7,13 @@ import 'react-native-reanimated'
 
 import { useColorScheme } from '@/hooks/useColorScheme'
 import { AuthProvider } from '@/context/AuthContext'
-import { Ionicons } from '@expo/vector-icons'
+import { FontAwesome6, Ionicons } from '@expo/vector-icons'
 import { Colors } from '@/constants/Colors'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync()
 
-function tab() {
-  return <></>
-}
 export default function RootLayout() {
   const colorScheme = useColorScheme()
   const [loaded] = useFonts({
@@ -68,6 +65,19 @@ export default function RootLayout() {
                   <Ionicons
                     name="person"
                     size={24}
+                    color={focused ? Colors.primary[600] : Colors.gray[600]}
+                  />
+                ),
+              }}
+            />
+            <Tabs.Screen
+              name="warehouse"
+              options={{
+                title: 'Depósitos',
+                tabBarIcon: ({ focused }) => (
+                  <FontAwesome6
+                    name="warehouse"
+                    size={21}
                     color={focused ? Colors.primary[600] : Colors.gray[600]}
                   />
                 ),
