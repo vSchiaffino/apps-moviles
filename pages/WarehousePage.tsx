@@ -2,9 +2,9 @@ import { View, Text } from 'react-native'
 import React from 'react'
 import { Product } from './TransferPage/WarehouseTransferPage'
 import Container from '@/components/Container'
-import Card from '@/components/Card'
 import Typography from '@/components/Typography'
 import { Spacing } from '@/constants/Spacing'
+import WarehouseCard from '@/components/WarehouseCard'
 
 export interface Warehouse {
   id: number
@@ -52,13 +52,13 @@ const WarehousePage = () => {
         let productsAmount = 0
         const res = productList?.forEach((p) => (productsAmount += p.stock))
         return (
-          <Card key={id} style={{ height: 'auto' }}>
-            <Typography variant="body">{id}</Typography>
-            <Typography variant="body">{name ? name : 'Depósito ' + location}</Typography>
-            <Typography variant="body">{location}</Typography>
-            <Typography variant="body">{capacity}</Typography>
-            <Typography variant="body">{productsAmount}</Typography>
-          </Card>
+          <WarehouseCard
+            key={id}
+            warehouseName={name}
+            location={location}
+            capacity={capacity}
+            productsAmount={productsAmount}
+          ></WarehouseCard>
         )
       })}
     </Container>
