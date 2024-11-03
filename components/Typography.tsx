@@ -2,7 +2,18 @@ import { StyleProp, StyleSheet, Text, TextStyle } from 'react-native'
 import React from 'react'
 import { Colors } from '@/constants/Colors'
 
-type Variants = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'subtitle' | 'body' | 'bold' | 'bolder'
+type Variants =
+  | 'h1'
+  | 'h2'
+  | 'h3'
+  | 'h4'
+  | 'h5'
+  | 'h6'
+  | 'subtitle'
+  | 'body'
+  | 'bold'
+  | 'bolder'
+  | 'mini'
 type Colors = 'dark' | 'light' | 'primary' | 'danger' | 'gray'
 type Fonts = 'roboto' | 'poppins'
 
@@ -102,6 +113,11 @@ const styles = StyleSheet.create({
   body: {
     fontSize: 16,
     fontWeight: 400,
+    lineHeight: 24,
+  },
+  mini: {
+    fontSize: 12,
+    fontWeight: 300,
     lineHeight: 24,
   },
 })
