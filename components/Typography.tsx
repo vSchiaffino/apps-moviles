@@ -1,4 +1,4 @@
-import { StyleProp, StyleSheet, Text, TextStyle } from 'react-native'
+import { StyleProp, StyleSheet, Text, TextProps, TextStyle } from 'react-native'
 import React from 'react'
 import { Colors } from '@/constants/Colors'
 
@@ -17,7 +17,7 @@ type Variants =
 type Colors = 'dark' | 'light' | 'primary' | 'danger' | 'gray'
 type Fonts = 'roboto' | 'poppins'
 
-export interface TypographyProps {
+export interface TypographyProps extends TextProps {
   variant: Variants
   children: React.ReactNode
   justify?: 'left' | 'right' | 'center'
@@ -33,9 +33,13 @@ const Typography: React.FC<TypographyProps> = ({
   justify = undefined,
   color = 'dark',
   font = 'poppins',
+  ...rest
 }) => {
   return (
-    <Text style={[{ textAlign: justify }, styles[font], styles[variant], styles[color], style]}>
+    <Text
+      style={[{ textAlign: justify }, styles[font], styles[variant], styles[color], style]}
+      {...rest}
+    >
       {children}
     </Text>
   )
