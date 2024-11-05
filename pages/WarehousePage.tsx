@@ -1,9 +1,8 @@
-import { ScrollView, Pressable } from 'react-native'
+import { ScrollView, TouchableHighlight } from 'react-native'
 import React, { useState } from 'react'
 import { Product } from './TransferPage/WarehouseTransferPage'
 import Container from '@/components/Container'
 import Typography from '@/components/Typography'
-import { Spacing } from '@/constants/Spacing'
 import WarehouseCard from '@/components/WarehouseCard'
 import { Ionicons } from '@expo/vector-icons'
 import WarehouseCardList from '@/components/WarehouseCardList'
@@ -64,24 +63,29 @@ const WarehousePage = () => {
 
   return (
     <ScrollView>
-      <Container style={{ gap: view ? Spacing.rowGap : 10, alignItems: 'center', height: '50%' }}>
+      <Container style={{ gap: 10, alignItems: 'center', height: '90%' }}>
         <Container
           style={{
             height: 'auto',
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
-            marginRight: 10,
+            padding: 0,
           }}
         >
           <Typography variant="h3">Depósitos</Typography>
-          <Pressable onPress={() => toggleView()} hitSlop={20}>
+          <TouchableHighlight
+            underlayColor={'rgba(1,1,1,0.05)'}
+            style={{ borderRadius: 999, padding: 10 }}
+            onPress={() => toggleView()}
+            hitSlop={20}
+          >
             {view ? (
-              <Ionicons name="grid-outline" size={24} color="dark" />
+              <Ionicons name="grid-outline" size={24} color="grey" />
             ) : (
-              <Ionicons name="list-outline" size={24} color="dark" />
+              <Ionicons name="list-outline" size={24} color="grey" />
             )}
-          </Pressable>
+          </TouchableHighlight>
         </Container>
         {warehouses.map(({ id, name, location, productList, capacity }) => {
           let productsAmount = 0
