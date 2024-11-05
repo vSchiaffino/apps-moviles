@@ -26,6 +26,7 @@ const WarehouseCard = ({
         flexDirection: 'row',
         justifyContent: 'space-between',
         aspectRatio: 25 / 4,
+        minHeight: 'auto',
         backgroundColor: colorPallete[200],
         padding: 10,
       }}
@@ -40,7 +41,13 @@ const WarehouseCard = ({
         {warehouseName !== undefined ? warehouseName : 'Depósito de ' + location}
       </Typography>
 
-      <View style={{ width: '30%' }}>
+      <View
+        style={{
+          width: '30%',
+          maxHeight: 'auto',
+          alignItems: 'flex-end',
+        }}
+      >
         <Typography variant="body" color={color} justify="right">
           {productsAmount}
           <Typography variant="mini" color={color}>
@@ -54,7 +61,8 @@ const WarehouseCard = ({
           borderColor={colorPallete[500]}
           unfilledColor={colorPallete[300]}
           color={colorPallete[500]}
-          style={{ marginBottom: 20, width: null, height: null }}
+          width={null}
+          style={{ width: '100%' }}
         />
       </View>
     </Card>

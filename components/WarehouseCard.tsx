@@ -1,11 +1,9 @@
 import React from 'react'
 import Typography from './Typography'
 import { Colors } from '@/constants/Colors'
-import IconCard from './IconCard'
 import { View } from 'react-native'
 import * as Progress from 'react-native-progress'
 import Card from './Card'
-import { Spacing } from '@/constants/Spacing'
 import { FontAwesome6 } from '@expo/vector-icons'
 
 const WarehouseCard = ({
@@ -21,6 +19,7 @@ const WarehouseCard = ({
 }) => {
   const color = productsAmount / capacity >= 0.9 ? 'danger' : 'primary'
   const colorPallete = Colors[color]
+
   return (
     <Card
       pressable
@@ -54,7 +53,7 @@ const WarehouseCard = ({
         {warehouseName !== undefined ? warehouseName : 'Depósito de ' + location}
       </Typography>
 
-      <View style={{ width: '100%', alignItems: 'center', gap: 5, marginTop: 10 }}>
+      <View style={{ width: '50%', alignItems: 'center', gap: 5, marginTop: 10 }}>
         <Typography variant="h6" color={color}>
           {productsAmount}
           <Typography variant="mini" color={color}>
