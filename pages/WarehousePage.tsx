@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Pressable } from 'react-native'
+import { ScrollView, Pressable } from 'react-native'
 import React, { useState } from 'react'
 import { Product } from './TransferPage/WarehouseTransferPage'
 import Container from '@/components/Container'
@@ -6,7 +6,7 @@ import Typography from '@/components/Typography'
 import { Spacing } from '@/constants/Spacing'
 import WarehouseCard from '@/components/WarehouseCard'
 import { Ionicons } from '@expo/vector-icons'
-import { Colors } from '@/constants/Colors'
+import WarehouseCardList from '@/components/WarehouseCardList'
 
 export interface Warehouse {
   id: number
@@ -64,7 +64,7 @@ const WarehousePage = () => {
 
   return (
     <ScrollView>
-      <Container style={{ gap: Spacing.rowGap, alignItems: 'center', height: '50%' }}>
+      <Container style={{ gap: view ? Spacing.rowGap : 10, alignItems: 'center', height: '50%' }}>
         <Container
           style={{
             height: 'auto',
@@ -75,23 +75,33 @@ const WarehousePage = () => {
           }}
         >
           <Typography variant="h3">Depósitos</Typography>
-          {view ? (
-            <Ionicons name="grid-outline" size={24} color="dark" onPress={() => toggleView()} />
-          ) : (
-            <Ionicons name="list-outline" size={24} color="dark" onPress={() => toggleView()} />
-          )}
+          <Pressable onPress={() => toggleView()} hitSlop={20}>
+            {view ? (
+              <Ionicons name="grid-outline" size={24} color="dark" />
+            ) : (
+              <Ionicons name="list-outline" size={24} color="dark" />
+            )}
+          </Pressable>
         </Container>
         {warehouses.map(({ id, name, location, productList, capacity }) => {
           let productsAmount = 0
           const res = productList?.forEach((p) => (productsAmount += p.stock))
-          return (
+          return view ? (
             <WarehouseCard
               key={id}
               warehouseName={name}
               location={location}
               capacity={capacity}
               productsAmount={productsAmount}
-            ></WarehouseCard>
+            />
+          ) : (
+            <WarehouseCardList
+              key={id}
+              warehouseName={name}
+              location={location}
+              capacity={capacity}
+              productsAmount={productsAmount}
+            />
           )
         })}
       </Container>
