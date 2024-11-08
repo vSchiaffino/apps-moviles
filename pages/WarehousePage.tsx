@@ -31,7 +31,7 @@ const warehouses: Warehouse[] = [
     name: 'Depósito A',
     location: 'Alicia Moreau de Justo 1189',
     productList: products,
-    capacity: 300,
+    capacity: 165,
   },
   {
     id: 2,
@@ -73,6 +73,7 @@ const WarehousePage = () => {
             alignItems: 'center',
             justifyContent: 'space-between',
             padding: 0,
+            marginBottom: 10,
           }}
         >
           <Typography variant="h3">Depósitos</Typography>
@@ -97,7 +98,7 @@ const WarehousePage = () => {
               flexDirection: 'row',
               aspectRatio: 25 / 3,
               minHeight: 'auto',
-              backgroundColor: Colors.gray[200],
+              backgroundColor: Colors.primary[200],
               padding: 10,
               borderTopLeftRadius: 5,
               borderTopRightRadius: 5,
@@ -105,22 +106,28 @@ const WarehousePage = () => {
               borderBottomRightRadius: 0,
             }}
           >
-            <Typography variant="body" style={{ justifyContent: 'flex-start', width: '33%' }}>
-              Nombre
+            <Typography
+              variant="body"
+              font="roboto"
+              style={{ justifyContent: 'flex-start', width: '33%', color: Colors.primary[600] }}
+            >
+              NOMBRE
             </Typography>
             <Typography
               variant="body"
               justify="center"
-              style={{ justifyContent: 'center', width: '33%' }}
+              font="roboto"
+              style={{ justifyContent: 'center', width: '33%', color: Colors.primary[600] }}
             >
-              Estado
+              ESTADO
             </Typography>
             <Typography
               variant="body"
               justify="right"
-              style={{ justifyContent: 'flex-end', width: '33%' }}
+              font="roboto"
+              style={{ justifyContent: 'flex-end', width: '33%', color: Colors.primary[600] }}
             >
-              Capacidad
+              CAPACIDAD
             </Typography>
           </Card>
         ) : undefined}
