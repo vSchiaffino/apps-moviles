@@ -6,66 +6,110 @@ import * as Progress from 'react-native-progress'
 import Card from './Card'
 
 const WarehouseCard = ({
+  last,
   warehouseName,
   location,
   capacity,
   productsAmount,
 }: {
+  last: boolean
   warehouseName?: string
   location: string
   capacity: number
   productsAmount: number
 }) => {
-  const color = productsAmount / capacity >= 0.9 ? 'danger' : 'primary'
+  const color = 'gray'
   const colorPallete = Colors[color]
+  const full = productsAmount / capacity >= 1
+  const almostFull = productsAmount / capacity >= 0.9 && !full
   return (
-    <Card
-      pressable
-      style={{
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        aspectRatio: 25 / 4,
-        minHeight: 'auto',
-        backgroundColor: colorPallete[200],
-        padding: 10,
-      }}
-    >
-      <Typography
-        variant="h6"
-        color={color}
-        numberOfLines={1}
-        ellipsizeMode="tail"
-        style={{ width: '50%' }}
-      >
-        {warehouseName !== undefined ? warehouseName : 'Depósito de ' + location}
-      </Typography>
-
-      <View
+    <>
+      <Card
+        pressable
         style={{
-          width: '30%',
-          maxHeight: 'auto',
-          alignItems: 'flex-end',
+          flex: 1,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          aspectRatio: 25 / 4,
+          minHeight: 'auto',
+          backgroundColor: colorPallete[100],
+          padding: 10,
+          borderTopLeftRadius: 0,
+          borderTopRightRadius: 0,
+          borderBottomLeftRadius: !last ? 0 : 5,
+          borderBottomRightRadius: !last ? 0 : 5,
+          borderTopWidth: 0.5,
+          borderColor: Colors.gray[400],
         }}
       >
-        <Typography variant="body" color={color} justify="right">
-          {productsAmount}
-          <Typography variant="mini" color={color}>
-            {' /'}
-            {capacity}
-          </Typography>
+        <Typography
+          variant="body"
+          color={color}
+          numberOfLines={1}
+          ellipsizeMode="tail"
+          style={{ width: '33%', alignSelf: 'center' }}
+        >
+          {warehouseName !== undefined ? warehouseName : 'Depósito de ' + location}
         </Typography>
 
-        <Progress.Bar
-          progress={productsAmount / capacity}
-          borderColor={colorPallete[500]}
-          unfilledColor={colorPallete[300]}
-          color={colorPallete[500]}
-          width={null}
-          style={{ width: '100%' }}
-        />
-      </View>
-    </Card>
+        <View style={{ width: '33%', alignItems: 'center', justifyContent: 'center' }}>
+          <Typography
+            variant="mini"
+            justify="center"
+            style={{
+              backgroundColor: full
+                ? Colors.danger[100]
+                : almostFull
+                  ? 'rgba(255,206,27,0.3)'
+                  : 'rgba(0,255,0,0.15)',
+              paddingLeft: 10,
+              paddingRight: 10,
+              borderRadius: 16,
+              width: 45,
+              color: full ? Colors.danger[600] : almostFull ? 'rgba(255,92,0,0.6)' : 'darkgreen',
+            }}
+          >
+            {full ? 'FULL' : almostFull ? 'AF' : 'OK'}
+          </Typography>
+        </View>
+
+        <View
+          style={{
+            width: '33%',
+            maxHeight: 'auto',
+            alignItems: 'flex-end',
+          }}
+        >
+          <Typography
+            variant="body"
+            style={{
+              color: full ? Colors.danger[600] : almostFull ? 'rgba(255,92,0,0.6)' : 'darkgreen',
+            }}
+          >
+            {productsAmount}
+            <Typography
+              variant="mini"
+              style={{
+                color: full ? Colors.danger[600] : almostFull ? 'rgba(255,92,0,0.6)' : 'darkgreen',
+              }}
+            >
+              {'/'}
+              {capacity}
+            </Typography>
+          </Typography>
+
+          {/* <Progress.Bar
+            progress={productsAmount / capacity}
+            borderColor={colorPallete[500]}
+            unfilledColor={colorPallete[300]}
+            color={colorPallete[500]}
+            width={null}
+            style={{ width: '100%' }}
+          /> */}
+        </View>
+      </Card>
+    </>
   )
 }
 
