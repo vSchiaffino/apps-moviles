@@ -95,10 +95,9 @@ const WarehousePage = () => {
               flex: 1,
               alignItems: 'center',
               flexDirection: 'row',
-              justifyContent: 'space-between',
               aspectRatio: 25 / 3,
               minHeight: 'auto',
-              backgroundColor: Colors.gray[300],
+              backgroundColor: Colors.gray[200],
               padding: 10,
               borderTopLeftRadius: 5,
               borderTopRightRadius: 5,
@@ -106,11 +105,23 @@ const WarehousePage = () => {
               borderBottomRightRadius: 0,
             }}
           >
-            <Typography variant="body" style={{}}>
+            <Typography variant="body" style={{ justifyContent: 'flex-start', width: '33%' }}>
               Nombre
             </Typography>
-            <Typography variant="body">Estado</Typography>
-            <Typography variant="body">Capacidad</Typography>
+            <Typography
+              variant="body"
+              justify="center"
+              style={{ justifyContent: 'center', width: '33%' }}
+            >
+              Estado
+            </Typography>
+            <Typography
+              variant="body"
+              justify="right"
+              style={{ justifyContent: 'flex-end', width: '33%' }}
+            >
+              Capacidad
+            </Typography>
           </Card>
         ) : undefined}
         {warehouses.map(({ id, name, location, productList, capacity }, index) => {
@@ -127,7 +138,6 @@ const WarehousePage = () => {
           ) : (
             <WarehouseCardList
               key={id}
-              first={index === 0}
               last={index === warehouses.length - 1}
               warehouseName={name}
               location={location}
