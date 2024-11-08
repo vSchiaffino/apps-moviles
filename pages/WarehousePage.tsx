@@ -6,6 +6,8 @@ import Typography from '@/components/Typography'
 import WarehouseCard from '@/components/WarehouseCard'
 import { Ionicons } from '@expo/vector-icons'
 import WarehouseCardList from '@/components/WarehouseCardList'
+import Card from '@/components/Card'
+import { Colors } from '@/constants/Colors'
 
 export interface Warehouse {
   id: number
@@ -29,14 +31,14 @@ const warehouses: Warehouse[] = [
     name: 'Depósito A',
     location: 'Alicia Moreau de Justo 1189',
     productList: products,
-    capacity: 150,
+    capacity: 300,
   },
   {
     id: 2,
     name: 'Depósito B',
     location: 'd',
     productList: products,
-    capacity: 300,
+    capacity: 150,
   },
   {
     id: 3,
@@ -63,7 +65,7 @@ const WarehousePage = () => {
 
   return (
     <ScrollView>
-      <Container style={{ gap: 10, alignItems: 'center', height: '90%' }}>
+      <Container style={{ gap: view ? 10 : 0, alignItems: 'center', height: '90%' }}>
         <Container
           style={{
             height: 'auto',
@@ -87,7 +89,31 @@ const WarehousePage = () => {
             )}
           </TouchableHighlight>
         </Container>
-        {warehouses.map(({ id, name, location, productList, capacity }) => {
+        {!view ? (
+          <Card
+            style={{
+              flex: 1,
+              alignItems: 'center',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              aspectRatio: 25 / 3,
+              minHeight: 'auto',
+              backgroundColor: Colors.gray[300],
+              padding: 10,
+              borderTopLeftRadius: 5,
+              borderTopRightRadius: 5,
+              borderBottomLeftRadius: 0,
+              borderBottomRightRadius: 0,
+            }}
+          >
+            <Typography variant="body" style={{}}>
+              Nombre
+            </Typography>
+            <Typography variant="body">Estado</Typography>
+            <Typography variant="body">Capacidad</Typography>
+          </Card>
+        ) : undefined}
+        {warehouses.map(({ id, name, location, productList, capacity }, index) => {
           let productsAmount = 0
           const res = productList?.forEach((p) => (productsAmount += p.stock))
           return view ? (
@@ -101,6 +127,8 @@ const WarehousePage = () => {
           ) : (
             <WarehouseCardList
               key={id}
+              first={index === 0}
+              last={index === warehouses.length - 1}
               warehouseName={name}
               location={location}
               capacity={capacity}
