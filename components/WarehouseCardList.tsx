@@ -61,13 +61,13 @@ const WarehouseCard = ({
               backgroundColor: full
                 ? Colors.danger[100]
                 : almostFull
-                  ? 'rgba(255,206,27,0.3)'
+                  ? Colors.yellow[100]
                   : 'rgba(0,255,0,0.15)',
               paddingLeft: 10,
               paddingRight: 10,
               borderRadius: 16,
               width: 45,
-              color: full ? Colors.danger[600] : almostFull ? 'rgba(255,92,0,0.6)' : 'darkgreen',
+              color: full ? Colors.danger[600] : almostFull ? Colors.yellow[600] : 'darkgreen',
             }}
           >
             {full ? 'FULL' : almostFull ? 'AF' : 'OK'}
@@ -84,14 +84,14 @@ const WarehouseCard = ({
           <Typography
             variant="body"
             style={{
-              color: full ? Colors.danger[600] : almostFull ? 'rgba(255,92,0,0.6)' : 'darkgreen',
+              color: full ? Colors.danger[600] : almostFull ? Colors.yellow[600] : 'darkgreen',
             }}
           >
             {productsAmount}
             <Typography
               variant="mini"
               style={{
-                color: full ? Colors.danger[600] : almostFull ? 'rgba(255,92,0,0.6)' : 'darkgreen',
+                color: full ? Colors.danger[600] : almostFull ? Colors.yellow[600] : 'darkgreen',
               }}
             >
               {'/'}
