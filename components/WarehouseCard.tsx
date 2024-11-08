@@ -17,7 +17,9 @@ const WarehouseCard = ({
   capacity: number
   productsAmount: number
 }) => {
-  const color = productsAmount / capacity >= 0.9 ? 'danger' : 'primary'
+  const full = productsAmount / capacity >= 1
+  const almostFull = productsAmount / capacity >= 0.9 && !full
+  const color = full ? 'danger' : almostFull ? 'yellow' : 'primary'
   const colorPallete = Colors[color]
 
   return (
@@ -28,7 +30,7 @@ const WarehouseCard = ({
         aspectRatio: 4 / 3,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: colorPallete[200],
+        backgroundColor: Colors.gray[200],
         gap: 5,
       }}
     >
