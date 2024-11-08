@@ -14,7 +14,7 @@ type Variants =
   | 'bold'
   | 'bolder'
   | 'mini'
-type Colors = 'dark' | 'light' | 'primary' | 'danger' | 'gray'
+type Colors = 'dark' | 'light' | 'primary' | 'danger' | 'gray' | 'yellow'
 type Fonts = 'roboto' | 'poppins'
 
 export interface TypographyProps extends TextProps {
@@ -68,6 +68,9 @@ const styles = StyleSheet.create({
   },
   gray: {
     color: Colors.gray[600],
+  },
+  yellow: {
+    color: Colors.yellow[600],
   },
   bold: {
     fontWeight: 600,
