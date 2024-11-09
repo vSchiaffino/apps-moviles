@@ -8,82 +8,49 @@ import WarehouseTable from './WarehouseTable/WarehouseTable'
 import WarehouseCard from '@/components/WarehouseCard'
 import { Ionicons } from '@expo/vector-icons'
 import AddButton from '@/components/AddButton'
+import { useWarehouses } from '@/hooks/useWarehouses'
 
 const WarehousePage = () => {
+  const { warehouses } = useWarehouses()
   const [cardList, setCardList] = useState(false)
   function toggleView() {
     setCardList((prev) => !prev)
   }
-  const warehouses = [
-    {
-      id: 1,
-      name: 'Depósito A',
-      location: 'Alicia Moreau de Justo 1189',
-      stock: 160,
-      capacity: 165,
-    },
-    {
-      id: 2,
-      name: 'Depósito B',
-      location: 'Alicia Moreau de Justo 1189',
-      stock: 0,
-      capacity: 165,
-    },
-    {
-      id: 3,
-      name: 'Depósito C',
-      location: 'Alicia Moreau de Justo 1189',
-      stock: 165,
-      capacity: 165,
-    },
-    {
-      id: 4,
-      name: 'Depósito D',
-      location: 'Alicia Moreau de Justo 1189',
-      stock: 20,
-      capacity: 165,
-    },
-    {
-      id: 5,
-      name: 'Depósito E',
-      location: 'Alicia Moreau de Justo 1189',
-      stock: 10,
-      capacity: 165,
-    },
-  ]
 
   return (
-    <Container>
-      <ScrollView style={{ backgroundColor: Colors.gray[100], marginTop: Spacing.rowGap }}>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <Typography variant="h4" style={{ marginBottom: Spacing.rowGap }}>
-            Depositos
-          </Typography>
-          <TouchableHighlight
-            underlayColor={'rgba(1,1,1,0.05)'}
-            style={{ borderRadius: 999, padding: 10 }}
-            onPress={() => toggleView()}
-            hitSlop={20}
-          >
-            {cardList ? (
-              <Ionicons name="list-outline" size={24} color="grey" />
-            ) : (
-              <Ionicons name="grid-outline" size={24} color="grey" />
-            )}
-          </TouchableHighlight>
-          <AddButton onPress={() => console.log("TODO")}/>
-        </View>
-        {cardList ? (
-          <View style={{ flexDirection: 'column', rowGap: 20 }}>
-            {warehouses.map((warehouse) => (
-              <WarehouseCard item={warehouse} key={warehouse.id} />
-            ))}
+    warehouses && (
+      <Container>
+        <ScrollView style={{ backgroundColor: Colors.gray[100], marginTop: Spacing.rowGap }}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            <Typography variant="h4" style={{ marginBottom: Spacing.rowGap }}>
+              Depositos
+            </Typography>
+            <TouchableHighlight
+              underlayColor={'rgba(1,1,1,0.05)'}
+              style={{ borderRadius: 999, padding: 10 }}
+              onPress={() => toggleView()}
+              hitSlop={20}
+            >
+              {cardList ? (
+                <Ionicons name="list-outline" size={24} color="grey" />
+              ) : (
+                <Ionicons name="grid-outline" size={24} color="grey" />
+              )}
+            </TouchableHighlight>
+            <AddButton onPress={() => console.log('TODO')} />
           </View>
-        ) : (
-          <WarehouseTable items={warehouses} />
-        )}
-      </ScrollView>
-    </Container>
+          {cardList ? (
+            <View style={{ flexDirection: 'column', rowGap: 20 }}>
+              {warehouses.map((warehouse) => (
+                <WarehouseCard item={warehouse} key={warehouse.id} />
+              ))}
+            </View>
+          ) : (
+            <WarehouseTable items={warehouses} />
+          )}
+        </ScrollView>
+      </Container>
+    )
   )
 }
 
