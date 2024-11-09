@@ -1,5 +1,5 @@
 import { Controller, RegisterOptions, useForm, UseFormProps } from 'react-hook-form'
-import OutlinedInput from './OutlinedInput'
+import OutlinedInput, { OutlinedInputProps } from './OutlinedInput'
 import StyledButton from './StyledButton'
 import React from 'react'
 import { ApiValidationError } from '@/services/api.service'
@@ -14,7 +14,7 @@ export type ValidatedField = {
   disabled?: boolean
   rules: RegisterOptions<any>
   component?: 'input' | 'input-password'
-  inputProps?: TextInputProps
+  inputProps?: Partial<OutlinedInputProps>
 }
 
 export interface ValidatedFormProps {

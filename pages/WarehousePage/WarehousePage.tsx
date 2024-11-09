@@ -9,9 +9,11 @@ import WarehouseCard from '@/components/WarehouseCard'
 import { Ionicons } from '@expo/vector-icons'
 import AddButton from '@/components/AddButton'
 import { useWarehouses } from '@/hooks/useWarehouses'
+import WarehouseModal from './WarehouseModal'
 
 const WarehousePage = () => {
-  const { warehouses } = useWarehouses()
+  const { warehouses, create } = useWarehouses()
+  const [showModal, setShowModal] = useState(false)
   const [cardList, setCardList] = useState(false)
   function toggleView() {
     setCardList((prev) => !prev)
@@ -20,6 +22,14 @@ const WarehousePage = () => {
   return (
     warehouses && (
       <Container>
+        <WarehouseModal
+          show={showModal}
+          setShow={setShowModal}
+          onSubmit={async (form: any) => {
+            setShowModal(false)
+            create(form)
+          }}
+        />
         <ScrollView style={{ backgroundColor: Colors.gray[100], marginTop: Spacing.rowGap }}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
             <Typography variant="h4" style={{ marginBottom: Spacing.rowGap }}>
@@ -37,7 +47,7 @@ const WarehousePage = () => {
                 <Ionicons name="grid-outline" size={24} color="grey" />
               )}
             </TouchableHighlight>
-            <AddButton onPress={() => console.log('TODO')} />
+            <AddButton onPress={() => setShowModal(true)} />
           </View>
           {cardList ? (
             <View style={{ flexDirection: 'column', rowGap: 20 }}>

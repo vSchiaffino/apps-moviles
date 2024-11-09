@@ -1,8 +1,10 @@
-import { useEffect } from 'react'
 import { useQuery } from 'react-query'
 
 export function useWarehouses() {
-  const create = async () => {}
+  const { data: warehouses, refetch, ...restQuery } = useQuery('warehouses', () => fetchProducts())
+  const create = async (warehouse: any) => {
+    // TODO: add real logic to create a warehouse
+  }
   const fetchProducts = async () => {
     return [
       {
@@ -42,7 +44,6 @@ export function useWarehouses() {
       },
     ]
   }
-  const { data, ...restQuery } = useQuery('warehouses', () => fetchProducts())
 
-  return { warehouses: data, create, ...restQuery }
+  return { warehouses, create, ...restQuery }
 }
