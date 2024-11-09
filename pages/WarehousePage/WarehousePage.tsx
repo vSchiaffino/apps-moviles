@@ -7,6 +7,7 @@ import { Spacing } from '@/constants/Spacing'
 import WarehouseTable from './WarehouseTable/WarehouseTable'
 import WarehouseCard from '@/components/WarehouseCard'
 import { Ionicons } from '@expo/vector-icons'
+import AddButton from '@/components/AddButton'
 
 const WarehousePage = () => {
   const [cardList, setCardList] = useState(false)
@@ -70,6 +71,7 @@ const WarehousePage = () => {
               <Ionicons name="grid-outline" size={24} color="grey" />
             )}
           </TouchableHighlight>
+          <AddButton onPress={() => console.log("TODO")}/>
         </View>
         {cardList ? (
           <View style={{ flexDirection: 'column', rowGap: 20 }}>
