@@ -27,6 +27,7 @@ export const TableHeader: React.FC<{ columns: TableColumn[]; headerFont?: Fonts 
             align && (align === 'flex-start' ? 'left' : align === 'center' ? 'center' : 'right')
           }
           style={{
+            textTransform: 'uppercase',
             marginLeft: 1,
             alignContent: 'flex-end',
             width,
