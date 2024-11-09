@@ -43,13 +43,14 @@ const WarehousePage = () => {
           Depositos
         </Typography>
         <Table
+          headerFont="geist"
           columns={[
             { key: 'name', title: 'Nombre', width: '33.3%', align: 'flex-start' },
             {
               key: 'badge',
               title: 'Estado',
               width: '33.3%',
-              align: 'flex-start',
+              align: 'center',
               render: (row: any) => {
                 const full = row.stock / row.capacity >= 1
                 const almostFull = row.stock / row.capacity >= 0.9 && !full
@@ -84,8 +85,8 @@ const WarehousePage = () => {
               key: 'stock',
               title: 'Capacidad',
               width: '33.3%',
-              align: 'flex-start',
-              render: ({ stock, capacity, state }: any) => {
+              align: 'flex-end',
+              render: ({ stock, capacity, state, row }: any) => {
                 const colorSchemeByState = {
                   full: Colors.danger,
                   almostFull: Colors.yellow,
@@ -94,9 +95,9 @@ const WarehousePage = () => {
                 const colorScheme = colorSchemeByState[state as 'full' | 'almostFull' | 'ok']
                 const color = colorScheme[600]
                 return (
-                  <Typography variant="body" style={{ color }} justify="center">
+                  <Typography key={row} variant="body" style={{ color }} justify="center">
                     {stock}
-                    <Typography variant="mini" style={{ color }}>
+                    <Typography key={row} variant="mini" style={{ color }}>
                       {'/'}
                       {capacity}
                     </Typography>
