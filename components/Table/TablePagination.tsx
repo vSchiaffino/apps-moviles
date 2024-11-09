@@ -3,6 +3,7 @@ import { View } from 'react-native'
 import OutlinedSelect from '../OutlinedSelect/OutlinedSelect'
 import Typography from '../Typography'
 import { Ionicons } from '@expo/vector-icons'
+import { Colors } from '@/constants/Colors'
 
 export interface TablePaginationProps {
   pagination: {
@@ -22,7 +23,10 @@ export const TablePagination: React.FC<TablePaginationProps> = ({
   onChangePage,
   entityName,
 }) => {
-  const { perPage } = pagination
+  const { perPage, page, actual, total } = pagination
+  const start = (page - 1) * perPage + 1
+  const end = start + actual - 1
+  const lastPage = Math.ceil(total / perPage)
   return (
     <View
       style={{
@@ -36,13 +40,30 @@ export const TablePagination: React.FC<TablePaginationProps> = ({
       </View>
       <View style={{ alignItems: 'center', flexDirection: 'row' }}>
         <Typography variant="body" style={{ marginRight: 10 }}>
-          1-10
+          {start}-{end} {entityName} de {pagination.total}
         </Typography>
-        <Typography variant="body">{entityName}</Typography>
       </View>
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 15 }}>
-        <Ionicons name="chevron-back-outline" size={30} />
-        <Ionicons name="chevron-forward-outline" size={30} />
+        <Ionicons
+          onPress={() => {
+            if (page === 1) return
+            onChangePage(pagination.page - 1)
+          }}
+          name="chevron-back-outline"
+          color={page === 1 ? Colors.gray[400] : Colors.gray[800]}
+          size={30}
+          style={{ backgroundColor: Colors.gray[200], padding: 5, borderRadius: 999999 }}
+        />
+        <Ionicons
+          onPress={() => {
+            if (page === lastPage) return
+            onChangePage(page + 1)
+          }}
+          name="chevron-forward-outline"
+          color={page === lastPage ? Colors.gray[400] : Colors.gray[800]}
+          size={30}
+          style={{ backgroundColor: Colors.gray[200], padding: 5, borderRadius: 999999 }}
+        />
       </View>
     </View>
   )
