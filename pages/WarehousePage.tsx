@@ -1,59 +1,32 @@
-import { ScrollView, TouchableHighlight } from 'react-native'
+import { ScrollView } from 'react-native'
 import React, { useState } from 'react'
-import { Product } from './TransferPage/WarehouseTransferPage'
 import Container from '@/components/Container'
 import Typography from '@/components/Typography'
-import WarehouseCard from '@/components/WarehouseCard'
-import { Ionicons } from '@expo/vector-icons'
-import WarehouseCardList from '@/components/WarehouseCardList'
-import Card from '@/components/Card'
 import { Colors } from '@/constants/Colors'
+import Table from '@/components/Table/Table'
+import { Spacing } from '@/constants/Spacing'
 
-export interface Warehouse {
-  id: number
-  name?: string
-  location: string
-  productList?: Product[]
-  capacity: number
-}
-
-const products: Product[] = [
-  { name: 'Product 1', stock: 10 },
-  { name: 'Product 2', stock: 20 },
-  { name: 'Product 3', stock: 30 },
-  { name: 'Product 4', stock: 40 },
-  { name: 'Product 5', stock: 50 },
-]
-
-const warehouses: Warehouse[] = [
+const warehouses = [
   {
     id: 1,
     name: 'Depósito A',
     location: 'Alicia Moreau de Justo 1189',
-    productList: products,
+    stock: 160,
     capacity: 165,
   },
   {
     id: 2,
     name: 'Depósito B',
-    location: 'd',
-    productList: products,
-    capacity: 150,
+    location: 'Alicia Moreau de Justo 1189',
+    stock: 0,
+    capacity: 165,
   },
   {
     id: 3,
-    location: 'd',
-    capacity: 300,
-  },
-  {
-    id: 4,
-    location: 'd',
-    capacity: 300,
-  },
-  {
-    id: 5,
+    name: 'Depósito C',
     location: 'Alicia Moreau de Justo 1189',
-    capacity: 300,
+    stock: 165,
+    capacity: 165,
   },
 ]
 
@@ -64,97 +37,86 @@ const WarehousePage = () => {
   }
 
   return (
-    <ScrollView>
-      <Container style={{ gap: view ? 10 : 0, alignItems: 'center', height: '90%' }}>
-        <Container
-          style={{
-            height: 'auto',
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            padding: 0,
-            marginBottom: 10,
-          }}
-        >
-          <Typography variant="h3">Depósitos</Typography>
-          <TouchableHighlight
-            underlayColor={'rgba(1,1,1,0.05)'}
-            style={{ borderRadius: 999, padding: 10 }}
-            onPress={() => toggleView()}
-            hitSlop={20}
-          >
-            {view ? (
-              <Ionicons name="grid-outline" size={24} color="grey" />
-            ) : (
-              <Ionicons name="list-outline" size={24} color="grey" />
-            )}
-          </TouchableHighlight>
-        </Container>
-        {!view ? (
-          <Card
-            style={{
-              flex: 1,
-              alignItems: 'center',
-              flexDirection: 'row',
-              aspectRatio: 25 / 3,
-              minHeight: 'auto',
-              backgroundColor: Colors.primary[200],
-              padding: 10,
-              borderTopLeftRadius: 5,
-              borderTopRightRadius: 5,
-              borderBottomLeftRadius: 0,
-              borderBottomRightRadius: 0,
-            }}
-          >
-            <Typography
-              variant="body"
-              font="roboto"
-              style={{ justifyContent: 'flex-start', width: '33%', color: Colors.primary[600] }}
-            >
-              NOMBRE
-            </Typography>
-            <Typography
-              variant="body"
-              justify="center"
-              font="roboto"
-              style={{ justifyContent: 'center', width: '33%', color: Colors.primary[600] }}
-            >
-              ESTADO
-            </Typography>
-            <Typography
-              variant="body"
-              justify="right"
-              font="roboto"
-              style={{ justifyContent: 'flex-end', width: '33%', color: Colors.primary[600] }}
-            >
-              CAPACIDAD
-            </Typography>
-          </Card>
-        ) : undefined}
-        {warehouses.map(({ id, name, location, productList, capacity }, index) => {
-          let productsAmount = 0
-          const res = productList?.forEach((p) => (productsAmount += p.stock))
-          return view ? (
-            <WarehouseCard
-              key={id}
-              warehouseName={name}
-              location={location}
-              capacity={capacity}
-              productsAmount={productsAmount}
-            />
-          ) : (
-            <WarehouseCardList
-              key={id}
-              last={index === warehouses.length - 1}
-              warehouseName={name}
-              location={location}
-              capacity={capacity}
-              productsAmount={productsAmount}
-            />
-          )
-        })}
-      </Container>
-    </ScrollView>
+    <Container>
+      <ScrollView style={{ backgroundColor: Colors.gray[100], marginTop: Spacing.rowGap }}>
+        <Typography variant="h4" style={{ marginBottom: Spacing.rowGap }}>
+          Depositos
+        </Typography>
+        <Table
+          columns={[
+            { key: 'name', title: 'Nombre', width: '33.3%', align: 'flex-start' },
+            {
+              key: 'badge',
+              title: 'Estado',
+              width: '33.3%',
+              align: 'flex-start',
+              render: (row: any) => {
+                const full = row.stock / row.capacity >= 1
+                const almostFull = row.stock / row.capacity >= 0.9 && !full
+                return (
+                  <Typography
+                    key={row.id}
+                    variant="mini"
+                    justify="center"
+                    style={{
+                      backgroundColor: full
+                        ? Colors.danger[100]
+                        : almostFull
+                          ? Colors.yellow[100]
+                          : Colors.primary[200],
+                      paddingLeft: 10,
+                      paddingRight: 10,
+                      borderRadius: 16,
+                      width: 45,
+                      color: full
+                        ? Colors.danger[600]
+                        : almostFull
+                          ? Colors.yellow[600]
+                          : Colors.primary[600],
+                    }}
+                  >
+                    {full ? 'FULL' : almostFull ? 'AF' : 'OK'}
+                  </Typography>
+                )
+              },
+            },
+            {
+              key: 'stock',
+              title: 'Capacidad',
+              width: '33.3%',
+              align: 'flex-start',
+              render: ({ stock, capacity, state }: any) => {
+                const colorSchemeByState = {
+                  full: Colors.danger,
+                  almostFull: Colors.yellow,
+                  ok: Colors.gray,
+                }
+                const colorScheme = colorSchemeByState[state as 'full' | 'almostFull' | 'ok']
+                const color = colorScheme[600]
+                return (
+                  <Typography variant="body" style={{ color }} justify="center">
+                    {stock}
+                    <Typography variant="mini" style={{ color }}>
+                      {'/'}
+                      {capacity}
+                    </Typography>
+                  </Typography>
+                )
+              },
+            },
+          ]}
+          rows={warehouses.map((warehouse) => ({
+            ...warehouse,
+            state:
+              warehouse.stock / warehouse.capacity >= 1
+                ? 'full'
+                : warehouse.stock / warehouse.capacity >= 0.9
+                  ? 'almostFull'
+                  : 'ok',
+          }))}
+        />
+      </ScrollView>
+    </Container>
   )
 }
 
