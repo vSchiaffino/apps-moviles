@@ -34,13 +34,14 @@ export const TableBody: React.FC<TableBodyProps> = ({ columns, rows }) => {
     >
       {columns.map((column) => (
         <View
+          key={column.key}
           style={{
             width: column.width,
             justifyContent: 'center',
             alignItems: column.align,
           }}
         >
-          <TableItem column={column} row={row} key={column.key} />
+          <TableItem column={column} row={row} />
         </View>
       ))}
     </Card>

@@ -6,19 +6,9 @@ import * as Progress from 'react-native-progress'
 import Card from './Card'
 import { FontAwesome6 } from '@expo/vector-icons'
 
-const WarehouseCard = ({
-  warehouseName,
-  location,
-  capacity,
-  productsAmount,
-}: {
-  warehouseName?: string
-  location: string
-  capacity: number
-  productsAmount: number
-}) => {
-  const full = productsAmount / capacity >= 1
-  const almostFull = productsAmount / capacity >= 0.9 && !full
+const WarehouseCard: React.FC<{ item: any }> = ({ item: { name, stock, capacity } }) => {
+  const full = stock / capacity >= 1
+  const almostFull = stock / capacity >= 0.9 && !full
   const color = full ? 'danger' : almostFull ? 'yellow' : 'primary'
   const colorPallete = Colors[color]
 
@@ -30,7 +20,7 @@ const WarehouseCard = ({
         aspectRatio: 4 / 3,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: Colors.gray[200],
+        backgroundColor: colorPallete[200],
         gap: 5,
       }}
     >
@@ -52,12 +42,12 @@ const WarehouseCard = ({
         justify="center"
         style={{ width: '70%' }}
       >
-        {warehouseName !== undefined ? warehouseName : 'Depósito de ' + location}
+        {name}
       </Typography>
 
       <View style={{ width: '50%', alignItems: 'center', gap: 5, marginTop: 10 }}>
         <Typography variant="h6" color={color}>
-          {productsAmount}
+          {stock}
           <Typography variant="mini" color={color}>
             {' /'}
             {capacity}
@@ -65,7 +55,7 @@ const WarehouseCard = ({
         </Typography>
 
         <Progress.Bar
-          progress={productsAmount / capacity}
+          progress={stock / capacity}
           borderColor={colorPallete[500]}
           unfilledColor={colorPallete[300]}
           color={colorPallete[500]}
