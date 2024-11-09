@@ -96,7 +96,17 @@ const WarehouseModal: React.FC<WarehouseModalProps> = ({ show, setShow, onSubmit
           />
         </View>
         <View style={{ flexDirection: 'column', gap: 20, padding: 20 }}>
-          <ValidatedForm fields={fields} onSubmit={onSubmit} submitLabel="Crear" />
+          <ValidatedForm
+            fields={fields}
+            onSubmit={onSubmit}
+            submitLabel="Crear"
+            formProps={{
+              defaultValues: {
+                name: '',
+                capacity: '',
+              },
+            }}
+          />
         </View>
       </Card>
     </ReactNativeModal>
