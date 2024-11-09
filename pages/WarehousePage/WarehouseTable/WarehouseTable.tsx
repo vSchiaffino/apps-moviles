@@ -4,13 +4,14 @@ import BadgeColumn from './BadgeColumn'
 import CapacityColumn from './CapacityColumn'
 
 const WarehouseTable: React.FC<{ items: any[] }> = ({ items }) => {
+  const [pagination, setPagination] = React.useState({ page: 1, perPage: 5, total: items.length })
   const [sortState, setSortState] = React.useState<{ column: string; direction: 'ASC' | 'DESC' }>({
     column: 'name',
     direction: 'ASC',
   })
   return (
     <Table
-      sortState={sortState}
+      sort={sortState}
       onChangeSort={(column, direction) => setSortState({ column, direction })}
       headerFont="geist"
       columns={[
@@ -30,6 +31,9 @@ const WarehouseTable: React.FC<{ items: any[] }> = ({ items }) => {
           component: CapacityColumn,
         },
       ]}
+      pagination={pagination}
+      onChangePage={(page) => setPagination({ ...pagination, page })}
+      onChangePerPage={(perPage) => setPagination({ ...pagination, perPage })}
       rows={items.map((warehouse) => ({
         ...warehouse,
         state:

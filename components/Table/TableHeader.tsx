@@ -8,14 +8,14 @@ import { Ionicons } from '@expo/vector-icons'
 export interface TableHeaderProps {
   columns: TableColumn[]
   headerFont?: Fonts
-  sortState?: { column: string; direction: 'ASC' | 'DESC' }
+  sort?: { column: string; direction: 'ASC' | 'DESC' }
   onChangeSort?: (column: string, direction: 'ASC' | 'DESC') => void
 }
 
 export const TableHeader: React.FC<TableHeaderProps> = ({
   columns,
   headerFont,
-  sortState,
+  sort,
   onChangeSort,
 }) => {
   return (
@@ -33,9 +33,9 @@ export const TableHeader: React.FC<TableHeaderProps> = ({
         <Pressable
           style={{ width, flexDirection: 'row', gap: 5, alignItems: 'center' }}
           onPress={() => {
-            if (onChangeSort && sortState) {
-              if (sortState.column === key) {
-                onChangeSort(key, sortState.direction === 'ASC' ? 'DESC' : 'ASC')
+            if (onChangeSort && sort) {
+              if (sort.column === key) {
+                onChangeSort(key, sort.direction === 'ASC' ? 'DESC' : 'ASC')
               } else {
                 onChangeSort(key, 'ASC')
               }
@@ -58,9 +58,9 @@ export const TableHeader: React.FC<TableHeaderProps> = ({
           >
             {title}
           </Typography>
-          {sortState && sortState.column === key && (
+          {sort && sort.column === key && (
             <Ionicons
-              name={sortState.direction === 'ASC' ? 'arrow-down-outline' : 'arrow-up-outline'}
+              name={sort.direction === 'ASC' ? 'arrow-down-outline' : 'arrow-up-outline'}
               size={19}
               color={Colors.primary[600]}
             />

@@ -35,6 +35,20 @@ const WarehousePage = () => {
       stock: 165,
       capacity: 165,
     },
+    {
+      id: 4,
+      name: 'Depósito D',
+      location: 'Alicia Moreau de Justo 1189',
+      stock: 20,
+      capacity: 165,
+    },
+    {
+      id: 5,
+      name: 'Depósito E',
+      location: 'Alicia Moreau de Justo 1189',
+      stock: 10,
+      capacity: 165,
+    },
   ]
 
   return (
