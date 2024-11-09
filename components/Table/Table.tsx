@@ -19,12 +19,19 @@ export interface TableProps {
   columns: TableColumn[]
   rows: any[]
   headerFont?: Fonts
+  sortState?: { column: string; direction: 'ASC' | 'DESC' }
+  onChangeSort?: (column: string, direction: 'ASC' | 'DESC') => void
 }
 
-const Table: React.FC<TableProps> = ({ columns, rows, headerFont }) => {
+const Table: React.FC<TableProps> = ({ columns, rows, headerFont, sortState, onChangeSort }) => {
   return (
     <View style={{ borderColor: Colors.gray[200], borderWidth: 1, borderRadius: 16 }}>
-      <TableHeader columns={columns} headerFont={headerFont} />
+      <TableHeader
+        columns={columns}
+        headerFont={headerFont}
+        sortState={sortState}
+        onChangeSort={onChangeSort}
+      />
       <TableBody columns={columns} rows={rows} />
     </View>
   )

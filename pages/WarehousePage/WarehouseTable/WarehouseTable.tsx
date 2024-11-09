@@ -4,8 +4,14 @@ import BadgeColumn from './BadgeColumn'
 import CapacityColumn from './CapacityColumn'
 
 const WarehouseTable: React.FC<{ items: any[] }> = ({ items }) => {
+  const [sortState, setSortState] = React.useState<{ column: string; direction: 'ASC' | 'DESC' }>({
+    column: 'name',
+    direction: 'ASC',
+  })
   return (
     <Table
+      sortState={sortState}
+      onChangeSort={(column, direction) => setSortState({ column, direction })}
       headerFont="geist"
       columns={[
         { key: 'name', title: 'Nombre', width: '33.3%', align: 'flex-start' },
