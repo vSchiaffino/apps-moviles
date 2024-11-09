@@ -16,7 +16,7 @@ type Variants =
   | 'bolder'
   | 'mini'
 type Colors = 'dark' | 'light' | 'primary' | 'danger' | 'gray' | 'yellow'
-type Fonts = 'roboto' | 'poppins' | 'geist'
+export type Fonts = 'roboto' | 'poppins' | 'geist'
 
 export interface TypographyProps extends TextProps {
   variant: Variants

@@ -2,9 +2,12 @@ import React from 'react'
 import { View } from 'react-native'
 import { TableColumn } from './Table'
 import { Colors } from '@/constants/Colors'
-import Typography from '../Typography'
+import Typography, { Fonts } from '../Typography'
 
-export const TableHeader: React.FC<{ columns: TableColumn[] }> = ({ columns }) => {
+export const TableHeader: React.FC<{ columns: TableColumn[]; headerFont?: Fonts }> = ({
+  columns,
+  headerFont,
+}) => {
   return (
     <View
       style={{
@@ -15,11 +18,11 @@ export const TableHeader: React.FC<{ columns: TableColumn[] }> = ({ columns }) =
         padding: 10,
       }}
     >
-      {columns.map(({ width, title, align }, index) => (
+      {columns.map(({ width, title, align, font }, index) => (
         <Typography
           key={index}
           variant="body"
-          font="roboto"
+          font={headerFont}
           justify={
             align && (align === 'flex-start' ? 'left' : align === 'center' ? 'center' : 'right')
           }

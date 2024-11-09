@@ -25,7 +25,7 @@ export const TableBody: React.FC<{ columns: TableColumn[]; rows: any[] }> = ({ c
         borderColor: Colors.gray[200],
       }}
     >
-      {columns.map(({ key, width, align, render }) => (
+      {columns.map(({ key, width, align, font, render }) => (
         <View
           style={{
             width,
@@ -40,6 +40,7 @@ export const TableBody: React.FC<{ columns: TableColumn[]; rows: any[] }> = ({ c
               justify={
                 align && (align === 'flex-start' ? 'left' : align === 'center' ? 'center' : 'right')
               }
+              font={font}
               key={key}
               variant="body"
               numberOfLines={1}
