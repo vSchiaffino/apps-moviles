@@ -1,11 +1,18 @@
 import React from 'react'
-import { View } from 'react-native'
 import { TableColumn } from './Table'
 import { Colors } from '@/constants/Colors'
-import Typography from '../Typography'
 import Card from '../Card'
+import TableItem from './TableItem'
+import { View } from 'react-native'
 
-export const TableBody: React.FC<{ columns: TableColumn[]; rows: any[] }> = ({ columns, rows }) => {
+export interface TableBodyProps {
+  columns: TableColumn[]
+  rows: any[]
+  component?: React.FC<{ row: any }>
+  render?: (row: any) => React.ReactNode
+}
+
+export const TableBody: React.FC<TableBodyProps> = ({ columns, rows }) => {
   const colorPallete = Colors['gray']
   return rows.map((row, index) => (
     <Card
@@ -25,40 +32,17 @@ export const TableBody: React.FC<{ columns: TableColumn[]; rows: any[] }> = ({ c
         borderColor: Colors.gray[200],
       }}
     >
-      {columns.map(({ key, width, align, font, render }) => (
+      {columns.map((column) => (
         <View
           style={{
-            width,
+            width: column.width,
             justifyContent: 'center',
-            alignItems: align,
+            alignItems: column.align,
           }}
         >
-          {render ? (
-            render(row)
-          ) : (
-            <Typography
-              justify={
-                align && (align === 'flex-start' ? 'left' : align === 'center' ? 'center' : 'right')
-              }
-              font={font}
-              key={key}
-              variant="body"
-              numberOfLines={1}
-              ellipsizeMode="tail"
-              style={{ width: '100%' }}
-            >
-              {row[key]}
-            </Typography>
-          )}
+          <TableItem column={column} row={row} key={column.key} />
         </View>
       ))}
     </Card>
   ))
-  // <WarehouseCardList
-  //   capacity={row.capacity}
-  //   location={row.location}
-  //   productsAmount={row.productsAmount}
-  //   warehouseName={row.warehouseName}
-  //   key={index}
-  // />
 }

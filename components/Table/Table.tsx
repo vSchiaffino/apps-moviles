@@ -11,6 +11,7 @@ export interface TableColumn {
   align?: 'flex-start' | 'center' | 'flex-end'
   font?: Fonts
   render?: (row: any) => React.ReactNode
+  component?: React.FC<{ row: any }>
   width: DimensionValue
 }
 
