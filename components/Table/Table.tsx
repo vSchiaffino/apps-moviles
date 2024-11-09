@@ -25,6 +25,7 @@ export interface TableProps {
   pagination: { page: number; perPage: number; total: number }
   onChangePage: (page: number) => void
   onChangePerPage: (perPage: number) => void
+  entityName?: string
 }
 
 const Table: React.FC<TableProps> = ({
@@ -36,6 +37,7 @@ const Table: React.FC<TableProps> = ({
   pagination,
   onChangePage,
   onChangePerPage,
+  entityName = 'items',
 }) => {
   return (
     <View>
@@ -56,6 +58,7 @@ const Table: React.FC<TableProps> = ({
         <TableBody columns={columns} rows={rows} />
       </View>
       <TablePagination
+        entityName={entityName}
         pagination={{
           ...pagination,
           actual: rows.length,

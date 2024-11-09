@@ -11,6 +11,7 @@ const WarehouseTable: React.FC<{ items: any[] }> = ({ items }) => {
   })
   return (
     <Table
+      entityName="Depósitos"
       sort={sortState}
       onChangeSort={(column, direction) => setSortState({ column, direction })}
       headerFont="geist"

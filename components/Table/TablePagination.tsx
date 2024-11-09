@@ -13,12 +13,14 @@ export interface TablePaginationProps {
   }
   onChangePage: (page: number) => void
   onChangePerPage: (perPage: number) => void
+  entityName: string
 }
 
 export const TablePagination: React.FC<TablePaginationProps> = ({
   pagination,
   onChangePerPage,
   onChangePage,
+  entityName,
 }) => {
   const { perPage } = pagination
   return (
@@ -36,7 +38,7 @@ export const TablePagination: React.FC<TablePaginationProps> = ({
         <Typography variant="body" style={{ marginRight: 10 }}>
           1-10
         </Typography>
-        <Typography variant="body">Depósitos</Typography>
+        <Typography variant="body">{entityName}</Typography>
       </View>
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 15 }}>
         <Ionicons name="chevron-back-outline" size={30} />
