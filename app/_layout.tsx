@@ -20,6 +20,7 @@ export default function RootLayout() {
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
     Poppins: require('../assets/fonts/Poppins-Regular.ttf'),
     Roboto: require('../assets/fonts/Roboto-Regular.ttf'),
+    Geist: require('../assets/fonts/GeistMono-Regular.ttf'),
   })
 
   useEffect(() => {

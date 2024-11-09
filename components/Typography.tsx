@@ -1,6 +1,7 @@
 import { StyleProp, StyleSheet, Text, TextProps, TextStyle } from 'react-native'
 import React from 'react'
 import { Colors } from '@/constants/Colors'
+import { GeistMono } from 'geist/font/mono'
 
 type Variants =
   | 'h1'
@@ -15,7 +16,7 @@ type Variants =
   | 'bolder'
   | 'mini'
 type Colors = 'dark' | 'light' | 'primary' | 'danger' | 'gray' | 'yellow'
-type Fonts = 'roboto' | 'poppins'
+type Fonts = 'roboto' | 'poppins' | 'geist'
 
 export interface TypographyProps extends TextProps {
   variant: Variants
@@ -53,6 +54,9 @@ const styles = StyleSheet.create({
   },
   poppins: {
     fontFamily: 'Poppins',
+  },
+  geist: {
+    fontFamily: 'Geist',
   },
   dark: {
     color: Colors.gray[900],
