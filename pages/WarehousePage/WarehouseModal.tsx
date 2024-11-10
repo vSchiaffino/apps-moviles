@@ -4,7 +4,8 @@ import ValidatedForm, { ValidatedField } from '@/components/ValidatedForm'
 import MutateEntityModal, { MutateEntityModalProps } from '@/components/MutateEntityModal'
 import { Spacing } from '@/constants/Spacing'
 
-export interface WarehouseModalProps extends MutateEntityModalProps {
+export interface WarehouseModalProps
+  extends Omit<MutateEntityModalProps, 'children' | 'entityName'> {
   onSubmit: (form: any) => Promise<void>
 }
 
@@ -40,7 +41,7 @@ const WarehouseModal: React.FC<WarehouseModalProps> = ({ onSubmit, ...rest }) =>
     },
   ]
   return (
-    <MutateEntityModal {...rest}>
+    <MutateEntityModal entityName="Depósito" {...rest}>
       <View style={{ flexDirection: 'column', gap: Spacing.rowGap, padding: 20 }}>
         <ValidatedForm
           fields={fields}

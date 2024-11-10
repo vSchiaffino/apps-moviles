@@ -23,6 +23,7 @@ const WarehousePage = () => {
     warehouses && (
       <Container>
         <WarehouseModal
+          isCreating={true}
           show={showModal}
           setShow={setShowModal}
           onSubmit={async (form: any) => {
