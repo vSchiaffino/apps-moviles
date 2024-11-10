@@ -35,7 +35,7 @@ const WarehouseTransferPage: React.FC = () => {
   }
 
   return (
-    <Container style={{ justifyContent: 'center', gap: 10 }}>
+    <Container pageHeader="Transferir" style={{ justifyContent: 'center', gap: 10 }}>
       <View style={styles.headerContainer}>
         <MaterialIcons name="inventory" size={24} color="#007bff" />
         <Typography variant="h4" style={styles.header}>

@@ -35,7 +35,7 @@ const ProfilePage = ({ user }: ProfilePageProps) => {
 
   return (
     <ScrollView>
-      <Container style={{ alignItems: 'center', height: 'auto', gap: 10 }}>
+      <Container pageHeader="Perfil" style={{ alignItems: 'center', height: 'auto', gap: 10 }}>
         <ChangeProfilePictureModal
           saveImage={saveImage}
           setUserPic={setUserPic}
