@@ -9,8 +9,19 @@ import React from 'react'
 import ProductModal from './ProductModal'
 import ProductTable from './ProductTable'
 import useProducts from '@/hooks/useProducts'
+import Pagination from '@/models/Pagination'
+import Sort from '@/models/Sort'
 
 const ProductsPage = () => {
+  const [pagination, setPagination] = React.useState<Pagination>({
+    page: 1,
+    limit: 5,
+  })
+  const [sort, setSort] = React.useState<Sort>({
+    field: 'name',
+    direction: 'ASC',
+  })
+  const { products, total } = useProducts(pagination, sort)
   const [showModal, setShowModal] = React.useState(false)
   const [editingProduct, setEditingProduct] = React.useState<any>(null)
   return (
@@ -45,6 +56,12 @@ const ProductsPage = () => {
           />
         </View>
         <ProductTable
+          pagination={pagination}
+          products={products}
+          setPagination={setPagination}
+          setSort={setSort}
+          sort={sort}
+          total={total}
           onClickRow={(row: any) => {
             setEditingProduct(row)
             setShowModal(true)

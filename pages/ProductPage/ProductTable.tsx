@@ -1,19 +1,17 @@
 import React from 'react'
 import Table from '@/components/Table/Table'
-import useProducts from '@/hooks/useProducts'
 import Pagination from '@/models/Pagination'
 import Sort from '@/models/Sort'
 
-const ProductTable: React.FC<{ onClickRow: (row: any) => void }> = ({ onClickRow }) => {
-  const [pagination, setPagination] = React.useState<Pagination>({
-    page: 1,
-    limit: 5,
-  })
-  const [sort, setSort] = React.useState<Sort>({
-    field: 'name',
-    direction: 'ASC',
-  })
-  const { products, total } = useProducts(pagination, sort)
+const ProductTable: React.FC<{
+  onClickRow: (row: any) => void
+  products: any[]
+  total: number
+  sort: Sort
+  setSort: (sort: Sort) => void
+  pagination: Pagination
+  setPagination: (pagination: Pagination) => void
+}> = ({ onClickRow, products, total, sort, setSort, pagination, setPagination }) => {
   return (
     products && (
       <Table
