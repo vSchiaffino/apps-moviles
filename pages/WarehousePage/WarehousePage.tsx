@@ -23,7 +23,7 @@ const WarehousePage = () => {
 
   return (
     warehouses && (
-      <Container>
+      <Container pageHeader="Depósitos">
         {showModal && (
           <WarehouseModal
             warehouse={editingWarehouse}
@@ -48,7 +48,6 @@ const WarehousePage = () => {
               marginBottom: Spacing.rowGap,
             }}
           >
-            <Typography variant="h4">Depósitos</Typography>
             <TouchableHighlight
               underlayColor={'rgba(1,1,1,0.05)'}
               style={{
