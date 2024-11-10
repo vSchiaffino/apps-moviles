@@ -1,17 +1,10 @@
 import React from 'react'
-import useUser from '@/hooks/useUser'
-import { Redirect } from 'expo-router'
+import { useAuthorizedUser } from '@/hooks/useUser'
 import ProfilePage from '@/pages/ProfilePage/ProfilePage'
 
 const profile = () => {
-  const { user } = useUser()
-  if (!user) return <Redirect href="/" />
-
-  return (
-    <ProfilePage
-      user={user}
-    />
-  )
+  const { user } = useAuthorizedUser()
+  return user && <ProfilePage user={user} />
 }
 
 export default profile

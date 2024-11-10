@@ -38,7 +38,13 @@ const Typography: React.FC<TypographyProps> = ({
 }) => {
   return (
     <Text
-      style={[{ textAlign: justify }, styles[font], styles[variant], styles[color], style]}
+      style={[
+        { textAlign: justify },
+        styles[font],
+        styles[variant],
+        styles[color],
+        style,
+      ]}
       {...rest}
     >
       {children}
