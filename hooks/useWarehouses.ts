@@ -1,49 +1,24 @@
+import Pagination from '@/models/Pagination'
+import Sort from '@/models/Sort'
+import warehouseService from '@/services/warehouse.service'
 import { useQuery } from 'react-query'
 
-export function useWarehouses() {
-  const { data: warehouses, refetch, ...restQuery } = useQuery('warehouses', () => fetchProducts())
-  const create = async (warehouse: any) => {
-    // TODO: add real logic to create a warehouse
-  }
-  const fetchProducts = async () => {
-    return [
-      {
-        id: 1,
-        name: 'Depósito A',
-        location: 'Alicia Moreau de Justo 1189',
-        stock: 160,
-        capacity: 165,
-      },
-      {
-        id: 2,
-        name: 'Depósito B',
-        location: 'Alicia Moreau de Justo 1189',
-        stock: 0,
-        capacity: 165,
-      },
-      {
-        id: 3,
-        name: 'Depósito C',
-        location: 'Alicia Moreau de Justo 1189',
-        stock: 165,
-        capacity: 165,
-      },
-      {
-        id: 4,
-        name: 'Depósito D',
-        location: 'Alicia Moreau de Justo 1189',
-        stock: 20,
-        capacity: 165,
-      },
-      {
-        id: 5,
-        name: 'Depósito E',
-        location: 'Alicia Moreau de Justo 1189',
-        stock: 10,
-        capacity: 165,
-      },
-    ]
-  }
+export function useWarehouses(pagination: Pagination, sort: Sort) {
+  const { data, refetch, ...restQuery } = useQuery(['warehouses', pagination, sort], () =>
+    warehouseService.findMany(pagination, sort),
+  )
 
-  return { warehouses, create, ...restQuery }
+  return {
+    warehouses: data?.data,
+    total: data?.total,
+    create: async (warehouse: any) => {
+      await warehouseService.create(warehouse)
+      refetch()
+    },
+    edit: async (id: number, warehouse: any) => {
+      await warehouseService.edit(id, warehouse)
+      refetch()
+    },
+    ...restQuery,
+  }
 }
