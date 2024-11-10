@@ -41,13 +41,14 @@ const WarehouseModal: React.FC<WarehouseModalProps> = ({ warehouse, onSubmit, ..
       },
     },
   ]
+  const isCreating = warehouse === null
   return (
-    <MutateEntityModal isCreating={warehouse === null} entityName="Depósito" {...rest}>
+    <MutateEntityModal isCreating={isCreating} entityName="Depósito" {...rest}>
       <View style={{ flexDirection: 'column', gap: Spacing.rowGap, padding: 20 }}>
         <ValidatedForm
           fields={fields}
           onSubmit={onSubmit}
-          submitLabel="Crear"
+          submitLabel={isCreating ? 'Crear' : 'Actualizar'}
           formProps={{
             defaultValues: {
               name: warehouse?.name || '',
