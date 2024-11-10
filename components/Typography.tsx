@@ -1,12 +1,24 @@
-import { StyleProp, StyleSheet, Text, TextStyle } from 'react-native'
+import { StyleProp, StyleSheet, Text, TextProps, TextStyle } from 'react-native'
 import React from 'react'
 import { Colors } from '@/constants/Colors'
+import { GeistMono } from 'geist/font/mono'
 
-type Variants = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'subtitle' | 'body' | 'bold' | 'bolder'
-type Colors = 'dark' | 'light' | 'primary' | 'danger' | 'gray'
-type Fonts = 'roboto' | 'poppins'
+type Variants =
+  | 'h1'
+  | 'h2'
+  | 'h3'
+  | 'h4'
+  | 'h5'
+  | 'h6'
+  | 'subtitle'
+  | 'body'
+  | 'bold'
+  | 'bolder'
+  | 'mini'
+type Colors = 'dark' | 'light' | 'primary' | 'danger' | 'gray' | 'yellow'
+export type Fonts = 'roboto' | 'poppins' | 'geist'
 
-export interface TypographyProps {
+export interface TypographyProps extends TextProps {
   variant: Variants
   children: React.ReactNode
   justify?: 'left' | 'right' | 'center'
@@ -22,9 +34,19 @@ const Typography: React.FC<TypographyProps> = ({
   justify = undefined,
   color = 'dark',
   font = 'poppins',
+  ...rest
 }) => {
   return (
-    <Text style={[{ textAlign: justify }, styles[font], styles[variant], styles[color], style]}>
+    <Text
+      style={[
+        { textAlign: justify },
+        styles[font],
+        styles[variant],
+        styles[color],
+        style,
+      ]}
+      {...rest}
+    >
       {children}
     </Text>
   )
@@ -38,6 +60,9 @@ const styles = StyleSheet.create({
   },
   poppins: {
     fontFamily: 'Poppins',
+  },
+  geist: {
+    fontFamily: 'Geist',
   },
   dark: {
     color: Colors.gray[900],
@@ -53,6 +78,9 @@ const styles = StyleSheet.create({
   },
   gray: {
     color: Colors.gray[600],
+  },
+  yellow: {
+    color: Colors.yellow[600],
   },
   bold: {
     fontWeight: 600,
@@ -102,6 +130,11 @@ const styles = StyleSheet.create({
   body: {
     fontSize: 16,
     fontWeight: 400,
+    lineHeight: 24,
+  },
+  mini: {
+    fontSize: 12,
+    fontWeight: 300,
     lineHeight: 24,
   },
 })

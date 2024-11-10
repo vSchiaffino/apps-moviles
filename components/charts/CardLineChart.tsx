@@ -11,12 +11,12 @@ export interface CardLineChartProps {
 
 const CardLineChart: React.FC<CardLineChartProps> = ({ data }) => {
   const [width, setWidth] = React.useState(350)
-  const onCardRendered = (e: LayoutChangeEvent) => {
-    if (!e || !e.target) return
-    e.target.measure((x, y, width, height, px, py) => {
-      setWidth(width - px + 12)
-    })
-  }
+  // const onCardRendered = (e: LayoutChangeEvent) => {
+  //   if (!e || !e.target) return
+  //   e.target.measure((x, y, width, height, px, py) => {
+  //     setWidth(width - px + 12)
+  //   })
+  // }
   return (
     <Card
       style={{
@@ -26,7 +26,6 @@ const CardLineChart: React.FC<CardLineChartProps> = ({ data }) => {
         borderRadius: 16,
         margin: 0,
       }}
-      onLayout={onCardRendered}
     >
       <View style={{ padding: 20 }}>
         <Typography color="primary" variant="body">

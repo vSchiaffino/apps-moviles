@@ -12,6 +12,7 @@ export interface OutlinedInputProps extends TextInputProps {
   inputRef?: React.LegacyRef<TextInput>
   iconRight?: string
   onPressIconRight?: () => void
+  backgroundColor?: string
 }
 
 const OutlinedInput: React.FC<OutlinedInputProps> = ({
@@ -25,6 +26,7 @@ const OutlinedInput: React.FC<OutlinedInputProps> = ({
   inputRef,
   iconRight = '',
   onPressIconRight = () => {},
+  backgroundColor = Colors.gray[100],
   ...rest
 }) => {
   const showError = error === true || errorMessage !== ''
@@ -58,6 +60,7 @@ const OutlinedInput: React.FC<OutlinedInputProps> = ({
         style={[
           styles.label,
           {
+            backgroundColor,
             zIndex: isLabelOnTop ? 1 : -1,
             color: disabled
               ? Colors.gray[500]
@@ -145,7 +148,6 @@ const styles = StyleSheet.create({
     zIndex: 1,
     paddingHorizontal: 5,
     paddingVertical: 0,
-    backgroundColor: Colors.gray[100],
   },
   input: {
     color: Colors.gray[900],

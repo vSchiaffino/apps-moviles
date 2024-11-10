@@ -1,6 +1,6 @@
 import React from 'react'
 import Card from './Card'
-import { Ionicons } from '@expo/vector-icons'
+import { FontAwesome6, Ionicons } from '@expo/vector-icons'
 import Typography from './Typography'
 import { Colors } from '@/constants/Colors'
 
@@ -10,7 +10,13 @@ const IconCard = ({
   text,
   onPress,
 }: {
-  icon: 'cube-outline' | 'ban-outline' | 'camera-outline' | 'image-outline' | 'trash-outline'
+  icon:
+    | 'cube-outline'
+    | 'ban-outline'
+    | 'camera-outline'
+    | 'image-outline'
+    | 'trash-outline'
+    | 'warehouse'
   color: 'primary' | 'danger' | 'gray'
   text: string
   onPress?: Function
@@ -29,16 +35,29 @@ const IconCard = ({
         gap: 5,
       }}
     >
-      <Ionicons
-        name={icon}
-        size={32}
-        color={colorPallete[600]}
-        style={{
-          backgroundColor: colorPallete[300],
-          borderRadius: 24,
-          padding: 16,
-        }}
-      />
+      {icon === 'warehouse' ? (
+        <FontAwesome6
+          name={icon}
+          size={32}
+          color={colorPallete[600]}
+          style={{
+            backgroundColor: colorPallete[300],
+            borderRadius: 24,
+            padding: 16,
+          }}
+        />
+      ) : (
+        <Ionicons
+          name={icon}
+          size={32}
+          color={colorPallete[600]}
+          style={{
+            backgroundColor: colorPallete[300],
+            borderRadius: 24,
+            padding: 16,
+          }}
+        />
+      )}
       <Typography color={color} variant="body">
         {text}
       </Typography>

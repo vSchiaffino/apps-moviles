@@ -5,9 +5,8 @@ import { MaterialIcons } from '@expo/vector-icons'
 import IconSelect from '@/components/IconSelect'
 import TransferDetailsModal from '@/pages/TransferPage/TransferDetailsModal'
 import Container from '@/components/Container'
-import { ScrollView } from 'react-native-gesture-handler'
-import { Spacing } from '@/constants/Spacing'
-interface Product {
+
+export interface Product {
   name: string
   stock: number
 }
