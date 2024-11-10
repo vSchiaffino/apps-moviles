@@ -2,14 +2,16 @@ import React from 'react'
 import Table from '@/components/Table/Table'
 import BadgeColumn from './BadgeColumn'
 import CapacityColumn from './CapacityColumn'
+import Pagination from '@/models/Pagination'
+import Sort from '@/models/Sort'
 
 const WarehouseTable: React.FC<{ items: any[]; onClickRow: (row: any) => void }> = ({
   items,
   onClickRow,
 }) => {
-  const [pagination, setPagination] = React.useState({ page: 1, perPage: 5, total: items.length })
-  const [sortState, setSortState] = React.useState<{ column: string; direction: 'ASC' | 'DESC' }>({
-    column: 'name',
+  const [pagination, setPagination] = React.useState<Pagination>({ page: 1, limit: 5 })
+  const [sortState, setSortState] = React.useState<Sort>({
+    field: 'name',
     direction: 'ASC',
   })
   return (
@@ -17,7 +19,7 @@ const WarehouseTable: React.FC<{ items: any[]; onClickRow: (row: any) => void }>
       entityName="Depósitos"
       onClickRow={onClickRow}
       sort={sortState}
-      onChangeSort={(column, direction) => setSortState({ column, direction })}
+      onChangeSort={setSortState}
       headerFont="geist"
       columns={[
         { key: 'name', title: 'Nombre', width: '33.3%', align: 'flex-start' },
@@ -36,9 +38,8 @@ const WarehouseTable: React.FC<{ items: any[]; onClickRow: (row: any) => void }>
           component: CapacityColumn,
         },
       ]}
-      pagination={pagination}
-      onChangePage={(page) => setPagination({ ...pagination, page })}
-      onChangePerPage={(perPage) => setPagination({ ...pagination, perPage })}
+      pagination={{ ...pagination, total: items.length }}
+      onChangePagination={setPagination}
       rows={items.map((warehouse) => ({
         ...warehouse,
         state:

@@ -4,29 +4,28 @@ import OutlinedSelect from '../OutlinedSelect/OutlinedSelect'
 import Typography from '../Typography'
 import { Ionicons } from '@expo/vector-icons'
 import { Colors } from '@/constants/Colors'
+import Pagination from '@/models/Pagination'
 
 export interface TablePaginationProps {
   pagination: {
     total: number
     page: number
-    perPage: number
+    limit: number
     actual: number
   }
-  onChangePage: (page: number) => void
-  onChangePerPage: (perPage: number) => void
+  onChangePagination: (pagination: Pagination) => void
   entityName: string
 }
 
 export const TablePagination: React.FC<TablePaginationProps> = ({
   pagination,
-  onChangePerPage,
-  onChangePage,
+  onChangePagination,
   entityName,
 }) => {
-  const { perPage, page, actual, total } = pagination
-  const start = (page - 1) * perPage + 1
+  const { limit, page, actual, total } = pagination
+  const start = (page - 1) * limit + 1
   const end = start + actual - 1
-  const lastPage = Math.ceil(total / perPage)
+  const lastPage = Math.ceil(total / limit)
   return (
     <View
       style={{
@@ -36,7 +35,11 @@ export const TablePagination: React.FC<TablePaginationProps> = ({
       }}
     >
       <View style={{ width: 50 }}>
-        <OutlinedSelect option={perPage} options={[5, 10, 15, 20]} setOption={onChangePerPage} />
+        <OutlinedSelect
+          option={limit}
+          options={[5, 10, 15, 20]}
+          setOption={(limit) => onChangePagination({ ...pagination, limit })}
+        />
       </View>
       <View style={{ alignItems: 'center', flexDirection: 'row' }}>
         <Typography variant="body" style={{ marginRight: 10 }}>
@@ -47,7 +50,7 @@ export const TablePagination: React.FC<TablePaginationProps> = ({
         <Ionicons
           onPress={() => {
             if (page === 1) return
-            onChangePage(pagination.page - 1)
+            onChangePagination({ ...pagination, page: page - 1 })
           }}
           name="chevron-back-outline"
           color={page === 1 ? Colors.gray[400] : Colors.gray[800]}
@@ -57,7 +60,7 @@ export const TablePagination: React.FC<TablePaginationProps> = ({
         <Ionicons
           onPress={() => {
             if (page === lastPage) return
-            onChangePage(page + 1)
+            onChangePagination({ ...pagination, page: page + 1 })
           }}
           name="chevron-forward-outline"
           color={page === lastPage ? Colors.gray[400] : Colors.gray[800]}

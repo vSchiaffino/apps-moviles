@@ -11,7 +11,6 @@ import ProductTable from './ProductTable'
 import useProducts from '@/hooks/useProducts'
 
 const ProductsPage = () => {
-  const { products } = useProducts()
   const [showModal, setShowModal] = React.useState(false)
   const [editingProduct, setEditingProduct] = React.useState<any>(null)
   return (
@@ -46,7 +45,6 @@ const ProductsPage = () => {
           />
         </View>
         <ProductTable
-          items={products}
           onClickRow={(row: any) => {
             setEditingProduct(row)
             setShowModal(true)

@@ -1,36 +1,41 @@
 import React from 'react'
 import Table from '@/components/Table/Table'
+import useProducts from '@/hooks/useProducts'
+import Pagination from '@/models/Pagination'
+import Sort from '@/models/Sort'
 
-const ProductTable: React.FC<{ items: any[]; onClickRow: (row: any) => void }> = ({
-  items,
-  onClickRow,
-}) => {
-  const [pagination, setPagination] = React.useState({ page: 1, perPage: 5, total: items.length })
-  const [sortState, setSortState] = React.useState<{ column: string; direction: 'ASC' | 'DESC' }>({
-    column: 'name',
+const ProductTable: React.FC<{ onClickRow: (row: any) => void }> = ({ onClickRow }) => {
+  const [pagination, setPagination] = React.useState<Pagination>({
+    page: 1,
+    limit: 5,
+  })
+  const [sort, setSort] = React.useState<Sort>({
+    field: 'name',
     direction: 'ASC',
   })
+  const { products, total } = useProducts(pagination, sort)
   return (
-    <Table
-      entityName="Productos"
-      onClickRow={onClickRow}
-      sort={sortState}
-      onChangeSort={(column, direction) => setSortState({ column, direction })}
-      headerFont="geist"
-      columns={[
-        { key: 'name', title: 'Nombre', width: '75%', align: 'flex-start' },
-        {
-          key: 'stock',
-          title: 'Stock',
-          width: '50%',
-          align: 'flex-start',
-        },
-      ]}
-      pagination={pagination}
-      onChangePage={(page) => setPagination({ ...pagination, page })}
-      onChangePerPage={(perPage) => setPagination({ ...pagination, perPage })}
-      rows={items}
-    />
+    products && (
+      <Table
+        entityName="Productos"
+        onClickRow={onClickRow}
+        sort={sort}
+        onChangeSort={setSort}
+        headerFont="geist"
+        columns={[
+          { key: 'name', title: 'Nombre', width: '75%', align: 'flex-start' },
+          {
+            key: 'stock',
+            title: 'Stock',
+            width: '25%',
+            align: 'center',
+          },
+        ]}
+        pagination={{ ...pagination, total }}
+        onChangePagination={setPagination}
+        rows={products}
+      />
+    )
   )
 }
 

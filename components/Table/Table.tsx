@@ -5,6 +5,8 @@ import { TableHeader } from './TableHeader'
 import { TableBody } from './TableBody'
 import { Fonts } from '../Typography'
 import { TablePagination } from './TablePagination'
+import Sort from '@/models/Sort'
+import Pagination from '@/models/Pagination'
 
 export interface TableColumn {
   key: string
@@ -16,15 +18,15 @@ export interface TableColumn {
   width: DimensionValue
 }
 
+//TODO use pagination and sort model
 export interface TableProps {
   columns: TableColumn[]
   rows: any[]
   headerFont?: Fonts
-  sort?: { column: string; direction: 'ASC' | 'DESC' }
-  onChangeSort?: (column: string, direction: 'ASC' | 'DESC') => void
-  pagination: { page: number; perPage: number; total: number }
-  onChangePage: (page: number) => void
-  onChangePerPage: (perPage: number) => void
+  sort?: Sort
+  onChangeSort?: (sort: Sort) => void
+  pagination: { page: number; limit: number; total: number }
+  onChangePagination: (pagination: Pagination) => void
   entityName?: string
   onClickRow?: (row: any) => void
 }
@@ -36,8 +38,7 @@ const Table: React.FC<TableProps> = ({
   sort,
   onChangeSort,
   pagination,
-  onChangePage,
-  onChangePerPage,
+  onChangePagination,
   onClickRow = () => {},
   entityName = 'items',
 }) => {
@@ -62,11 +63,10 @@ const Table: React.FC<TableProps> = ({
       <TablePagination
         entityName={entityName}
         pagination={{
-          ...pagination,
           actual: rows.length,
+          ...pagination,
         }}
-        onChangePage={onChangePage}
-        onChangePerPage={onChangePerPage}
+        onChangePagination={onChangePagination}
       />
     </View>
   )

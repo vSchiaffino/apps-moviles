@@ -1,21 +1,17 @@
-export default function useProducts() {
+import Pagination from '@/models/Pagination'
+import Sort from '@/models/Sort'
+import productService from '@/services/product.service'
+import { useQuery } from 'react-query'
+
+export default function useProducts(pagination: Pagination, sort: Sort) {
+  const { data, ...rest } = useQuery(['products', pagination, sort], () =>
+    productService.findMany(pagination, sort),
+  )
   return {
-    products: [
-      {
-        id: 1,
-        name: 'Producto 1',
-        stock: 10,
-      },
-      {
-        id: 2,
-        name: 'Producto 2',
-        stock: 20,
-      },
-      {
-        id: 3,
-        name: 'Producto 3',
-        stock: 30,
-      },
-    ],
+    edit: async (product: any) => {},
+    create: async (product: any) => {},
+    products: data?.data,
+    total: data?.total,
+    ...rest,
   }
 }
