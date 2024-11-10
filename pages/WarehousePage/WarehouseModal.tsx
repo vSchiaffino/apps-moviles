@@ -7,9 +7,11 @@ import { Spacing } from '@/constants/Spacing'
 export interface WarehouseModalProps
   extends Omit<MutateEntityModalProps, 'children' | 'entityName'> {
   onSubmit: (form: any) => Promise<void>
+  warehouse?: any
 }
 
-const WarehouseModal: React.FC<WarehouseModalProps> = ({ onSubmit, ...rest }) => {
+const WarehouseModal: React.FC<WarehouseModalProps> = ({ warehouse, onSubmit, ...rest }) => {
+  console.log(warehouse)
   const fields: ValidatedField[] = [
     {
       name: 'name',
@@ -49,8 +51,8 @@ const WarehouseModal: React.FC<WarehouseModalProps> = ({ onSubmit, ...rest }) =>
           submitLabel="Crear"
           formProps={{
             defaultValues: {
-              name: '',
-              capacity: '',
+              name: warehouse?.name || '',
+              capacity: String(warehouse?.capacity || ''),
             },
           }}
         />

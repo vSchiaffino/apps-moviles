@@ -10,9 +10,11 @@ import { Ionicons } from '@expo/vector-icons'
 import AddButton from '@/components/AddButton'
 import { useWarehouses } from '@/hooks/useWarehouses'
 import WarehouseModal from './WarehouseModal'
+import { set } from 'react-hook-form'
 
 const WarehousePage = () => {
   const { warehouses, create } = useWarehouses()
+  const [editingWarehouse, setEditingWarehouse] = useState<any>(null)
   const [showModal, setShowModal] = useState(false)
   const [cardList, setCardList] = useState(false)
   function toggleView() {
@@ -22,15 +24,19 @@ const WarehousePage = () => {
   return (
     warehouses && (
       <Container>
-        <WarehouseModal
-          isCreating={true}
-          show={showModal}
-          setShow={setShowModal}
-          onSubmit={async (form: any) => {
-            setShowModal(false)
-            create(form)
-          }}
-        />
+        {showModal && (
+          <WarehouseModal
+            isCreating={true}
+            warehouse={editingWarehouse}
+            show={showModal}
+            setShow={setShowModal}
+            onSubmit={async (form: any) => {
+              setShowModal(false)
+              setEditingWarehouse(null)
+              create(form)
+            }}
+          />
+        )}
         <ScrollView style={{ backgroundColor: Colors.gray[100], marginTop: Spacing.rowGap }}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
             <Typography variant="h4" style={{ marginBottom: Spacing.rowGap }}>
@@ -48,7 +54,12 @@ const WarehousePage = () => {
                 <Ionicons name="grid-outline" size={24} color="grey" />
               )}
             </TouchableHighlight>
-            <AddButton onPress={() => setShowModal(true)} />
+            <AddButton
+              onPress={() => {
+                setEditingWarehouse(null)
+                setShowModal(true)
+              }}
+            />
           </View>
           {cardList ? (
             <View style={{ flexDirection: 'column', rowGap: 20 }}>
@@ -57,7 +68,13 @@ const WarehousePage = () => {
               ))}
             </View>
           ) : (
-            <WarehouseTable items={warehouses} />
+            <WarehouseTable
+              items={warehouses}
+              onClickRow={(row: any) => {
+                setEditingWarehouse(row)
+                setShowModal(true)
+              }}
+            />
           )}
         </ScrollView>
       </Container>

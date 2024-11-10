@@ -3,7 +3,10 @@ import Table from '@/components/Table/Table'
 import BadgeColumn from './BadgeColumn'
 import CapacityColumn from './CapacityColumn'
 
-const WarehouseTable: React.FC<{ items: any[] }> = ({ items }) => {
+const WarehouseTable: React.FC<{ items: any[]; onClickRow: (row: any) => void }> = ({
+  items,
+  onClickRow,
+}) => {
   const [pagination, setPagination] = React.useState({ page: 1, perPage: 5, total: items.length })
   const [sortState, setSortState] = React.useState<{ column: string; direction: 'ASC' | 'DESC' }>({
     column: 'name',
@@ -12,6 +15,7 @@ const WarehouseTable: React.FC<{ items: any[] }> = ({ items }) => {
   return (
     <Table
       entityName="Depósitos"
+      onClickRow={onClickRow}
       sort={sortState}
       onChangeSort={(column, direction) => setSortState({ column, direction })}
       headerFont="geist"
