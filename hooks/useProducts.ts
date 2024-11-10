@@ -9,7 +9,10 @@ export default function useProducts(pagination: Pagination, sort: Sort) {
   )
   return {
     edit: async (product: any) => {},
-    create: async (product: any) => {},
+    create: async (product: any) => {
+      await productService.create(product)
+      rest.refetch()
+    },
     products: data?.data,
     total: data?.total,
     ...rest,

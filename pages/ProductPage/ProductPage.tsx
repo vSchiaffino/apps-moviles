@@ -21,14 +21,15 @@ const ProductsPage = () => {
     field: 'name',
     direction: 'ASC',
   })
-  const { products, total } = useProducts(pagination, sort)
+  const { products, total, create } = useProducts(pagination, sort)
   const [showModal, setShowModal] = React.useState(false)
   const [editingProduct, setEditingProduct] = React.useState<any>(null)
   return (
     <Container>
       {showModal && (
         <ProductModal
-          onSubmit={async () => {
+          onSubmit={async (form: any) => {
+            await create(form)
             setShowModal(false)
           }}
           setShow={setShowModal}
