@@ -31,6 +31,7 @@ export const TableHeader: React.FC<TableHeaderProps> = ({
     >
       {columns.map(({ width, title, align, font, key }, index) => (
         <Pressable
+          key={key}
           style={{ width, flexDirection: 'row', gap: 5, alignItems: 'center' }}
           onPress={() => {
             if (onChangeSort && sort) {

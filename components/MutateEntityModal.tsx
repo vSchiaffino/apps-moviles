@@ -58,7 +58,9 @@ const MutateEntityModal: React.FC<MutateEntityModalProps> = ({
             alignItems: 'center',
           }}
         >
-          <Typography variant="h5">{action} un {entityName}</Typography>
+          <Typography variant="h5">
+            {action} un {entityName}
+          </Typography>
           <Ionicons
             name="close"
             size={30}

@@ -1,17 +1,16 @@
 import { View } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import ValidatedForm, { ValidatedField } from '@/components/ValidatedForm'
 import MutateEntityModal, { MutateEntityModalProps } from '@/components/MutateEntityModal'
 import { Spacing } from '@/constants/Spacing'
 
 export interface WarehouseModalProps
-  extends Omit<MutateEntityModalProps, 'children' | 'entityName'> {
+  extends Omit<MutateEntityModalProps, 'children' | 'entityName' | 'isCreating'> {
   onSubmit: (form: any) => Promise<void>
   warehouse?: any
 }
 
 const WarehouseModal: React.FC<WarehouseModalProps> = ({ warehouse, onSubmit, ...rest }) => {
-  console.log(warehouse)
   const fields: ValidatedField[] = [
     {
       name: 'name',
@@ -43,7 +42,7 @@ const WarehouseModal: React.FC<WarehouseModalProps> = ({ warehouse, onSubmit, ..
     },
   ]
   return (
-    <MutateEntityModal entityName="Depósito" {...rest}>
+    <MutateEntityModal isCreating={warehouse === null} entityName="Depósito" {...rest}>
       <View style={{ flexDirection: 'column', gap: Spacing.rowGap, padding: 20 }}>
         <ValidatedForm
           fields={fields}

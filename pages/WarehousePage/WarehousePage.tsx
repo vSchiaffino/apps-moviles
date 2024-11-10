@@ -26,7 +26,6 @@ const WarehousePage = () => {
       <Container>
         {showModal && (
           <WarehouseModal
-            isCreating={true}
             warehouse={editingWarehouse}
             show={showModal}
             setShow={setShowModal}
