@@ -2,7 +2,12 @@ import Pagination from '@/models/Pagination'
 import apiService from './api.service'
 import Sort from '@/models/Sort'
 
+// TODO add authorization to this endpoints
 export class ProductService {
+  public async edit(id: number, product: any) {
+    return await apiService.put(`/products/${id}`, product)
+  }
+
   public async create(product: any) {
     return await apiService.post('/products', product)
   }

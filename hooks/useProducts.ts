@@ -4,14 +4,17 @@ import productService from '@/services/product.service'
 import { useQuery } from 'react-query'
 
 export default function useProducts(pagination: Pagination, sort: Sort) {
-  const { data, ...rest } = useQuery(['products', pagination, sort], () =>
+  const { data, refetch, ...rest } = useQuery(['products', pagination, sort], () =>
     productService.findMany(pagination, sort),
   )
   return {
-    edit: async (product: any) => {},
+    edit: async (id: number, product: any) => {
+      await productService.edit(id, product)
+      refetch()
+    },
     create: async (product: any) => {
       await productService.create(product)
-      rest.refetch()
+      refetch()
     },
     products: data?.data,
     total: data?.total,
