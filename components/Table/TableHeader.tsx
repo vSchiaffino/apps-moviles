@@ -4,12 +4,13 @@ import { TableColumn } from './Table'
 import { Colors } from '@/constants/Colors'
 import Typography, { Fonts } from '../Typography'
 import { Ionicons } from '@expo/vector-icons'
+import Sort from '@/models/Sort'
 
 export interface TableHeaderProps {
   columns: TableColumn[]
   headerFont?: Fonts
-  sort?: { column: string; direction: 'ASC' | 'DESC' }
-  onChangeSort?: (column: string, direction: 'ASC' | 'DESC') => void
+  sort?: Sort
+  onChangeSort?: (sort: Sort) => void
 }
 
 export const TableHeader: React.FC<TableHeaderProps> = ({
@@ -35,11 +36,10 @@ export const TableHeader: React.FC<TableHeaderProps> = ({
           style={{ width, flexDirection: 'row', gap: 5, alignItems: 'center' }}
           onPress={() => {
             if (onChangeSort && sort) {
-              if (sort.column === key) {
-                onChangeSort(key, sort.direction === 'ASC' ? 'DESC' : 'ASC')
-              } else {
-                onChangeSort(key, 'ASC')
-              }
+              const field = key
+              const direction =
+                key === sort.field ? (sort.direction === 'ASC' ? 'DESC' : 'ASC') : 'ASC'
+              onChangeSort({ field, direction })
             }
           }}
         >
@@ -59,7 +59,7 @@ export const TableHeader: React.FC<TableHeaderProps> = ({
           >
             {title}
           </Typography>
-          {sort && sort.column === key && (
+          {sort && sort.field === key && (
             <Ionicons
               name={sort.direction === 'ASC' ? 'arrow-down-outline' : 'arrow-up-outline'}
               size={19}
