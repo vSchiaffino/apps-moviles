@@ -62,19 +62,6 @@ export default function RootLayout() {
               })}
             >
               <Tabs.Screen
-                name="index"
-                options={{
-                  title: 'Home',
-                  tabBarIcon: ({ focused }) => (
-                    <Ionicons
-                      name="home"
-                      size={24}
-                      color={focused ? Colors.primary[600] : Colors.gray[600]}
-                    />
-                  ),
-                }}
-              />
-              <Tabs.Screen
                 name="profile"
                 options={{
                   title: 'Perfil',
@@ -84,7 +71,32 @@ export default function RootLayout() {
                     <Ionicons
                       name="person"
                       size={24}
-                      color={focused ? Colors.primary[600] : Colors.gray[600]}
+                      color={
+                        focused
+                          ? Colors.primary[600]
+                          : colorScheme === 'dark'
+                            ? Colors.gray[300]
+                            : Colors.gray[600]
+                      }
+                    />
+                  ),
+                }}
+              />
+              <Tabs.Screen
+                name="index"
+                options={{
+                  title: 'Home',
+                  tabBarIcon: ({ focused }) => (
+                    <Ionicons
+                      name="home"
+                      size={24}
+                      color={
+                        focused
+                          ? Colors.primary[600]
+                          : colorScheme === 'dark'
+                            ? Colors.gray[300]
+                            : Colors.gray[600]
+                      }
                     />
                   ),
                 }}
@@ -99,7 +111,13 @@ export default function RootLayout() {
                     <FontAwesome6
                       name="warehouse"
                       size={21}
-                      color={focused ? Colors.primary[600] : Colors.gray[600]}
+                      color={
+                        focused
+                          ? Colors.primary[600]
+                          : colorScheme === 'dark'
+                            ? Colors.gray[300]
+                            : Colors.gray[600]
+                      }
                     />
                   ),
                 }}
@@ -113,6 +131,27 @@ export default function RootLayout() {
                   href: null,
                   headerShown: true,
                   headerTitle: () => <PageHeader title="Transferencias" />,
+                }}
+              />
+              <Tabs.Screen
+                name="products"
+                options={{
+                  title: 'Productos',
+                  headerShown: true,
+                  headerTitle: () => <PageHeader title="Productos" />,
+                  tabBarIcon: ({ focused }) => (
+                    <Ionicons
+                      name="cube"
+                      size={24}
+                      color={
+                        focused
+                          ? Colors.primary[600]
+                          : colorScheme === 'dark'
+                            ? Colors.gray[300]
+                            : Colors.gray[600]
+                      }
+                    />
+                  ),
                 }}
               />
             </Tabs>
