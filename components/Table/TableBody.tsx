@@ -10,14 +10,16 @@ export interface TableBodyProps {
   rows: any[]
   component?: React.FC<{ row: any }>
   render?: (row: any) => React.ReactNode
+  onClickRow: (row: any) => void
 }
 
-export const TableBody: React.FC<TableBodyProps> = ({ columns, rows }) => {
+export const TableBody: React.FC<TableBodyProps> = ({ columns, rows, onClickRow }) => {
   const colorPallete = Colors['gray']
   return rows.map((row, index) => (
     <Card
       key={index}
       pressable
+      onPress={() => onClickRow(row)}
       style={{
         flex: 1,
         flexDirection: 'row',
