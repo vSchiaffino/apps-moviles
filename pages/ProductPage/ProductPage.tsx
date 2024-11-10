@@ -35,6 +35,7 @@ const ProductsPage = () => {
               await create(form)
             }
             setShowModal(false)
+            setEditingProduct(null)
           }}
           setShow={setShowModal}
           show={showModal}

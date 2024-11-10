@@ -10,10 +10,16 @@ import { Ionicons } from '@expo/vector-icons'
 import AddButton from '@/components/AddButton'
 import { useWarehouses } from '@/hooks/useWarehouses'
 import WarehouseModal from './WarehouseModal'
-import { set } from 'react-hook-form'
+import Pagination from '@/models/Pagination'
+import Sort from '@/models/Sort'
 
 const WarehousePage = () => {
-  const { warehouses, create } = useWarehouses()
+  const [pagination, setPagination] = React.useState<Pagination>({ page: 1, limit: 5 })
+  const [sort, setSort] = React.useState<Sort>({
+    field: 'name',
+    direction: 'ASC',
+  })
+  const { warehouses, create, total, edit } = useWarehouses(pagination, sort)
   const [editingWarehouse, setEditingWarehouse] = useState<any>(null)
   const [showModal, setShowModal] = useState(false)
   const [cardList, setCardList] = useState(false)
@@ -30,9 +36,13 @@ const WarehousePage = () => {
             show={showModal}
             setShow={setShowModal}
             onSubmit={async (form: any) => {
+              if (editingWarehouse) {
+                await edit(editingWarehouse.id, form)
+              } else {
+                await create(form)
+              }
               setShowModal(false)
               setEditingWarehouse(null)
-              create(form)
             }}
           />
         )}
@@ -76,13 +86,18 @@ const WarehousePage = () => {
           </View>
           {!cardList ? (
             <View style={{ flexDirection: 'column', rowGap: 20 }}>
-              {warehouses.map((warehouse) => (
+              {warehouses.map((warehouse: any) => (
                 <WarehouseCard item={warehouse} key={warehouse.id} />
               ))}
             </View>
           ) : (
             <WarehouseTable
-              items={warehouses}
+              pagination={pagination}
+              setPagination={setPagination}
+              total={total}
+              warehouses={warehouses}
+              sort={sort}
+              setSort={setSort}
               onClickRow={(row: any) => {
                 setEditingWarehouse(row)
                 setShowModal(true)
