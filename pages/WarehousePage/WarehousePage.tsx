@@ -36,14 +36,28 @@ const WarehousePage = () => {
             }}
           />
         )}
-        <ScrollView style={{ backgroundColor: Colors.gray[100], marginTop: Spacing.rowGap }}>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <Typography variant="h4" style={{ marginBottom: Spacing.rowGap }}>
-              Depositos
-            </Typography>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={{ backgroundColor: Colors.gray[100], marginTop: Spacing.rowGap }}
+        >
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginBottom: Spacing.rowGap,
+            }}
+          >
+            <Typography variant="h4">Depósitos</Typography>
             <TouchableHighlight
               underlayColor={'rgba(1,1,1,0.05)'}
-              style={{ borderRadius: 999, padding: 10 }}
+              style={{
+                borderRadius: 999,
+                aspectRatio: 1 / 1,
+                justifyContent: 'center',
+                alignSelf: 'center',
+                padding: 10,
+              }}
               onPress={() => toggleView()}
               hitSlop={20}
             >
@@ -60,7 +74,7 @@ const WarehousePage = () => {
               }}
             />
           </View>
-          {cardList ? (
+          {!cardList ? (
             <View style={{ flexDirection: 'column', rowGap: 20 }}>
               {warehouses.map((warehouse) => (
                 <WarehouseCard item={warehouse} key={warehouse.id} />
