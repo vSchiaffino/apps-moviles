@@ -11,6 +11,9 @@ import { FontAwesome6, Ionicons } from '@expo/vector-icons'
 import { Colors } from '@/constants/Colors'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { QueryClient, QueryClientProvider } from 'react-query'
+import PageHeader from '@/components/PageHeader'
+import Typography from '@/components/Typography'
+import { View } from 'react-native'
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync()
@@ -44,6 +47,17 @@ export default function RootLayout() {
                 headerShown: false,
                 tabBarStyle: {
                   display: ['login', 'register'].includes(route.name) ? 'none' : 'flex',
+                  paddingBottom: 10,
+                  paddingTop: 10,
+                  height: 65,
+                  width: '90%',
+                  left: '5%',
+                  borderTopRightRadius: 16,
+                  borderTopLeftRadius: 16,
+                  backgroundColor:
+                    colorScheme === 'dark'
+                      ? DarkTheme.colors.background
+                      : DefaultTheme.colors.background,
                 },
               })}
             >
@@ -64,6 +78,8 @@ export default function RootLayout() {
                 name="profile"
                 options={{
                   title: 'Perfil',
+                  headerShown: true,
+                  headerTitle: () => <PageHeader title="Perfil" />,
                   tabBarIcon: ({ focused }) => (
                     <Ionicons
                       name="person"
@@ -77,6 +93,8 @@ export default function RootLayout() {
                 name="warehouse"
                 options={{
                   title: 'Depósitos',
+                  headerShown: true,
+                  headerTitle: () => <PageHeader title="Depósitos" />,
                   tabBarIcon: ({ focused }) => (
                     <FontAwesome6
                       name="warehouse"
@@ -89,7 +107,14 @@ export default function RootLayout() {
               <Tabs.Screen name="login" options={{ href: null }} />
               <Tabs.Screen name="register" options={{ href: null }} />
               <Tabs.Screen name="+not-found" options={{ href: null }} />
-              <Tabs.Screen name="warehouseTransfer" options={{ href: null }} />
+              <Tabs.Screen
+                name="warehouseTransfer"
+                options={{
+                  href: null,
+                  headerShown: true,
+                  headerTitle: () => <PageHeader title="Transferencias" />,
+                }}
+              />
             </Tabs>
           </GestureHandlerRootView>
         </QueryClientProvider>
