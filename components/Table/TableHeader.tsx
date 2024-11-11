@@ -11,6 +11,7 @@ export interface TableHeaderProps {
   headerFont?: Fonts
   sort?: Sort
   onChangeSort?: (sort: Sort) => void
+  sortingFields?: string[]
 }
 
 export const TableHeader: React.FC<TableHeaderProps> = ({
@@ -18,6 +19,7 @@ export const TableHeader: React.FC<TableHeaderProps> = ({
   headerFont,
   sort,
   onChangeSort,
+  sortingFields = [],
 }) => {
   return (
     <View
@@ -34,14 +36,18 @@ export const TableHeader: React.FC<TableHeaderProps> = ({
         <Pressable
           key={key}
           style={{ width, flexDirection: 'row', gap: 5, alignItems: 'center' }}
-          onPress={() => {
-            if (onChangeSort && sort) {
-              const field = key
-              const direction =
-                key === sort.field ? (sort.direction === 'ASC' ? 'DESC' : 'ASC') : 'ASC'
-              onChangeSort({ field, direction })
-            }
-          }}
+          onPress={
+            sortingFields.includes(key)
+              ? () => {
+                  if (onChangeSort && sort) {
+                    const field = key
+                    const direction =
+                      key === sort.field ? (sort.direction === 'ASC' ? 'DESC' : 'ASC') : 'ASC'
+                    onChangeSort({ field, direction })
+                  }
+                }
+              : undefined
+          }
         >
           <Typography
             key={index}
@@ -59,7 +65,7 @@ export const TableHeader: React.FC<TableHeaderProps> = ({
           >
             {title}
           </Typography>
-          {sort && sort.field === key && (
+          {sortingFields.includes(key) && sort && sort.field === key && (
             <Ionicons
               name={sort.direction === 'ASC' ? 'arrow-down-outline' : 'arrow-up-outline'}
               size={19}

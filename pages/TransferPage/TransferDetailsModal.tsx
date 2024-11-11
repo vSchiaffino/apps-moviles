@@ -25,7 +25,6 @@ const TransferDetailsModal: React.FC<TransferDetailsModalProps> = ({
   const [quantity, setQuantity] = useState('')
 
   const handleSubmit = () => {
-    console.log('Enviando:', { product, origin, destination, quantity })
     onClose()
   }
 

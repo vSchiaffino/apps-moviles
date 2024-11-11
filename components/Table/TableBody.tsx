@@ -11,15 +11,22 @@ export interface TableBodyProps {
   component?: React.FC<{ row: any }>
   render?: (row: any) => React.ReactNode
   onClickRow: (row: any) => void
+  onLongPressRow: (row: any) => void
 }
 
-export const TableBody: React.FC<TableBodyProps> = ({ columns, rows, onClickRow }) => {
+export const TableBody: React.FC<TableBodyProps> = ({
+  columns,
+  rows,
+  onClickRow,
+  onLongPressRow,
+}) => {
   const colorPallete = Colors['gray']
   return rows.map((row, index) => (
     <Card
       key={index}
       pressable
       onPress={() => onClickRow(row)}
+      onLongPress={() => onLongPressRow(row)}
       style={{
         flex: 1,
         flexDirection: 'row',

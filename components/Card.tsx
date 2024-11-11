@@ -1,12 +1,19 @@
-import { View, StyleProp, ViewStyle, TouchableOpacity, ViewProps } from 'react-native'
+import {
+  View,
+  StyleProp,
+  ViewStyle,
+  TouchableOpacity,
+  TouchableOpacityProps,
+  ViewProps,
+} from 'react-native'
 import React from 'react'
 
-export interface CardProps extends ViewProps {
-  children: React.ReactNode
-  style?: StyleProp<ViewStyle>
-  pressable?: boolean
-  onPress?: Function
-}
+export type CardProps = TouchableOpacityProps &
+  ViewProps & {
+    children: React.ReactNode
+    style?: StyleProp<ViewStyle>
+    pressable?: boolean
+  }
 
 const Card: React.FC<CardProps> = ({ children, style, pressable = false, ...rest }) => {
   const MainComponent: any = pressable ? TouchableOpacity : View
@@ -24,9 +31,6 @@ const Card: React.FC<CardProps> = ({ children, style, pressable = false, ...rest
         shadowOpacity: 0.1,
         shadowRadius: 4,
         ...Object(style),
-      }}
-      onPress={() => {
-        rest.onPress && rest.onPress()
       }}
       {...rest}
     >

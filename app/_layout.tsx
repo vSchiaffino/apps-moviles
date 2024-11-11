@@ -154,6 +154,7 @@ export default function RootLayout() {
                   ),
                 }}
               />
+              <Tabs.Screen name="warehouse-detail" options={{ href: null }} />
             </Tabs>
           </GestureHandlerRootView>
         </QueryClientProvider>
