@@ -11,6 +11,7 @@ import ProductTable from './ProductTable'
 import useProducts from '@/hooks/useProducts'
 import Pagination from '@/models/Pagination'
 import Sort from '@/models/Sort'
+import IconButton from '@/components/IconButton'
 
 const ProductsPage = () => {
   const [pagination, setPagination] = React.useState<Pagination>({
@@ -25,7 +26,7 @@ const ProductsPage = () => {
   const [showModal, setShowModal] = React.useState(false)
   const [editingProduct, setEditingProduct] = React.useState<any>(null)
   return (
-    <Container style={{ height: '100%' }}>
+    <Container>
       {showModal && (
         <ProductModal
           onSubmit={async (form: any) => {
@@ -44,35 +45,41 @@ const ProductsPage = () => {
       )}
       <ScrollView
         showsVerticalScrollIndicator={false}
-        style={{ backgroundColor: Colors.gray[100] }}
+        style={{ backgroundColor: Colors.gray[100], height: '100%' }}
       >
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            marginBottom: 10,
-          }}
-        >
-          <AddButton
-            onPress={() => {
-              setEditingProduct(null)
+        <View style={{ padding: 16 }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
+            <IconButton
+              color="rgba(1,1,1,0.7)"
+              mode="opacity"
+              style={{ backgroundColor: 'transparent' }}
+              onPress={() => {
+                setEditingProduct(null)
+                setShowModal(true)
+              }}
+              icon="add-circle-outline"
+              size={24}
+            />
+          </View>
+          <ProductTable
+            pagination={pagination}
+            products={products}
+            setPagination={setPagination}
+            setSort={setSort}
+            sort={sort}
+            total={total}
+            onClickRow={(row: any) => {
+              setEditingProduct(row)
               setShowModal(true)
             }}
           />
         </View>
-        <ProductTable
-          pagination={pagination}
-          products={products}
-          setPagination={setPagination}
-          setSort={setSort}
-          sort={sort}
-          total={total}
-          onClickRow={(row: any) => {
-            setEditingProduct(row)
-            setShowModal(true)
-          }}
-        />
       </ScrollView>
     </Container>
   )
