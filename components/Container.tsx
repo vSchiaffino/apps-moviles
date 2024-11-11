@@ -8,16 +8,14 @@ import PageHeader from './PageHeader'
 export interface ContainerProps {
   children: React.ReactNode
   style?: StyleProp<ViewStyle>
-  pageHeader?: string
 }
 
-const Container: React.FC<ContainerProps> = ({ children, style, pageHeader }) => {
+const Container: React.FC<ContainerProps> = ({ children, style }) => {
   return (
     <>
       <View
         style={{
           width: '100%',
-          paddingTop: pageHeader === undefined ? 48 : 0,
           padding: 16,
           backgroundColor: Colors.gray[100],
           ...Object(style),

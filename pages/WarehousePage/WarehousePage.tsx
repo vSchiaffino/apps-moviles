@@ -34,7 +34,7 @@ const WarehousePage = () => {
 
   return (
     warehouses && (
-      <Container pageHeader="Depósitos">
+      <Container style={{ padding: 16 }}>
         {showModal && (
           <WarehouseModal
             warehouse={editingWarehouse}
@@ -53,14 +53,13 @@ const WarehousePage = () => {
         )}
         <ScrollView
           showsVerticalScrollIndicator={false}
-          style={{ backgroundColor: Colors.gray[100], marginTop: Spacing.rowGap }}
+          style={{ backgroundColor: Colors.gray[100], height: '100%' }}
         >
           <View
             style={{
               flexDirection: 'row',
               justifyContent: 'space-between',
               alignItems: 'center',
-              marginBottom: Spacing.rowGap,
             }}
           >
             <TouchableHighlight
@@ -89,7 +88,7 @@ const WarehousePage = () => {
                 setShowModal(true)
               }}
             />
-            <IconButton library='mui' icon="send" label="Tranferencia" />
+            <IconButton library="mui" icon="send" label="Tranferencia" />
           </View>
           {!cardList ? (
             <View style={{ flexDirection: 'column', rowGap: 20 }}>
