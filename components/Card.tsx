@@ -13,9 +13,16 @@ export type CardProps = TouchableOpacityProps &
     children: React.ReactNode
     style?: StyleProp<ViewStyle>
     pressable?: boolean
+    noShadow?: boolean
   }
 
-const Card: React.FC<CardProps> = ({ children, style, pressable = false, ...rest }) => {
+const Card: React.FC<CardProps> = ({
+  children,
+  style,
+  pressable = false,
+  noShadow = false,
+  ...rest
+}) => {
   const MainComponent: any = pressable ? TouchableOpacity : View
 
   return (
@@ -26,11 +33,10 @@ const Card: React.FC<CardProps> = ({ children, style, pressable = false, ...rest
         padding: 8,
         backgroundColor: 'white',
         borderRadius: 16,
-        elevation: 3,
+        elevation: noShadow ? undefined : 3,
         shadowColor: 'black',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 1,
-
         ...Object(style),
       }}
       {...rest}
