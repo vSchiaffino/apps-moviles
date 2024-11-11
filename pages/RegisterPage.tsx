@@ -6,8 +6,10 @@ import ValidatedForm, { ValidatedField } from '@/components/ValidatedForm'
 import userService from '@/services/user.service'
 import { Spacing } from '@/constants/Spacing'
 import { Colors } from '@/constants/Colors'
+import { useNotAuthorizedUser } from '@/hooks/useUser'
 
 const RegisterPage = () => {
+  useNotAuthorizedUser()
   const onSubmit = async (form: any) => {
     const response = await userService.register(form)
     // TODO: show success message

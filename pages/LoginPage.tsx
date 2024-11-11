@@ -4,20 +4,28 @@ import { Link, router } from 'expo-router'
 import Typography from '@/components/Typography'
 import ValidatedForm, { ValidatedField } from '@/components/ValidatedForm'
 import userService from '@/services/user.service'
-import { UserPayload } from '@/context/AuthContext'
-import useUser from '@/hooks/useUser'
+import { useNotAuthorizedUser } from '@/hooks/useUser'
 import { Spacing } from '@/constants/Spacing'
 import { Colors } from '../constants/Colors'
+import { Buffer } from 'buffer'
+import { UserPayload } from '@/context/AuthContext'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const LoginPage = () => {
-  const { user, setUser } = useUser()
+  const setUser = useNotAuthorizedUser()
   const onSubmit = async (form: any) => {
     const response = await userService.login(form.user, form.password)
     const json = await response.json()
     const jwtToken = json.token
-    const payloadBase64 = jwtToken.split('.')[1]
-    const payload: UserPayload = JSON.parse(atob(payloadBase64))
+    const parts = jwtToken
+      .split('.')
+      .map((part: string) =>
+        Buffer.from(part.replace(/-/g, '+').replace(/_/g, '/'), 'base64').toString(),
+      )
+    const payload: UserPayload = JSON.parse(parts[1])
     setUser(payload)
+    await AsyncStorage.clear()
+    await AsyncStorage.setItem('user', JSON.stringify(payload))
     router.push('/')
   }
   const fields: ValidatedField[] = [

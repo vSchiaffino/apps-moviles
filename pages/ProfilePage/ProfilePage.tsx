@@ -8,12 +8,16 @@ import ProfilePicture from './ProfilePicture'
 import TabsSelector from './TabsSelector'
 import PersonalDataTab from './PersonalDataTab'
 import ChangePasswordTab from './ChangePasswordTab'
+import StyledButton from '@/components/StyledButton'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useAuthorizedUser } from '@/hooks/useUser'
 
 interface ProfilePageProps {
   user: UserPayload
 }
 
 const ProfilePage = ({ user }: ProfilePageProps) => {
+  const { setUser } = useAuthorizedUser()
   const [userPic, setUserPic] = useState('../assets/images/test.jpeg')
   const [modalVisible, setModalVisible] = useState(false)
   const [selectedTab, setSelectedTab] = useState(0)
@@ -48,6 +52,15 @@ const ProfilePage = ({ user }: ProfilePageProps) => {
           />
           {selectedTab === 0 ? <PersonalDataTab user={user} /> : <ChangePasswordTab />}
         </Container>
+        <StyledButton
+          color="danger"
+          label="Cerrar sesión"
+          iconRight={'log-out-outline'}
+          onPress={() => {
+            AsyncStorage.clear()
+            setUser(null)
+          }}
+        />
       </Container>
     </ScrollView>
   )

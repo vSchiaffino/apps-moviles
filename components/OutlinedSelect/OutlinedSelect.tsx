@@ -5,10 +5,10 @@ import Typography from '../Typography'
 import SelectItems from './SelectItems'
 
 export interface OutlinedInputProps {
-  label: string
-  option: string
-  options: string[]
-  setOption: (option: string) => void
+  label?: string
+  option: any
+  options: any[]
+  setOption: (option: any) => void
   error?: boolean
   errorMessage?: string
   disabled?: boolean
@@ -53,27 +53,29 @@ const OutlinedSelect: React.FC<OutlinedInputProps> = ({
 
   return (
     <View style={styles.container}>
-      <Animated.Text
-        style={[
-          styles.label,
-          {
-            zIndex: isLabelOnTop ? 1 : -1,
-            color: disabled
-              ? Colors.gray[500]
-              : showError
-                ? Colors.danger[600]
-                : isFocused
-                  ? Colors.primary[600]
-                  : Colors.gray[900],
-            userSelect: 'none',
-          },
-          {
-            transform: [{ translateY: labelPosition }],
-          },
-        ]}
-      >
-        {label}
-      </Animated.Text>
+      {label && (
+        <Animated.Text
+          style={[
+            styles.label,
+            {
+              zIndex: isLabelOnTop ? 1 : -1,
+              color: disabled
+                ? Colors.gray[500]
+                : showError
+                  ? Colors.danger[600]
+                  : isFocused
+                    ? Colors.primary[600]
+                    : Colors.gray[900],
+              userSelect: 'none',
+            },
+            {
+              transform: [{ translateY: labelPosition }],
+            },
+          ]}
+        >
+          {label}
+        </Animated.Text>
+      )}
       <Pressable
         ref={inputRef}
         onPress={handlePress}
