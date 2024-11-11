@@ -10,13 +10,7 @@ const IconCard = ({
   text,
   onPress,
 }: {
-  icon:
-    | 'cube-outline'
-    | 'ban-outline'
-    | 'camera-outline'
-    | 'image-outline'
-    | 'trash-outline'
-    | 'warehouse'
+  icon: keyof typeof Ionicons.glyphMap | 'warehouse'
   color: 'primary' | 'danger' | 'gray'
   text: string
   onPress?: Function
