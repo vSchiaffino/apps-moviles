@@ -30,6 +30,8 @@ export const TableHeader: React.FC<TableHeaderProps> = ({
         backgroundColor: Colors.primary[200],
         padding: 10,
         gap: 10,
+        borderTopLeftRadius: 16,
+        borderTopRightRadius: 16,
       }}
     >
       {columns.map(({ width, title, align, font, key }, index) => (

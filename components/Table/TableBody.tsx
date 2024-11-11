@@ -37,6 +37,8 @@ export const TableBody: React.FC<TableBodyProps> = ({
         backgroundColor: colorPallete[100],
         padding: 10,
         borderRadius: 0,
+        borderBottomLeftRadius: index === rows.length - 1 ? 16 : 0,
+        borderBottomRightRadius: index === rows.length - 1 ? 16 : 0,
         borderBottomWidth: index === rows.length - 1 ? 0 : 1,
         borderColor: Colors.gray[200],
       }}

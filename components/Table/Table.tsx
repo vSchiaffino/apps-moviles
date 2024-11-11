@@ -51,8 +51,6 @@ const Table: React.FC<TableProps> = ({
     <View>
       <View
         style={{
-          borderColor: Colors.gray[200],
-          borderWidth: 1,
           marginBottom: 10,
         }}
       >
