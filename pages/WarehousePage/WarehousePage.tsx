@@ -12,6 +12,7 @@ import { useWarehouses } from '@/hooks/useWarehouses'
 import WarehouseModal from './WarehouseModal'
 import Pagination from '@/models/Pagination'
 import Sort from '@/models/Sort'
+import { router } from 'expo-router'
 
 const WarehousePage = () => {
   const [pagination, setPagination] = React.useState<Pagination>({ page: 1, limit: 5 })
@@ -98,7 +99,13 @@ const WarehousePage = () => {
               warehouses={warehouses}
               sort={sort}
               setSort={setSort}
-              onClickRow={(row: any) => {
+              onPressRow={(row: any) => {
+                router.push({
+                  pathname: '/warehouse-detail',
+                  params: { id: row.id },
+                })
+              }}
+              onLongPressRow={(row: any) => {
                 setEditingWarehouse(row)
                 setShowModal(true)
               }}
