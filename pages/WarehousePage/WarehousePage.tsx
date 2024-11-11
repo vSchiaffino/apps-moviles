@@ -34,7 +34,7 @@ const WarehousePage = () => {
 
   return (
     warehouses && (
-      <Container style={{ padding: 16 }}>
+      <Container>
         {showModal && (
           <WarehouseModal
             warehouse={editingWarehouse}
@@ -60,6 +60,9 @@ const WarehousePage = () => {
               flexDirection: 'row',
               justifyContent: 'space-between',
               alignItems: 'center',
+              paddingRight: 16,
+              paddingLeft: 16,
+              paddingTop: 16,
             }}
           >
             <TouchableHighlight
@@ -81,7 +84,15 @@ const WarehousePage = () => {
               )}
             </TouchableHighlight>
           </View>
-          <View style={{ flexDirection: 'row', gap: Spacing.rowGap, marginBottom: Spacing.rowGap }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              gap: Spacing.rowGap,
+              paddingLeft: 16,
+              paddingRight: 16,
+              paddingBottom: 16,
+            }}
+          >
             <AddButton
               onPress={() => {
                 setEditingWarehouse(null)
@@ -91,7 +102,14 @@ const WarehousePage = () => {
             <IconButton library="mui" icon="send" label="Tranferencia" />
           </View>
           {!cardList ? (
-            <View style={{ flexDirection: 'column', rowGap: 20 }}>
+            <View
+              style={{
+                flexDirection: 'column',
+                rowGap: Spacing.rowGap,
+                marginBottom: 75,
+                padding: 16,
+              }}
+            >
               {warehouses.map((warehouse: any) => (
                 <WarehouseCard item={warehouse} key={warehouse.id} />
               ))}
