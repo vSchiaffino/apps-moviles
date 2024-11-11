@@ -17,20 +17,24 @@ const StyledButton: React.FC<StyledButtonProps> = ({
   color = 'primary',
   type = 'filled',
   iconRight,
+  style,
   ...rest
 }) => {
   const colorScheme = Colors[color]
   const backgroundColor = disabled ? colorScheme[300] : colorScheme[600]
   return (
     <TouchableOpacity
-      style={{
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: '100%',
-        paddingVertical: 14,
-        backgroundColor,
-      }}
+      style={[
+        {
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center',
+          width: '100%',
+          paddingVertical: 14,
+          backgroundColor,
+        },
+        style,
+      ]}
       disabled={disabled}
       {...rest}
     >
