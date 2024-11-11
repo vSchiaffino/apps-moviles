@@ -26,10 +26,11 @@ const Card: React.FC<CardProps> = ({ children, style, pressable = false, ...rest
         padding: 8,
         backgroundColor: 'white',
         borderRadius: 16,
+        elevation: 3,
         shadowColor: 'black',
         shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
+        shadowOpacity: 1,
+
         ...Object(style),
       }}
       {...rest}
