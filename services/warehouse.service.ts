@@ -23,6 +23,11 @@ export class WarehouseService {
     const response = await apiService.get(`/warehouses?${query.toString()}`)
     return await response.json()
   }
+
+  public async findOne(id: number) {
+    const response = await apiService.get(`/warehouses/${id}`)
+    return await response.json()
+  }
 }
 
 const warehouseService = new WarehouseService()

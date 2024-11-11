@@ -3,9 +3,11 @@ import Typography from '../Typography'
 import { TableColumn } from './Table'
 
 const TableItem: React.FC<{ row: any; column: TableColumn }> = ({ row, column }) => {
-  const { key, align, font, component, render } = column
+  const { key, align, font, component, render, getValue } = column
   if (component) return React.createElement(component, { row })
   if (render) return render(row)
+
+  const value = getValue ? getValue(row) : row[key]
 
   return (
     <Typography
@@ -17,7 +19,7 @@ const TableItem: React.FC<{ row: any; column: TableColumn }> = ({ row, column })
       ellipsizeMode="tail"
       style={{ width: '100%' }}
     >
-      {row[key]}
+      {value}
     </Typography>
   )
 }
