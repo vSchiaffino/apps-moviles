@@ -6,6 +6,7 @@ import { ApiValidationError } from '@/services/api.service'
 import Typography from './Typography'
 import { TextInput, TextInputProps } from 'react-native'
 import OutlinedInputPassword from './OutlinedInputPassword'
+import OutlinedSelect, { OutlinedSelectProps } from './OutlinedSelect/OutlinedSelect'
 
 export type ValidatedField = {
   name: string
@@ -13,8 +14,8 @@ export type ValidatedField = {
   password?: boolean
   disabled?: boolean
   rules: RegisterOptions<any>
-  component?: 'input' | 'input-password'
-  inputProps?: Partial<OutlinedInputProps>
+  component?: 'input' | 'input-password' | 'select'
+  inputProps?: Partial<OutlinedInputProps | OutlinedSelectProps>
 }
 
 export interface ValidatedFormProps {
@@ -50,7 +51,12 @@ const ValidatedForm = ({
   return (
     <>
       {fields.map(({ name, label, disabled, rules, inputProps, component = 'input' }, index) => {
-        const Component = component === 'input' ? OutlinedInput : OutlinedInputPassword
+        const components = {
+          input: OutlinedInput,
+          'input-password': OutlinedInputPassword,
+          select: OutlinedSelect,
+        }
+        const Component = components[component] as any
         return (
           <Controller
             key={name}
@@ -77,11 +83,13 @@ const ValidatedForm = ({
                 errorMessage={errors[name]?.message as string}
                 label={label}
                 onBlur={onBlur}
-                onChangeText={(value) => {
+                onChangeText={(value: any) => {
                   clearErrors()
                   onChange(value)
                 }}
                 value={value}
+                option={value}
+                setOption={onChange}
                 {...inputProps}
               />
             )}

@@ -90,8 +90,7 @@ export default function RootLayout() {
               <Tabs.Screen name="register" options={{ href: null }} />
               <Tabs.Screen name="+not-found" options={{ href: null }} />
               <Tabs.Screen name="warehouseTransfer" options={{ href: null }} />
-              <Tabs.Screen name="products" options={{ href: null }} />
-              <Tabs.Screen name="stockManager" options={{ href: null }} />
+              <Tabs.Screen name="warehouse-detail" options={{ href: null }} />
             </Tabs>
           </GestureHandlerRootView>
         </QueryClientProvider>

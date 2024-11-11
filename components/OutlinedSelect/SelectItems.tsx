@@ -7,13 +7,15 @@ import { Colors } from '@/constants/Colors'
 
 export interface SelectItemProps {
   inputMeasures: { top: number; left: number; width: number }
-  options: string[]
-  onSelectOption: (option: string) => void
+  options: any[]
+  renderOption: (option: any) => string
+  onSelectOption: (option: any) => void
   onDismiss: () => void
 }
 
 const SelectItems: React.FC<SelectItemProps> = ({
   options,
+  renderOption,
   onSelectOption,
   onDismiss,
   inputMeasures: { top, left, width },
@@ -42,11 +44,10 @@ const SelectItems: React.FC<SelectItemProps> = ({
           >
             {options.map((option) => (
               <Pressable
-                key={option}
+                key={renderOption(option)}
                 onPressIn={() => handlePressIn(option)}
                 onPressOut={handlePressOut}
                 onPress={(e) => {
-                  console.log('press', e)
                   e.preventDefault()
                   onSelectOption(option)
                 }}
@@ -59,7 +60,7 @@ const SelectItems: React.FC<SelectItemProps> = ({
                   }}
                 >
                   <Typography variant="body" color="dark">
-                    {option}
+                    {renderOption(option)}
                   </Typography>
                 </Animated.View>
               </Pressable>

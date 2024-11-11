@@ -15,6 +15,7 @@ const ProductTable: React.FC<{
   return (
     products && (
       <Table
+        sortingFields={['name']}
         entityName="Productos"
         onClickRow={onClickRow}
         sort={sort}
