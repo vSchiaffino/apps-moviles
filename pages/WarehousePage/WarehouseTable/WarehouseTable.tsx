@@ -6,22 +6,34 @@ import Pagination from '@/models/Pagination'
 import Sort from '@/models/Sort'
 
 const WarehouseTable: React.FC<{
-  onClickRow: (row: any) => void
+  onPressRow: (row: any) => void
+  onLongPressRow: (row: any) => void
   warehouses: any[]
   total: number
   sort: Sort
   setSort: (sort: Sort) => void
   pagination: Pagination
   setPagination: (pagination: Pagination) => void
-}> = ({ warehouses, onClickRow, sort, setSort, pagination, setPagination, total }) => {
+}> = ({
+  warehouses,
+  onPressRow,
+  onLongPressRow,
+  sort,
+  setSort,
+  pagination,
+  setPagination,
+  total,
+}) => {
   return (
     warehouses && (
       <Table
         entityName="Depósitos"
-        onClickRow={onClickRow}
+        onClickRow={onPressRow}
+        onLongPressRow={onLongPressRow}
         sort={sort}
         onChangeSort={setSort}
         headerFont="geist"
+        sortingFields={['name']}
         columns={[
           { key: 'name', title: 'Nombre', width: '33.3%', align: 'flex-start' },
           {

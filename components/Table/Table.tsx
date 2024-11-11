@@ -15,6 +15,7 @@ export interface TableColumn {
   font?: Fonts
   render?: (row: any) => React.ReactNode
   component?: React.FC<{ row: any }>
+  getValue?: (row: any) => any
   width: DimensionValue
 }
 
@@ -25,10 +26,12 @@ export interface TableProps {
   headerFont?: Fonts
   sort?: Sort
   onChangeSort?: (sort: Sort) => void
-  pagination: { page: number; limit: number; total: number }
-  onChangePagination: (pagination: Pagination) => void
+  pagination?: { page: number; limit: number; total: number }
+  onChangePagination?: (pagination: Pagination) => void
   entityName?: string
   onClickRow?: (row: any) => void
+  onLongPressRow?: (row: any) => void
+  sortingFields?: string[]
 }
 
 const Table: React.FC<TableProps> = ({
@@ -40,7 +43,9 @@ const Table: React.FC<TableProps> = ({
   pagination,
   onChangePagination,
   onClickRow = () => {},
+  onLongPressRow = () => {},
   entityName = 'items',
+  sortingFields = [],
 }) => {
   return (
     <View>
@@ -57,17 +62,25 @@ const Table: React.FC<TableProps> = ({
           headerFont={headerFont}
           sort={sort}
           onChangeSort={onChangeSort}
+          sortingFields={sortingFields}
         />
-        <TableBody columns={columns} rows={rows} onClickRow={onClickRow} />
+        <TableBody
+          columns={columns}
+          rows={rows}
+          onClickRow={onClickRow}
+          onLongPressRow={onLongPressRow}
+        />
       </View>
-      <TablePagination
-        entityName={entityName}
-        pagination={{
-          actual: rows.length,
-          ...pagination,
-        }}
-        onChangePagination={onChangePagination}
-      />
+      {pagination && onChangePagination && (
+        <TablePagination
+          entityName={entityName}
+          pagination={{
+            actual: rows.length,
+            ...pagination,
+          }}
+          onChangePagination={onChangePagination}
+        />
+      )}
     </View>
   )
 }

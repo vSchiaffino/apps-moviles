@@ -16,7 +16,12 @@ export default function useProducts(pagination: Pagination, sort: Sort) {
       await productService.create(product)
       refetch()
     },
-    products: data?.data,
+    products:
+      data?.data &&
+      data.data.map((item: any) => ({
+        ...item,
+        stock: item.storedIn.reduce((acc: number, stock: any) => acc + stock.quantity, 0),
+      })),
     total: data?.total,
     ...rest,
   }

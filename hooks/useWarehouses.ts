@@ -7,9 +7,14 @@ export function useWarehouses(pagination: Pagination, sort: Sort) {
   const { data, refetch, ...restQuery } = useQuery(['warehouses', pagination, sort], () =>
     warehouseService.findMany(pagination, sort),
   )
-
   return {
-    warehouses: data?.data,
+    warehouses:
+      data &&
+      data.data &&
+      data.data.map((item: any) => ({
+        ...item,
+        stock: item.stock.reduce((acc: number, stock: any) => acc + stock.quantity, 0),
+      })),
     total: data?.total,
     create: async (warehouse: any) => {
       await warehouseService.create(warehouse)
@@ -19,6 +24,7 @@ export function useWarehouses(pagination: Pagination, sort: Sort) {
       await warehouseService.edit(id, warehouse)
       refetch()
     },
+    refetch,
     ...restQuery,
   }
 }
