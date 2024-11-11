@@ -16,7 +16,6 @@ const Container: React.FC<ContainerProps> = ({ children, style }) => {
       <View
         style={{
           width: '100%',
-          padding: 16,
           backgroundColor: Colors.gray[100],
           ...Object(style),
         }}
