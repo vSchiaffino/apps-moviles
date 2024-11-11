@@ -47,6 +47,7 @@ export default function RootLayout() {
                 headerShown: false,
                 tabBarStyle: {
                   display: ['login', 'register'].includes(route.name) ? 'none' : 'flex',
+                  position: 'absolute',
                   paddingBottom: 10,
                   paddingTop: 10,
                   height: 65,
