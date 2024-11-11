@@ -42,7 +42,7 @@ const ProductsPage = () => {
           product={editingProduct}
         />
       )}
-      <ScrollView style={{ backgroundColor: Colors.gray[100], marginTop: Spacing.rowGap }}>
+      <ScrollView style={{ backgroundColor: Colors.gray[100] }}>
         <View
           style={{
             flexDirection: 'row',
@@ -51,9 +51,6 @@ const ProductsPage = () => {
             marginBottom: Spacing.rowGap,
           }}
         >
-          <View style={{ height: 'auto' }}>
-            <Typography variant="h4">Productos</Typography>
-          </View>
           <AddButton
             onPress={() => {
               setEditingProduct(null)
