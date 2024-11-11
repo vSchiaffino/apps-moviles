@@ -13,6 +13,7 @@ import WarehouseModal from './WarehouseModal'
 import Pagination from '@/models/Pagination'
 import Sort from '@/models/Sort'
 import { router, useFocusEffect } from 'expo-router'
+import IconButton from '@/components/IconButton'
 
 const WarehousePage = () => {
   const [pagination, setPagination] = React.useState<Pagination>({ page: 1, limit: 5 })
@@ -80,12 +81,15 @@ const WarehousePage = () => {
                 <Ionicons name="grid-outline" size={24} color="grey" />
               )}
             </TouchableHighlight>
+          </View>
+          <View style={{ flexDirection: 'row', gap: Spacing.rowGap, marginBottom: Spacing.rowGap }}>
             <AddButton
               onPress={() => {
                 setEditingWarehouse(null)
                 setShowModal(true)
               }}
             />
+            <IconButton library='mui' icon="send" label="Tranferencia" />
           </View>
           {!cardList ? (
             <View style={{ flexDirection: 'column', rowGap: 20 }}>
