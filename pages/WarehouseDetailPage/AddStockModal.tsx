@@ -40,6 +40,7 @@ export const AddStockModal: React.FC<AddStockModalProps> = ({
                 options: products,
                 renderOption: (option) => option.name,
                 label: 'Producto',
+                optionsYOffset: 38,
               },
               rules: {
                 required: 'Este campo es requerido',

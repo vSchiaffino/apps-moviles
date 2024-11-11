@@ -13,6 +13,7 @@ export interface OutlinedSelectProps extends Partial<OutlinedInputProps> {
   errorMessage?: string
   disabled?: boolean
   renderOption?: (option: any) => string
+  optionsYOffset?: number
 }
 
 const OutlinedSelect: React.FC<OutlinedSelectProps> = ({
@@ -21,6 +22,7 @@ const OutlinedSelect: React.FC<OutlinedSelectProps> = ({
   setOption,
   options,
   disabled,
+  optionsYOffset = 0,
   renderOption = (option: any) => option,
   error = false,
   errorMessage = '',
@@ -36,7 +38,7 @@ const OutlinedSelect: React.FC<OutlinedSelectProps> = ({
   const handlePress = () => {
     if (!inputRef.current) return
     inputRef.current.measure((fx, fy, width, height, px, py) => {
-      setInputMeasures({ top: py, left: px, width, height })
+      setInputMeasures({ top: py + optionsYOffset, left: px, width, height })
       setIsFocused(true)
       animateLabel(1)
     })
