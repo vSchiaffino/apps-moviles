@@ -48,12 +48,8 @@ const Table: React.FC<TableProps> = ({
   sortingFields = [],
 }) => {
   return (
-    <View>
-      <View
-        style={{
-          marginBottom: 10,
-        }}
-      >
+    <View style={{ gap: 10 }}>
+      <View>
         <TableHeader
           columns={columns}
           headerFont={headerFont}
@@ -68,16 +64,18 @@ const Table: React.FC<TableProps> = ({
           onLongPressRow={onLongPressRow}
         />
       </View>
-      {pagination && onChangePagination && (
-        <TablePagination
-          entityName={entityName}
-          pagination={{
-            actual: rows.length,
-            ...pagination,
-          }}
-          onChangePagination={onChangePagination}
-        />
-      )}
+      <View>
+        {pagination && onChangePagination && (
+          <TablePagination
+            entityName={entityName}
+            pagination={{
+              actual: rows.length,
+              ...pagination,
+            }}
+            onChangePagination={onChangePagination}
+          />
+        )}
+      </View>
     </View>
   )
 }

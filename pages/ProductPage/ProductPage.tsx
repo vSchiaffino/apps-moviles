@@ -25,7 +25,7 @@ const ProductsPage = () => {
   const [showModal, setShowModal] = React.useState(false)
   const [editingProduct, setEditingProduct] = React.useState<any>(null)
   return (
-    <Container>
+    <Container style={{ height: '100%' }}>
       {showModal && (
         <ProductModal
           onSubmit={async (form: any) => {
@@ -42,13 +42,16 @@ const ProductsPage = () => {
           product={editingProduct}
         />
       )}
-      <ScrollView style={{ backgroundColor: Colors.gray[100] }}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={{ backgroundColor: Colors.gray[100] }}
+      >
         <View
           style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
-            marginBottom: Spacing.rowGap,
+            marginBottom: 10,
           }}
         >
           <AddButton
