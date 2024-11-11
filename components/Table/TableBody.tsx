@@ -43,6 +43,9 @@ export const TableBody: React.FC<TableBodyProps> = ({
         borderBottomRightRadius: index === rows.length - 1 ? 16 : 0,
         borderBottomWidth: index === rows.length - 1 ? 1 : 1,
         borderColor: Colors.gray[200],
+        elevation: 3,
+        shadowColor: 'black',
+        shadowOpacity: 1,
       }}
     >
       {columns.map((column) => (

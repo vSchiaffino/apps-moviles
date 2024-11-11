@@ -109,24 +109,26 @@ const WarehousePage = () => {
               ))}
             </View>
           ) : (
-            <WarehouseTable
-              pagination={pagination}
-              setPagination={setPagination}
-              total={total}
-              warehouses={warehouses}
-              sort={sort}
-              setSort={setSort}
-              onPressRow={(row: any) => {
-                router.push({
-                  pathname: '/warehouse-detail',
-                  params: { id: row.id },
-                })
-              }}
-              onLongPressRow={(row: any) => {
-                setEditingWarehouse(row)
-                setShowModal(true)
-              }}
-            />
+            <View style={{ paddingLeft: 16, paddingRight: 16 }}>
+              <WarehouseTable
+                pagination={pagination}
+                setPagination={setPagination}
+                total={total}
+                warehouses={warehouses}
+                sort={sort}
+                setSort={setSort}
+                onPressRow={(row: any) => {
+                  router.push({
+                    pathname: '/warehouse-detail',
+                    params: { id: row.id },
+                  })
+                }}
+                onLongPressRow={(row: any) => {
+                  setEditingWarehouse(row)
+                  setShowModal(true)
+                }}
+              />
+            </View>
           )}
         </ScrollView>
       </Container>
