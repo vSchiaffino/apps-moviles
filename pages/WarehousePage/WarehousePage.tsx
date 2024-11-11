@@ -58,48 +58,41 @@ const WarehousePage = () => {
           <View
             style={{
               flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              paddingRight: 16,
-              paddingLeft: 16,
-              paddingTop: 16,
+              justifyContent: 'flex-end',
+              gap: Spacing.rowGap,
+              padding: 16,
+              paddingRight: 30,
             }}
           >
-            <TouchableHighlight
-              underlayColor={'rgba(1,1,1,0.05)'}
-              style={{
-                borderRadius: 999,
-                aspectRatio: 1 / 1,
-                justifyContent: 'center',
-                alignSelf: 'center',
-                padding: 10,
-              }}
+            <IconButton
+              mode="highlight"
+              color="grey"
+              style={{ backgroundColor: 'transparent' }}
+              icon={cardList ? 'list-outline' : 'grid-outline'}
+              size={24}
               onPress={() => toggleView()}
               hitSlop={20}
-            >
-              {cardList ? (
-                <Ionicons name="list-outline" size={24} color="grey" />
-              ) : (
-                <Ionicons name="grid-outline" size={24} color="grey" />
-              )}
-            </TouchableHighlight>
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              gap: Spacing.rowGap,
-              paddingLeft: 16,
-              paddingRight: 16,
-              paddingBottom: 16,
-            }}
-          >
-            <AddButton
+            />
+            <IconButton
+              color="grey"
+              mode="highlight"
+              style={{ backgroundColor: 'transparent' }}
               onPress={() => {
                 setEditingWarehouse(null)
                 setShowModal(true)
               }}
+              icon="add-circle-outline"
+              size={24}
             />
-            <IconButton library="mui" icon="send" label="Tranferencia" />
+            <IconButton
+              color="grey"
+              library="mui"
+              mode="highlight"
+              icon="compare-arrows"
+              style={{ backgroundColor: 'transparent' }}
+              size={26}
+              onPress={() => router.navigate('/warehouseTransfer')}
+            />
           </View>
           {!cardList ? (
             <View
@@ -108,6 +101,7 @@ const WarehousePage = () => {
                 rowGap: Spacing.rowGap,
                 marginBottom: 75,
                 padding: 16,
+                paddingTop: 0,
               }}
             >
               {warehouses.map((warehouse: any) => (
