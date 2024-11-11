@@ -65,8 +65,8 @@ const WarehousePage = () => {
             }}
           >
             <IconButton
-              mode="highlight"
-              color="grey"
+              mode="opacity"
+              color="rgba(1,1,1,0.7)"
               style={{ backgroundColor: 'transparent' }}
               icon={cardList ? 'list-outline' : 'grid-outline'}
               size={24}
@@ -74,8 +74,8 @@ const WarehousePage = () => {
               hitSlop={20}
             />
             <IconButton
-              color="grey"
-              mode="highlight"
+              color="rgba(1,1,1,0.7)"
+              mode="opacity"
               style={{ backgroundColor: 'transparent' }}
               onPress={() => {
                 setEditingWarehouse(null)
@@ -85,9 +85,9 @@ const WarehousePage = () => {
               size={24}
             />
             <IconButton
-              color="grey"
+              color="rgba(1,1,1,0.7)"
               library="mui"
-              mode="highlight"
+              mode="opacity"
               icon="compare-arrows"
               style={{ backgroundColor: 'transparent' }}
               size={26}

@@ -28,6 +28,8 @@ const IconButton: React.FC<AddButtonProps> = ({
     mode === 'opacity' ? TouchableOpacity : mode === 'highlight' ? TouchableHighlight : Pressable
   return (
     <MainComponent
+      underlayColor={mode === 'highlight' ? 'rgba(1,1,1,0.05)' : undefined}
+      hitSlop={20}
       style={[
         {
           flexDirection: 'row',
@@ -35,6 +37,9 @@ const IconButton: React.FC<AddButtonProps> = ({
           justifyContent: 'center',
           alignItems: 'center',
           height: 'auto',
+          borderRadius: 999,
+          aspectRatio: 1 / 1,
+          alignSelf: 'center',
         },
         style,
       ]}
