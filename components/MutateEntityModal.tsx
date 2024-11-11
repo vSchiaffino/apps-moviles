@@ -11,6 +11,7 @@ export interface MutateEntityModalProps {
   setShow: Function
   isCreating: boolean
   entityName: string
+  title?: string
   children: React.ReactNode
 }
 
@@ -18,6 +19,7 @@ const MutateEntityModal: React.FC<MutateEntityModalProps> = ({
   show,
   setShow,
   isCreating,
+  title,
   entityName,
   children,
 }) => {
@@ -58,9 +60,7 @@ const MutateEntityModal: React.FC<MutateEntityModalProps> = ({
             alignItems: 'center',
           }}
         >
-          <Typography variant="h5">
-            {action} un {entityName}
-          </Typography>
+          <Typography variant="h5">{title ? title : `${action} ${entityName}`}</Typography>
           <Ionicons
             name="close"
             size={30}
