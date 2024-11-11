@@ -53,7 +53,6 @@ const Table: React.FC<TableProps> = ({
         style={{
           borderColor: Colors.gray[200],
           borderWidth: 1,
-          borderRadius: 16,
           marginBottom: 10,
         }}
       >
