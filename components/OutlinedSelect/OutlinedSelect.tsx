@@ -1,28 +1,36 @@
 import { View, Text, StyleSheet, Pressable, Animated } from 'react-native'
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Colors } from '@/constants/Colors'
 import Typography from '../Typography'
 import SelectItems from './SelectItems'
+import { OutlinedInputProps } from '../OutlinedInput'
 
-export interface OutlinedInputProps {
-  label?: string
+export interface OutlinedSelectProps extends Partial<OutlinedInputProps> {
   option: any
   options: any[]
   setOption: (option: any) => void
   error?: boolean
   errorMessage?: string
   disabled?: boolean
+  renderOption?: (option: any) => string
 }
 
-const OutlinedSelect: React.FC<OutlinedInputProps> = ({
+const OutlinedSelect: React.FC<OutlinedSelectProps> = ({
   label,
   option,
   setOption,
   options,
+  disabled,
+  renderOption = (option: any) => option,
   error = false,
   errorMessage = '',
-  disabled,
+  backgroundColor = Colors.gray[100],
 }) => {
+  const [isFocused, setIsFocused] = useState(false)
+  useEffect(() => {
+    animateLabel(isFocused || !!option ? 1 : 0)
+  }, [option, isFocused])
+  const isLabelOnTop = isFocused || !!option
   const inputRef = useRef<View>(null)
   const [inputMeasures, setInputMeasures] = useState({ top: 0, left: 0, width: 0, height: 0 })
   const handlePress = () => {
@@ -34,8 +42,7 @@ const OutlinedSelect: React.FC<OutlinedInputProps> = ({
     })
   }
   const showError = error === true || errorMessage !== ''
-  const [isFocused, setIsFocused] = useState(false)
-  const isLabelOnTop = isFocused || option !== ''
+
   const animatedValue = useRef(new Animated.Value(0)).current
 
   const animateLabel = (toValue: number) => {
@@ -58,6 +65,7 @@ const OutlinedSelect: React.FC<OutlinedInputProps> = ({
           style={[
             styles.label,
             {
+              backgroundColor,
               zIndex: isLabelOnTop ? 1 : -1,
               color: disabled
                 ? Colors.gray[500]
@@ -93,7 +101,7 @@ const OutlinedSelect: React.FC<OutlinedInputProps> = ({
         ]}
       >
         <Typography variant="body" color="dark">
-          {option}
+          {!!option && renderOption(option)}
         </Typography>
       </Pressable>
       {!!errorMessage && (
@@ -109,6 +117,7 @@ const OutlinedSelect: React.FC<OutlinedInputProps> = ({
             setIsFocused(false)
             option === '' ? animateLabel(0) : undefined
           }}
+          renderOption={renderOption}
           options={options}
           onSelectOption={(selectedOption) => {
             setOption(selectedOption)
@@ -135,7 +144,6 @@ const styles = StyleSheet.create({
     zIndex: 1,
     paddingHorizontal: 5,
     paddingVertical: 0,
-    backgroundColor: Colors.gray[100],
   },
   input: {
     height: 52,

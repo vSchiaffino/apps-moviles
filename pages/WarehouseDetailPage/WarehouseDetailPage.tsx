@@ -9,17 +9,39 @@ import { ScrollView } from 'react-native-gesture-handler'
 import { Colors } from '@/constants/Colors'
 import Table from '@/components/Table/Table'
 import AddButton from '@/components/AddButton'
+import { AddStockModal } from './AddStockModal'
+import useProducts from '@/hooks/useProducts'
+import warehouseService from '@/services/warehouse.service'
 
 const WarehouesDetailPage = () => {
   const { id } = useLocalSearchParams()
+  const { products } = useProducts({ page: 1, limit: 999 }, { field: 'name', direction: 'DESC' })
   const { warehouse, refetch } = useWarehouseDetail(+id)
-
+  const [showModal, setShowModal] = React.useState(false)
+  const [selectedProduct, setSelectedProduct] = React.useState<any>(null)
   return (
     warehouse && (
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={{ backgroundColor: Colors.gray[100], marginTop: Spacing.rowGap }}
       >
+        {showModal && (
+          <AddStockModal
+            selectedProduct={selectedProduct}
+            products={products}
+            setShow={setShowModal}
+            show={showModal}
+            onSubmit={async (form: any) => {
+              const { product, quantity } = form
+              await warehouseService.addStock(+id, {
+                productId: product.id,
+                quantity: parseInt(quantity),
+              })
+              await refetch()
+              setShowModal(false)
+            }}
+          />
+        )}
         <Container style={{ gap: Spacing.rowGap }}>
           <View
             style={{
@@ -35,10 +57,20 @@ const WarehouesDetailPage = () => {
             style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}
           >
             <Typography variant="h5">Productos:</Typography>
-            <AddButton label="Ingresar" />
+            <AddButton
+              label="Ingresar"
+              onPress={() => {
+                setSelectedProduct(null)
+                setShowModal(true)
+              }}
+            />
           </View>
           <Table
             rows={warehouse.stock}
+            onClickRow={(row) => {
+              setSelectedProduct(row.product)
+              setShowModal(true)
+            }}
             columns={[
               {
                 key: 'name',

@@ -9,8 +9,8 @@ import { Colors } from '@/constants/Colors'
 export interface MutateEntityModalProps {
   show: boolean
   setShow: Function
-  isCreating: boolean
-  entityName: string
+  isCreating?: boolean
+  entityName?: string
   title?: string
   children: React.ReactNode
 }
