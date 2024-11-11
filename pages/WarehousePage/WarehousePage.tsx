@@ -12,7 +12,7 @@ import { useWarehouses } from '@/hooks/useWarehouses'
 import WarehouseModal from './WarehouseModal'
 import Pagination from '@/models/Pagination'
 import Sort from '@/models/Sort'
-import { router } from 'expo-router'
+import { router, useFocusEffect } from 'expo-router'
 
 const WarehousePage = () => {
   const [pagination, setPagination] = React.useState<Pagination>({ page: 1, limit: 5 })
@@ -20,10 +20,13 @@ const WarehousePage = () => {
     field: 'name',
     direction: 'ASC',
   })
-  const { warehouses, create, total, edit } = useWarehouses(pagination, sort)
+  const { warehouses, create, total, edit, refetch } = useWarehouses(pagination, sort)
   const [editingWarehouse, setEditingWarehouse] = useState<any>(null)
   const [showModal, setShowModal] = useState(false)
   const [cardList, setCardList] = useState(false)
+  useFocusEffect(() => {
+    refetch()
+  })
   function toggleView() {
     setCardList((prev) => !prev)
   }

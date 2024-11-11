@@ -33,6 +33,7 @@ const WarehouseTable: React.FC<{
         sort={sort}
         onChangeSort={setSort}
         headerFont="geist"
+        sortingFields={['name']}
         columns={[
           { key: 'name', title: 'Nombre', width: '33.3%', align: 'flex-start' },
           {

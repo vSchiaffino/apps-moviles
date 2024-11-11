@@ -31,6 +31,7 @@ export interface TableProps {
   entityName?: string
   onClickRow?: (row: any) => void
   onLongPressRow?: (row: any) => void
+  sortingFields?: string[]
 }
 
 const Table: React.FC<TableProps> = ({
@@ -44,6 +45,7 @@ const Table: React.FC<TableProps> = ({
   onClickRow = () => {},
   onLongPressRow = () => {},
   entityName = 'items',
+  sortingFields = [],
 }) => {
   return (
     <View>
@@ -60,6 +62,7 @@ const Table: React.FC<TableProps> = ({
           headerFont={headerFont}
           sort={sort}
           onChangeSort={onChangeSort}
+          sortingFields={sortingFields}
         />
         <TableBody
           columns={columns}
