@@ -21,36 +21,37 @@ const tabs = [
   {
     name: 'profile',
     title: 'Perfil',
-    showHeader: true,
+    showRootHeader: true,
     iconName: 'person',
   },
   {
     name: 'stock-manager',
     title: 'Stock',
-    showHeader: true,
     iconName: 'archive',
   },
   {
     name: 'index',
     title: 'Inicio',
-    showHeader: false,
     iconName: 'home',
   },
   {
     name: 'warehouse',
     title: 'Depósitos',
-    showHeader: true,
     iconName: 'warehouse',
   },
   {
     name: 'products',
     title: 'Productos',
-    showHeader: true,
     iconName: 'cube',
   },
 ]
 
-const invisibleTabs = ['+not-found', 'login', 'register', 'stock-summary']
+const invisibleTabs = [
+  { name: '+not-found' },
+  { name: 'login' },
+  { name: 'register' },
+  { name: 'stock-summary', title: 'Resumen Stock', showRootHeader: true },
+]
 
 export default function RootLayout() {
   const colorScheme = useColorScheme()
@@ -103,14 +104,14 @@ export default function RootLayout() {
                 },
               })}
             >
-              {tabs.map(({ name, title, showHeader, iconName }, index) => (
+              {tabs.map(({ name, title, iconName, showRootHeader = false }, index) => (
                 <Tabs.Screen
                   key={index}
                   name={name}
                   options={{
                     title: title,
-                    headerShown: showHeader,
-                    headerTitle: showHeader ? () => <PageHeader title={title} /> : undefined,
+                    header: (props: any) => <PageHeader {...props} back={undefined} />,
+                    headerShown: showRootHeader,
                     tabBarIcon: ({ focused }) =>
                       iconName !== 'warehouse' ? (
                         <Ionicons
@@ -140,8 +141,17 @@ export default function RootLayout() {
                   }}
                 />
               ))}
-              {invisibleTabs.map((name, index) => (
-                <Tabs.Screen key={index} name={name} options={{ href: null }} />
+              {invisibleTabs.map(({ name, title = '', showRootHeader }, index) => (
+                <Tabs.Screen
+                  key={index}
+                  name={name}
+                  options={{
+                    title: title,
+                    href: null,
+                    header: (props: any) => <PageHeader {...props} back={undefined} />,
+                    headerShown: showRootHeader,
+                  }}
+                />
               ))}
             </Tabs>
           </GestureHandlerRootView>

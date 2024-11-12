@@ -1,6 +1,5 @@
-import { View, Text, TouchableHighlight } from 'react-native'
+import { View } from 'react-native'
 import React from 'react'
-import { useLocalSearchParams, useNavigation } from 'expo-router'
 import { useWarehouseDetail } from '@/hooks/useWarehouseDetail'
 import { Spacing } from '@/constants/Spacing'
 import Typography from '@/components/Typography'
@@ -8,11 +7,11 @@ import Container from '@/components/Container'
 import { ScrollView } from 'react-native-gesture-handler'
 import { Colors } from '@/constants/Colors'
 import Table from '@/components/Table/Table'
-import AddButton from '@/components/AddButton'
 import { AddStockModal } from './AddStockModal'
 import useProducts from '@/hooks/useProducts'
 import warehouseService from '@/services/warehouse.service'
 import { useRoute } from '@react-navigation/native'
+import IconButton from '@/components/IconButton'
 
 const WarehouseDetailPage = () => {
   const {
@@ -45,23 +44,22 @@ const WarehouseDetailPage = () => {
             }}
           />
         )}
-        <Container style={{ gap: Spacing.rowGap }}>
+        <Container style={{ gap: Spacing.rowGap, paddingHorizontal: 16 }}>
           <View
             style={{
               flexDirection: 'row',
               justifyContent: 'space-between',
               alignItems: 'center',
-              marginBottom: Spacing.rowGap,
             }}
           >
-            <Typography variant="h4">Depósito "{warehouse.name}"</Typography>
-          </View>
-          <View
-            style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}
-          >
-            <Typography variant="h5">Productos:</Typography>
-            <AddButton
-              label="Ingresar"
+            <Typography variant="h4" style={{ alignSelf: 'flex-end' }}>
+              En stock:
+            </Typography>
+            <IconButton
+              style={{ padding: 8 }}
+              color={Colors.gray[100]}
+              icon="add-outline"
+              size={42}
               onPress={() => {
                 setSelectedProduct(null)
                 setShowModal(true)
