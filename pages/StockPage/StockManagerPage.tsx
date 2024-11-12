@@ -6,7 +6,7 @@ import IconSelect from '@/components/IconSelect';
 import Container from '@/components/Container';
 import { Calendar } from 'react-native-calendars';
 import DateSelect from '@/components/DateSelect'; 
-import { router } from 'expo-router';
+import { Link, router } from 'expo-router';
 
 
 const StockManagerPage: React.FC = () => {
@@ -64,12 +64,13 @@ const StockManagerPage: React.FC = () => {
         </View>
       </Modal>
 
-      <Pressable onPress={() => router.push('/')} style={styles.submitButton}>
+      <Pressable onPress={() => router.push('/stockSummary')} style={styles.submitButton}>
         <MaterialIcons name="send" size={20} color="#fff" />
         <Typography variant="h6" style={styles.submitButtonText}>
           Siguiente
         </Typography>
       </Pressable>
+
     </Container>
   );
 };
