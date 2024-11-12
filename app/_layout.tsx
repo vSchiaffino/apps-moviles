@@ -149,7 +149,9 @@ export default function RootLayout() {
                   options={{
                     title: title,
                     href: null,
-                    header: (props: any) => <PageHeader {...props} back={undefined} />,
+                    header: showRootHeader
+                      ? (props: any) => <PageHeader {...props} back={undefined} />
+                      : () => <></>,
                     headerShown: showRootHeader,
                   }}
                 />
