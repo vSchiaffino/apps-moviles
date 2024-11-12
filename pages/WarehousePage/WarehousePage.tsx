@@ -14,6 +14,7 @@ import Pagination from '@/models/Pagination'
 import Sort from '@/models/Sort'
 import { router, useFocusEffect } from 'expo-router'
 import IconButton from '@/components/IconButton'
+import IconList from '../IconList'
 
 const WarehousePage = () => {
   const [pagination, setPagination] = React.useState<Pagination>({ page: 1, limit: 5 })
@@ -55,45 +56,33 @@ const WarehousePage = () => {
           showsVerticalScrollIndicator={false}
           style={{ backgroundColor: Colors.gray[100], height: '100%' }}
         >
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'flex-end',
-              gap: Spacing.rowGap,
-              padding: 16,
-              paddingRight: 30,
-            }}
-          >
-            <IconButton
-              mode="opacity"
-              color="rgba(1,1,1,0.7)"
-              style={{ backgroundColor: 'transparent' }}
-              icon={cardList ? 'list-outline' : 'grid-outline'}
-              size={24}
-              onPress={() => toggleView()}
-              hitSlop={20}
-            />
-            <IconButton
-              color="rgba(1,1,1,0.7)"
-              mode="opacity"
-              style={{ backgroundColor: 'transparent' }}
-              onPress={() => {
-                setEditingWarehouse(null)
-                setShowModal(true)
-              }}
-              icon="add-circle-outline"
-              size={24}
-            />
-            <IconButton
-              color="rgba(1,1,1,0.7)"
-              library="mui"
-              mode="opacity"
-              icon="compare-arrows"
-              style={{ backgroundColor: 'transparent' }}
-              size={26}
-              onPress={() => router.navigate('/warehouseTransfer')}
-            />
-          </View>
+          <IconList
+            icons={[
+              {
+                icon: !cardList ? 'grid-outline' : 'list-outline',
+                onPress: () => toggleView(),
+                mode: 'opacity',
+              },
+              {
+                icon: 'add-circle-outline',
+                onPress: () => {
+                  setEditingWarehouse(null)
+                  setShowModal(true)
+                },
+                mode: 'opacity',
+              },
+              {
+                icon: 'compare-arrows',
+                onPress: () => {
+                  setEditingWarehouse(null)
+                  setShowModal(true)
+                },
+                mode: 'opacity',
+                library: 'mui',
+              },
+            ]}
+          />
+
           {!cardList ? (
             <View
               style={{
