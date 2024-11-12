@@ -5,10 +5,13 @@ import { View } from 'react-native'
 import * as Progress from 'react-native-progress'
 import Card from './Card'
 import { FontAwesome6 } from '@expo/vector-icons'
+import { useNavigation } from 'expo-router'
+import { WarehouseNavigationProp } from '@/app/warehouse'
 
 const WarehouseCard: React.FC<{ item: any }> = ({
-  item: { name, stockNumber: stock, capacity },
+  item: { id, name, stockNumber: stock, capacity },
 }) => {
+  const navigation = useNavigation<WarehouseNavigationProp>()
   const full = stock / capacity >= 1
   const almostFull = stock / capacity >= 0.9 && !full
   const color = full ? 'danger' : almostFull ? 'yellow' : 'primary'
@@ -16,6 +19,7 @@ const WarehouseCard: React.FC<{ item: any }> = ({
 
   return (
     <Card
+      onPress={() => navigation.navigate('warehouse-detail', { id })}
       pressable
       style={{
         flex: 1,
