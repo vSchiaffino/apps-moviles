@@ -26,7 +26,8 @@ const tabs = [
   },
   {
     name: 'stock-manager',
-    title: 'Stock',
+    title: 'Administrar Stock',
+    showRootHeader: true,
     iconName: 'archive',
   },
   {
