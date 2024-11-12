@@ -68,7 +68,7 @@ const OutlinedInput: React.FC<OutlinedInputProps> = ({
                 ? Colors.danger[600]
                 : isFocused
                   ? Colors.primary[600]
-                  : Colors.gray[900],
+                  : Colors.gray[600],
             userSelect: 'none',
           },
           isEmpty
