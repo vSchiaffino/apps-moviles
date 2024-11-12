@@ -8,7 +8,7 @@ const Stack = createNativeStackNavigator()
 const products = () => {
   return (
     <Stack.Navigator initialRouteName="products" screenOptions={{ header: PageHeader }}>
-      <Stack.Screen name="products-page" component={ProductsPage} options={{ title: 'Producto' }} />
+      <Stack.Screen name="products-page" component={ProductsPage} options={{ title: 'Productos' }} />
     </Stack.Navigator>
   )
 }

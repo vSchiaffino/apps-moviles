@@ -9,13 +9,10 @@ import { useWarehouses } from '@/hooks/useWarehouses'
 import WarehouseModal from './WarehouseModal'
 import Pagination from '@/models/Pagination'
 import Sort from '@/models/Sort'
-import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import IconList from '../IconList'
 import TransferWarehouseModal from './WarehuseTransferModal'
-import { WarehouseStackParamList } from '@/stacks/WarehouseStack'
 import { useNavigation } from 'expo-router'
-
-type WarehouseNavigationProp = NativeStackNavigationProp<WarehouseStackParamList, 'warehouse-page'>
+import { WarehouseNavigationProp } from '@/app/warehouse'
 
 const WarehousePage = () => {
   const { navigate } = useNavigation<WarehouseNavigationProp>()
