@@ -11,7 +11,7 @@ export interface IconProps {
 export interface Icon {
   icon: string
   onPress?: (event: GestureResponderEvent) => void
-  mode: string
+  mode?: string
   library?: string
 }
 
@@ -26,7 +26,7 @@ const IconList = ({ icons }: IconProps) => {
         paddingRight: 30,
       }}
     >
-      {icons.map(({ icon, onPress, mode, library }, index) => (
+      {icons.map(({ icon, onPress, mode = 'opacity', library }, index) => (
         <IconButton
           key={index}
           library={library as any}

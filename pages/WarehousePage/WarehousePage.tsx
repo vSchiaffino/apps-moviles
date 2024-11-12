@@ -67,7 +67,6 @@ const WarehousePage = () => {
               {
                 icon: !cardList ? 'grid-outline' : 'list-outline',
                 onPress: () => toggleView(),
-                mode: 'opacity',
               },
               {
                 icon: 'add-circle-outline',
@@ -75,14 +74,12 @@ const WarehousePage = () => {
                   setEditingWarehouse(null)
                   setShowSaveModal(true)
                 },
-                mode: 'opacity',
               },
               {
                 icon: 'compare-arrows',
                 onPress: () => {
                   setShowTransferModal(true)
                 },
-                mode: 'opacity',
                 library: 'mui',
               },
             ]}
