@@ -6,6 +6,7 @@ import {
 import WarehousePage from '@/pages/WarehousePage/WarehousePage'
 import WarehouseDetailPage from '@/pages/WarehouseDetailPage/WarehouseDetailPage'
 import PageHeader from '@/components/PageHeader'
+import { useAuthorizedUser } from '@/hooks/useUser'
 
 export type WarehouseStackParamList = {
   'warehouse-page': undefined
@@ -16,6 +17,7 @@ export type WarehouseNavigationProp = NativeStackNavigationProp<WarehouseStackPa
 const Stack = createNativeStackNavigator<WarehouseStackParamList>()
 
 const WarehouseStack = () => {
+  useAuthorizedUser()
   return (
     <Stack.Navigator
       id="warehouse"
