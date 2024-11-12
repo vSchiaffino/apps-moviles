@@ -63,7 +63,10 @@ const StockSummaryPage = () => {
           gap: 10,
         }}
       >
-        <InfoCard infoText={'Gon pone lo que hace la página acá'} />
+        <View style={{marginVertical:'10%'}}>
+            <InfoCard infoText={'Agrega los productos y detalla el stock inicial y final para la fecha que seleccionaste.'} />
+        </View>
+        
         <IconButton size={32} icon="add-outline" color="white" onPress={openModal} />
         <FlatList
           data={filteredItems} // Mostrar solo los productos seleccionados
