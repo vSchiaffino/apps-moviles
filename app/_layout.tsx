@@ -43,7 +43,7 @@ const tabs = [
   },
 ]
 
-const invisibleTabs = ['+not-found', 'login', 'register', 'warehouse-detail', 'warehouseTransfer']
+const invisibleTabs = ['+not-found', 'login', 'register', 'warehouse-detail', 'warehouse-transfer']
 
 export default function RootLayout() {
   const colorScheme = useColorScheme()

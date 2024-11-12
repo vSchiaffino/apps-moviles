@@ -44,7 +44,7 @@ const Dashboard = () => {
               color={'primary'}
               text="Productos"
               onPress={() => {
-                router.push('/warehouseTransfer')
+                router.push('/warehouse-transfer')
               }}
             />
             <IconCard
