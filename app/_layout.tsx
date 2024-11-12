@@ -21,31 +21,27 @@ const tabs = [
   {
     name: 'profile',
     title: 'Perfil',
-    showHeader: true,
+    showRootHeader: true,
     iconName: 'person',
   },
   {
     name: 'stock-manager',
     title: 'Stock',
-    showHeader: true,
     iconName: 'archive',
   },
   {
     name: 'index',
     title: 'Inicio',
-    showHeader: false,
     iconName: 'home',
   },
   {
     name: 'warehouse',
     title: 'Depósitos',
-    showHeader: true,
     iconName: 'warehouse',
   },
   {
     name: 'products',
     title: 'Productos',
-    showHeader: true,
     iconName: 'cube',
   },
 ]
@@ -103,12 +99,14 @@ export default function RootLayout() {
                 },
               })}
             >
-              {tabs.map(({ name, title, showHeader, iconName }, index) => (
+              {tabs.map(({ name, title, iconName, showRootHeader = false }, index) => (
                 <Tabs.Screen
                   key={index}
                   name={name}
                   options={{
                     title: title,
+                    header: (props: any) => <PageHeader {...props} back={undefined} />,
+                    headerShown: showRootHeader,
                     tabBarIcon: ({ focused }) =>
                       iconName !== 'warehouse' ? (
                         <Ionicons
