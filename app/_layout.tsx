@@ -46,7 +46,12 @@ const tabs = [
   },
 ]
 
-const invisibleTabs = ['+not-found', 'login', 'register', 'stock-summary']
+const invisibleTabs = [
+  { name: '+not-found' },
+  { name: 'login' },
+  { name: 'register' },
+  { name: 'stock-summary', title: 'Resumen Stock', showRootHeader: true },
+]
 
 export default function RootLayout() {
   const colorScheme = useColorScheme()
@@ -136,8 +141,17 @@ export default function RootLayout() {
                   }}
                 />
               ))}
-              {invisibleTabs.map((name, index) => (
-                <Tabs.Screen key={index} name={name} options={{ href: null }} />
+              {invisibleTabs.map(({ name, title = '', showRootHeader }, index) => (
+                <Tabs.Screen
+                  key={index}
+                  name={name}
+                  options={{
+                    title: title,
+                    href: null,
+                    header: (props: any) => <PageHeader {...props} back={undefined} />,
+                    headerShown: showRootHeader,
+                  }}
+                />
               ))}
             </Tabs>
           </GestureHandlerRootView>
