@@ -16,7 +16,7 @@ const StockSummaryPage = () => {
   const [stockData, setStockData] = useState<{
     [key: string]: { initial?: string; final?: string }
   }>({})
-  const [selectedItems, setSelectedItems] = useState<string[]>([]) // Nuevo estado para productos seleccionados
+  const [selectedItems, setSelectedItems] = useState<string[]>([])
 
   const openModal = () => {
     setModalVisible(true)
@@ -38,19 +38,19 @@ const StockSummaryPage = () => {
 
   const handleConfirmAndNext = () => {
     const currentProduct = items[currentProductIndex]
-    setSelectedItems((prev) => [...prev, currentProduct.id]) // Agregar el producto a la lista de seleccionados
+    setSelectedItems((prev) => [...prev, currentProduct.id]) 
     setCurrentProductIndex((prevIndex) => {
       const nextIndex = (prevIndex + 1) % items.length
       return nextIndex
     })
-    closeModal() // Cerrar el modal después de confirmar
+    closeModal() 
   }
 
   const handleAccept = () => {
     console.log('Datos de stock:', stockData)
   }
 
-  const filteredItems = items.filter((item) => selectedItems.includes(item.id)) // Filtrar solo los productos seleccionados
+  const filteredItems = items.filter((item) => selectedItems.includes(item.id)) 
 
   return (
     <Container style={{ height: '100%' }}>
@@ -69,7 +69,7 @@ const StockSummaryPage = () => {
         
         <IconButton size={32} icon="add-outline" color="white" onPress={openModal} />
         <FlatList
-          data={filteredItems} // Mostrar solo los productos seleccionados
+          data={filteredItems} 
           keyExtractor={(item) => item.id}
           contentContainerStyle={{ paddingTop: 16, paddingBottom: 80 }}
           renderItem={({ item }) => (
