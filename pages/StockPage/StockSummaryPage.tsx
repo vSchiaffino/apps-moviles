@@ -1,194 +1,202 @@
-import React, { useState } from 'react';
-import { View, FlatList, Pressable, Text, TextInput, StyleSheet } from 'react-native';
-import IconButton from '@/components/IconButton';
-import MutateEntityModal from '@/components/MutateEntityModal';
+import React, { useState } from 'react'
+import { View, FlatList, Pressable, Text, TextInput, StyleSheet } from 'react-native'
+import IconButton from '@/components/IconButton'
+import MutateEntityModal from '@/components/MutateEntityModal'
+import Container from '@/components/Container'
+import InfoCard from '@/components/InfoCard'
 
 const StockSummaryPage = () => {
-    const [items, setItems] = useState([
-        { id: '1', name: 'Producto A', quantity: 10 },
-        { id: '2', name: 'Producto B', quantity: 20 },
-    ]);
-    
-    const [modalVisible, setModalVisible] = useState(false);
-    const [currentProductIndex, setCurrentProductIndex] = useState(0);
-    const [stockData, setStockData] = useState<{ [key: string]: { initial?: string; final?: string } }>({});
-    const [selectedItems, setSelectedItems] = useState<string[]>([]);  // Nuevo estado para productos seleccionados
+  const [items, setItems] = useState([
+    { id: '1', name: 'Producto A', quantity: 10 },
+    { id: '2', name: 'Producto B', quantity: 20 },
+  ])
 
-    const openModal = () => {
-        setModalVisible(true);
-    };
+  const [modalVisible, setModalVisible] = useState(false)
+  const [currentProductIndex, setCurrentProductIndex] = useState(0)
+  const [stockData, setStockData] = useState<{
+    [key: string]: { initial?: string; final?: string }
+  }>({})
+  const [selectedItems, setSelectedItems] = useState<string[]>([]) // Nuevo estado para productos seleccionados
 
-    const closeModal = () => {
-        setModalVisible(false);
-    };
+  const openModal = () => {
+    setModalVisible(true)
+  }
 
-    const handleStockChange = (productId: string, field: string, value: string) => {
-        setStockData(prev => ({
-            ...prev,
-            [productId]: {
-                ...prev[productId],
-                [field]: value,
-            }
-        }));
-    };
+  const closeModal = () => {
+    setModalVisible(false)
+  }
 
-    const handleConfirmAndNext = () => {
-        const currentProduct = items[currentProductIndex];
-        setSelectedItems(prev => [...prev, currentProduct.id]); // Agregar el producto a la lista de seleccionados
-        setCurrentProductIndex(prevIndex => {
-            const nextIndex = (prevIndex + 1) % items.length;
-            return nextIndex;
-        });
-        closeModal();  // Cerrar el modal después de confirmar
-    };
+  const handleStockChange = (productId: string, field: string, value: string) => {
+    setStockData((prev) => ({
+      ...prev,
+      [productId]: {
+        ...prev[productId],
+        [field]: value,
+      },
+    }))
+  }
 
-    const handleAccept = () => {
-        console.log('Datos de stock:', stockData);
-    };
+  const handleConfirmAndNext = () => {
+    const currentProduct = items[currentProductIndex]
+    setSelectedItems((prev) => [...prev, currentProduct.id]) // Agregar el producto a la lista de seleccionados
+    setCurrentProductIndex((prevIndex) => {
+      const nextIndex = (prevIndex + 1) % items.length
+      return nextIndex
+    })
+    closeModal() // Cerrar el modal después de confirmar
+  }
 
-    const filteredItems = items.filter(item => selectedItems.includes(item.id)); // Filtrar solo los productos seleccionados
+  const handleAccept = () => {
+    console.log('Datos de stock:', stockData)
+  }
 
-    return (
-        <View style={styles.container}>
-            <View style={styles.addButtonContainer}>
-                <IconButton
-                    size={32}
-                    icon="add-outline"
-                    color="white"
-                    onPress={openModal}
-                />
+  const filteredItems = items.filter((item) => selectedItems.includes(item.id)) // Filtrar solo los productos seleccionados
+
+  return (
+    <Container style={{ height: '100%' }}>
+      <View
+        style={{
+          padding: 16,
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100%',
+          gap: 10,
+        }}
+      >
+        <InfoCard infoText={'Gon pone lo que hace la página acá'} />
+        <IconButton size={32} icon="add-outline" color="white" onPress={openModal} />
+        <FlatList
+          data={filteredItems} // Mostrar solo los productos seleccionados
+          keyExtractor={(item) => item.id}
+          contentContainerStyle={{ paddingTop: 16, paddingBottom: 80 }}
+          renderItem={({ item }) => (
+            <View style={styles.item}>
+              <Text style={styles.itemText}>{item.name}</Text>
+              <Text style={styles.itemStock}>
+                Stock Inicial: {stockData[item.id]?.initial || '0'}
+              </Text>
+              <Text style={styles.itemStock}>Stock Final: {stockData[item.id]?.final || '0'}</Text>
             </View>
-            <FlatList
-                data={filteredItems} // Mostrar solo los productos seleccionados
-                keyExtractor={(item) => item.id}
-                contentContainerStyle={{ paddingTop: 16, paddingBottom: 80 }}
-                renderItem={({ item }) => (
-                    <View style={styles.item}>
-                        <Text style={styles.itemText}>{item.name}</Text>
-                        <Text style={styles.itemStock}>Stock Inicial: {stockData[item.id]?.initial || '0'}</Text>
-                        <Text style={styles.itemStock}>Stock Final: {stockData[item.id]?.final || '0'}</Text>
-                    </View>
-                )}
-                ListFooterComponent={
-                    <Pressable style={styles.acceptButton} onPress={handleAccept}>
-                        <Text style={styles.acceptButtonText}>Confirmar</Text>
-                    </Pressable>
-                }
+          )}
+          ListFooterComponent={
+            <Pressable style={styles.acceptButton} onPress={handleAccept}>
+              <Text style={styles.acceptButtonText}>Confirmar</Text>
+            </Pressable>
+          }
+        />
+        <MutateEntityModal show={modalVisible} setShow={setModalVisible} title="Modificar Stock">
+          <View style={styles.productItem}>
+            <Text style={styles.productName}>{items[currentProductIndex].name}</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Stock inicial"
+              keyboardType="numeric"
+              value={stockData[items[currentProductIndex].id]?.initial || ''}
+              onChangeText={(text) =>
+                handleStockChange(items[currentProductIndex].id, 'initial', text)
+              }
             />
-            <MutateEntityModal
-                show={modalVisible}
-                setShow={setModalVisible}
-                title="Modificar Stock"
-            >
-                <View style={styles.productItem}>
-                    <Text style={styles.productName}>{items[currentProductIndex].name}</Text>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Stock inicial"
-                        keyboardType="numeric"
-                        value={stockData[items[currentProductIndex].id]?.initial || ''}
-                        onChangeText={(text) => handleStockChange(items[currentProductIndex].id, 'initial', text)}
-                    />
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Stock final"
-                        keyboardType="numeric"
-                        value={stockData[items[currentProductIndex].id]?.final || ''}
-                        onChangeText={(text) => handleStockChange(items[currentProductIndex].id, 'final', text)}
-                    />
-                    <View style={styles.buttonContainer}>
-                        <IconButton
-                            onPress={handleConfirmAndNext}
-                            size={32}
-                            icon="checkmark-outline"
-                            color="white"
-                            style={styles.confirmButton}
-                        />
-                        <IconButton
-                            onPress={closeModal}
-                            size={32}
-                            icon="close-outline" 
-                            color="white"
-                            style={styles.closeButton}
-                        />
-                    </View>
-                </View>
-            </MutateEntityModal>
-        </View>
-    );
-};
+            <TextInput
+              style={styles.input}
+              placeholder="Stock final"
+              keyboardType="numeric"
+              value={stockData[items[currentProductIndex].id]?.final || ''}
+              onChangeText={(text) =>
+                handleStockChange(items[currentProductIndex].id, 'final', text)
+              }
+            />
+            <View style={styles.buttonContainer}>
+              <IconButton
+                onPress={handleConfirmAndNext}
+                size={32}
+                icon="checkmark-outline"
+                color="white"
+                style={styles.confirmButton}
+              />
+              <IconButton
+                onPress={closeModal}
+                size={32}
+                icon="close-outline"
+                color="white"
+                style={styles.closeButton}
+              />
+            </View>
+          </View>
+        </MutateEntityModal>
+      </View>
+    </Container>
+  )
+}
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: 16,
-    },
-    item: {
-        padding: 16,
-        borderBottomWidth: 1,
-        borderBottomColor: '#ccc',
-    },
-    itemText: {
-        fontSize: 16,
-        fontWeight: 'bold',
-    },
-    itemStock: {
-        fontSize: 14,
-        color: '#666',
-    },
-    addButtonContainer: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginBottom: 16,
-    },
-    confirmButton: {
-        marginLeft: 8,
-    },
-    closeButton: {
-        marginRight: 8,
-    },
-    acceptButton: {
-        padding: 16,
-        backgroundColor: '#007bff',
-        alignItems: 'center',
-        marginVertical: 24,
-        borderRadius: 8,
-    },
-    itemQuantity: {
-        fontSize: 14,
-        color: '#666',
-    },
-    acceptButtonText: {
-        color: '#fff',
-        fontSize: 16,
-    },
-    productItem: {
-        padding: 16,
-        justifyContent:'space-evenly',
-        alignContent:'space-evenly',
-        borderBottomWidth: 1,
-        borderBottomColor: '#ccc',
-    },
-    productName: {
-        fontSize: 16,
-        fontWeight: 'bold',
-        marginBottom: 8,
-    },
-    input: {
-        height: 40,
-        borderColor: '#ccc',
-        borderWidth: 1,
-        marginBottom: 12,
-        paddingLeft: 8,
-        borderRadius: 8,
-    },
-    buttonContainer: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        marginTop: 16,
-    },
-});
+  container: {
+    flex: 1,
+    padding: 16,
+  },
+  item: {
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+  },
+  itemText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  itemStock: {
+    fontSize: 14,
+    color: '#666',
+  },
+  addButtonContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 16,
+  },
+  confirmButton: {
+    marginLeft: 8,
+  },
+  closeButton: {
+    marginRight: 8,
+  },
+  acceptButton: {
+    padding: 16,
+    backgroundColor: '#007bff',
+    alignItems: 'center',
+    marginVertical: 24,
+    borderRadius: 8,
+  },
+  itemQuantity: {
+    fontSize: 14,
+    color: '#666',
+  },
+  acceptButtonText: {
+    color: '#fff',
+    fontSize: 16,
+  },
+  productItem: {
+    padding: 16,
+    justifyContent: 'space-evenly',
+    alignContent: 'space-evenly',
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+  },
+  productName: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 8,
+  },
+  input: {
+    height: 40,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    marginBottom: 12,
+    paddingLeft: 8,
+    borderRadius: 8,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 16,
+  },
+})
 
-export default StockSummaryPage;
-
-
+export default StockSummaryPage

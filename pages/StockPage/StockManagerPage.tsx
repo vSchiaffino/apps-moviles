@@ -25,7 +25,6 @@ const StockManagerPage: React.FC = () => {
   return (
     <Container>
       <ScrollView
-        style={{}}
         contentContainerStyle={{
           justifyContent: 'center',
           alignItems: 'center',
