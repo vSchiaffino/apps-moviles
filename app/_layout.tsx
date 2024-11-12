@@ -20,7 +20,7 @@ SplashScreen.preventAutoHideAsync()
 const tabs = [
   {
     name: 'profile',
-    title: 'Productos',
+    title: 'Perfil',
     showHeader: true,
     iconName: 'person',
   },
