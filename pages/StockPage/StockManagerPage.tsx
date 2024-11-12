@@ -2,12 +2,15 @@ import React, { useState } from 'react'
 import { StyleSheet, View, Pressable, ScrollView } from 'react-native'
 import Modal from 'react-native-modal'
 import Typography from '@/components/Typography'
-import { MaterialIcons } from '@expo/vector-icons'
 import IconSelect from '@/components/IconSelect'
 import Container from '@/components/Container'
 import { Calendar } from 'react-native-calendars'
 import DateSelect from '@/components/DateSelect'
-import { Link, router } from 'expo-router'
+import StyledButton from '@/components/StyledButton'
+import { Colors } from '@/constants/Colors'
+import { Ionicons } from '@expo/vector-icons'
+import IconCard from '@/components/IconCard'
+import InfoCard from '@/components/InfoCard'
 
 const StockManagerPage: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState('')
@@ -22,9 +25,21 @@ const StockManagerPage: React.FC = () => {
   return (
     <Container>
       <ScrollView
-        style={{ height: '100%' }}
-        contentContainerStyle={{ justifyContent: 'center', alignItems: 'center', padding: 16 }}
+        style={{}}
+        contentContainerStyle={{
+          justifyContent: 'center',
+          alignItems: 'center',
+          padding: 16,
+          height: '100%',
+        }}
       >
+        <InfoCard
+          infoText={
+            'Selecciona el depósito del cual quisieras retirar el stock para el turno.' +
+            '\n' +
+            'Luego selecciona la fecha y presiona "Siguiente" para continuar'
+          }
+        />
         <IconSelect
           icon="local-shipping"
           label="Depósito"
@@ -76,12 +91,7 @@ const StockManagerPage: React.FC = () => {
           </View>
         </Modal>
 
-        <Pressable onPress={() => router.push('/stock-summary')} style={{}}>
-          <MaterialIcons name="send" size={20} color="#fff" />
-          <Typography variant="h6" style={{}}>
-            Siguiente
-          </Typography>
-        </Pressable>
+        <StyledButton label="Siguiente"></StyledButton>
       </ScrollView>
     </Container>
   )
