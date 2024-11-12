@@ -3,27 +3,34 @@ import React from 'react'
 import { Colors } from '@/constants/Colors'
 import { Ionicons } from '@expo/vector-icons'
 import Typography from './Typography'
-
+import { NativeStackHeaderProps } from '@react-navigation/native-stack'
 export interface PageHeaderProps {
   title: string
 }
 
-const PageHeader = ({ title }: PageHeaderProps) => {
+const PageHeader = ({ options, navigation, back }: NativeStackHeaderProps) => {
+  const { title } = options
   const colorScheme = useColorScheme()
   return (
     <View
+      // Hace tu magia jorge
       style={{
+        backgroundColor: colorScheme === 'dark' ? Colors.gray[900] : 'white',
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
         columnGap: 10,
+        paddingTop: 50,
       }}
     >
-      <Ionicons
-        name="chevron-back-sharp"
-        size={24}
-        color={colorScheme === 'dark' ? Colors.gray[100] : Colors.gray[700]}
-      />
+      {back && (
+        <Ionicons
+          name="chevron-back-sharp"
+          onPress={() => navigation.goBack()}
+          size={24}
+          color={colorScheme === 'dark' ? Colors.gray[100] : Colors.gray[700]}
+        />
+      )}
       <Typography
         variant="h5"
         style={{ color: colorScheme === 'dark' ? Colors.gray[100] : Colors.gray[700] }}

@@ -2,6 +2,7 @@ import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import WarehousePage from '@/pages/WarehousePage/WarehousePage'
 import WarehouseDetailPage from '@/pages/WarehouseDetailPage/WarehouseDetailPage'
+import PageHeader from '@/components/PageHeader'
 
 export type WarehouseStackParamList = {
   'warehouse-page': undefined
@@ -15,12 +16,12 @@ const WarehouseStack = () => {
     <Stack.Navigator
       id="warehouse"
       initialRouteName="warehouse-page"
-      screenOptions={{ headerShown: false }}
+      screenOptions={{ header: PageHeader }}
     >
       <Stack.Screen
         component={WarehousePage}
         name="warehouse-page"
-        options={{ title: 'Depósitosss' }}
+        options={{ title: 'Depósitos' }}
       />
       <Stack.Screen
         component={WarehouseDetailPage}

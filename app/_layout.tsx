@@ -109,8 +109,6 @@ export default function RootLayout() {
                   name={name}
                   options={{
                     title: title,
-                    headerShown: showHeader,
-                    headerTitle: showHeader ? () => <PageHeader title={title} /> : undefined,
                     tabBarIcon: ({ focused }) =>
                       iconName !== 'warehouse' ? (
                         <Ionicons
