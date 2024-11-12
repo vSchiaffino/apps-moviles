@@ -15,9 +15,10 @@ export interface TransferWarehouseModalProps
 const TransferWarehouseModal: React.FC<TransferWarehouseModalProps> = ({ onSubmit, ...rest }) => {
   const defaultPagination = { page: 1, limit: 999 }
   const defaultSort: Sort = { field: 'name', direction: 'ASC' }
+  const [origin, setOrigin] = useState<any>(null)
   const { products } = useProducts(defaultPagination, defaultSort)
-  const { warehouses, transfer } = useWarehouses(defaultPagination, defaultSort)
-
+  const { warehouses } = useWarehouses(defaultPagination, defaultSort)
+  console.log(origin ? origin.stock.map((stock: any) => stock.product) : products)
   const fields: ValidatedField[] = [
     {
       name: 'origin',
@@ -43,7 +44,7 @@ const TransferWarehouseModal: React.FC<TransferWarehouseModalProps> = ({ onSubmi
       inputProps: {
         backgroundColor: 'white',
         // TODO: show only products in the origin warehouse
-        options: products,
+        options: origin ? origin.stock.map((stock: any) => stock.product) : products,
         renderOption: (option: any) => option.name,
         optionsYOffset: 38,
       },
@@ -82,7 +83,15 @@ const TransferWarehouseModal: React.FC<TransferWarehouseModalProps> = ({ onSubmi
   return (
     <MutateEntityModal title="Transferencia" {...rest}>
       <View style={{ flexDirection: 'column', gap: Spacing.rowGap, padding: 20 }}>
-        <ValidatedForm fields={fields} onSubmit={onSubmit} submitLabel={'Transferir'} />
+        <ValidatedForm
+          fields={fields}
+          onSubmit={onSubmit}
+          submitLabel={'Transferir'}
+          onFormChange={(name, value) => {
+            console.log('onFormChange', name, value)
+            if (name === 'origin') setOrigin(value)
+          }}
+        />
       </View>
     </MutateEntityModal>
   )

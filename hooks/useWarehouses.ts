@@ -13,7 +13,7 @@ export function useWarehouses(pagination: Pagination, sort: Sort) {
       data.data &&
       data.data.map((item: any) => ({
         ...item,
-        stock: item.stock.reduce((acc: number, stock: any) => acc + stock.quantity, 0),
+        stockNumber: item.stock.reduce((acc: number, stock: any) => acc + stock.quantity, 0),
       })),
     total: data?.total,
     create: async (warehouse: any) => {

@@ -10,7 +10,7 @@ export function useWarehouseDetail(id: number) {
     warehouse: data &&
       data && {
         ...data,
-        stock: data.stock.sort((a: any, b: any) => a.product.name.localeCompare(b.product.name)),
+        stockNumber: data.stock.sort((a: any, b: any) => a.product.name.localeCompare(b.product.name)),
       },
     refetch,
     ...restQuery,
