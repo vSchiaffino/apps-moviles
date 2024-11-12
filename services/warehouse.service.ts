@@ -32,6 +32,10 @@ export class WarehouseService {
   public async addStock(id: number, stock: any) {
     return await apiService.post(`/warehouses/${id}/stock`, stock)
   }
+
+  public async transfer(transfer: any) {
+    return await apiService.post('/warehouses/transfer', transfer)
+  }
 }
 
 const warehouseService = new WarehouseService()

@@ -1,20 +1,17 @@
-import { ScrollView, TouchableHighlight, View } from 'react-native'
+import { ScrollView, View } from 'react-native'
 import React, { useState } from 'react'
 import Container from '@/components/Container'
-import Typography from '@/components/Typography'
 import { Colors } from '@/constants/Colors'
 import { Spacing } from '@/constants/Spacing'
 import WarehouseTable from './WarehouseTable/WarehouseTable'
 import WarehouseCard from '@/components/WarehouseCard'
-import { Ionicons } from '@expo/vector-icons'
-import AddButton from '@/components/AddButton'
 import { useWarehouses } from '@/hooks/useWarehouses'
 import WarehouseModal from './WarehouseModal'
 import Pagination from '@/models/Pagination'
 import Sort from '@/models/Sort'
-import { router, useFocusEffect } from 'expo-router'
-import IconButton from '@/components/IconButton'
+import { router } from 'expo-router'
 import IconList from '../IconList'
+import TransferWarehouseModal from './WarehuseTransferModal'
 
 const WarehousePage = () => {
   const [pagination, setPagination] = React.useState<Pagination>({ page: 1, limit: 5 })
@@ -22,13 +19,11 @@ const WarehousePage = () => {
     field: 'name',
     direction: 'ASC',
   })
-  const { warehouses, create, total, edit, refetch } = useWarehouses(pagination, sort)
+  const { warehouses, create, total, edit, transfer, refetch } = useWarehouses(pagination, sort)
   const [editingWarehouse, setEditingWarehouse] = useState<any>(null)
-  const [showModal, setShowModal] = useState(false)
+  const [showSaveModal, setShowSaveModal] = useState(false)
+  const [showTransferModal, setShowTransferModal] = useState(false)
   const [cardList, setCardList] = useState(false)
-  useFocusEffect(() => {
-    refetch()
-  })
   function toggleView() {
     setCardList((prev) => !prev)
   }
@@ -36,18 +31,29 @@ const WarehousePage = () => {
   return (
     warehouses && (
       <Container>
-        {showModal && (
+        {showTransferModal && (
+          <TransferWarehouseModal
+            show={showTransferModal}
+            setShow={setShowTransferModal}
+            onSubmit={async (form: any) => {
+              await transfer(form)
+              await refetch()
+              setShowTransferModal(false)
+            }}
+          />
+        )}
+        {showSaveModal && (
           <WarehouseModal
             warehouse={editingWarehouse}
-            show={showModal}
-            setShow={setShowModal}
+            show={showSaveModal}
+            setShow={setShowSaveModal}
             onSubmit={async (form: any) => {
               if (editingWarehouse) {
                 await edit(editingWarehouse.id, form)
               } else {
                 await create(form)
               }
-              setShowModal(false)
+              setShowSaveModal(false)
               setEditingWarehouse(null)
             }}
           />
@@ -67,15 +73,14 @@ const WarehousePage = () => {
                 icon: 'add-circle-outline',
                 onPress: () => {
                   setEditingWarehouse(null)
-                  setShowModal(true)
+                  setShowSaveModal(true)
                 },
                 mode: 'opacity',
               },
               {
                 icon: 'compare-arrows',
                 onPress: () => {
-                  setEditingWarehouse(null)
-                  setShowModal(true)
+                  setShowTransferModal(true)
                 },
                 mode: 'opacity',
                 library: 'mui',
@@ -114,7 +119,7 @@ const WarehousePage = () => {
                 }}
                 onLongPressRow={(row: any) => {
                   setEditingWarehouse(row)
-                  setShowModal(true)
+                  setShowSaveModal(true)
                 }}
               />
             </View>

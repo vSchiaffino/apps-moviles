@@ -24,6 +24,15 @@ export function useWarehouses(pagination: Pagination, sort: Sort) {
       await warehouseService.edit(id, warehouse)
       refetch()
     },
+    transfer: async (transfer: any) => {
+      await warehouseService.transfer({
+        originId: transfer.origin.id,
+        destinationId: transfer.destination.id,
+        productId: transfer.product.id,
+        quantity: transfer.quantity,
+      })
+      refetch()
+    },
     refetch,
     ...restQuery,
   }
