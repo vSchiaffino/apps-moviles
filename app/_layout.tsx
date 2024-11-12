@@ -12,6 +12,7 @@ import { Colors } from '@/constants/Colors'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import PageHeader from '@/components/PageHeader'
+import { Easing } from 'react-native'
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync()
@@ -71,7 +72,14 @@ export default function RootLayout() {
           <GestureHandlerRootView>
             <Tabs
               screenOptions={({ route }) => ({
+                tabBarHideOnKeyboard: true,
                 headerShown: false,
+                tabBarVisibilityAnimationConfig: {
+                  hide: {
+                    config: { duration: 150 },
+                    animation: 'timing',
+                  },
+                },
                 tabBarStyle: {
                   display: ['login', 'register'].includes(route.name) ? 'none' : 'flex',
                   position: 'absolute',
