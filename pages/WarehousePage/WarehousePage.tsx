@@ -1,19 +1,17 @@
-import { ScrollView, TouchableHighlight, View } from 'react-native'
+import { ScrollView, View } from 'react-native'
 import React, { useState } from 'react'
 import Container from '@/components/Container'
-import Typography from '@/components/Typography'
 import { Colors } from '@/constants/Colors'
 import { Spacing } from '@/constants/Spacing'
 import WarehouseTable from './WarehouseTable/WarehouseTable'
 import WarehouseCard from '@/components/WarehouseCard'
-import { Ionicons } from '@expo/vector-icons'
-import AddButton from '@/components/AddButton'
 import { useWarehouses } from '@/hooks/useWarehouses'
 import WarehouseModal from './WarehouseModal'
 import Pagination from '@/models/Pagination'
 import Sort from '@/models/Sort'
-import { router, useFocusEffect } from 'expo-router'
-import IconButton from '@/components/IconButton'
+import { router } from 'expo-router'
+import IconList from '../IconList'
+import TransferWarehouseModal from './WarehuseTransferModal'
 
 const WarehousePage = () => {
   const [pagination, setPagination] = React.useState<Pagination>({ page: 1, limit: 5 })
@@ -21,13 +19,11 @@ const WarehousePage = () => {
     field: 'name',
     direction: 'ASC',
   })
-  const { warehouses, create, total, edit, refetch } = useWarehouses(pagination, sort)
+  const { warehouses, create, total, edit, transfer, refetch } = useWarehouses(pagination, sort)
   const [editingWarehouse, setEditingWarehouse] = useState<any>(null)
-  const [showModal, setShowModal] = useState(false)
+  const [showSaveModal, setShowSaveModal] = useState(false)
+  const [showTransferModal, setShowTransferModal] = useState(false)
   const [cardList, setCardList] = useState(false)
-  useFocusEffect(() => {
-    refetch()
-  })
   function toggleView() {
     setCardList((prev) => !prev)
   }
@@ -35,88 +31,95 @@ const WarehousePage = () => {
   return (
     warehouses && (
       <Container>
-        {showModal && (
+        {showTransferModal && (
+          <TransferWarehouseModal
+            show={showTransferModal}
+            setShow={setShowTransferModal}
+            onSubmit={async (form: any) => {
+              await transfer(form)
+              await refetch()
+              setShowTransferModal(false)
+            }}
+          />
+        )}
+        {showSaveModal && (
           <WarehouseModal
             warehouse={editingWarehouse}
-            show={showModal}
-            setShow={setShowModal}
+            show={showSaveModal}
+            setShow={setShowSaveModal}
             onSubmit={async (form: any) => {
               if (editingWarehouse) {
                 await edit(editingWarehouse.id, form)
               } else {
                 await create(form)
               }
-              setShowModal(false)
+              setShowSaveModal(false)
               setEditingWarehouse(null)
             }}
           />
         )}
         <ScrollView
           showsVerticalScrollIndicator={false}
-          style={{ backgroundColor: Colors.gray[100], marginTop: Spacing.rowGap }}
+          style={{ backgroundColor: Colors.gray[100], height: '100%' }}
         >
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginBottom: Spacing.rowGap,
-            }}
-          >
-            <Typography variant="h4">Depósitos</Typography>
-            <TouchableHighlight
-              underlayColor={'rgba(1,1,1,0.05)'}
-              style={{
-                borderRadius: 999,
-                aspectRatio: 1 / 1,
-                justifyContent: 'center',
-                alignSelf: 'center',
-                padding: 10,
-              }}
-              onPress={() => toggleView()}
-              hitSlop={20}
-            >
-              {cardList ? (
-                <Ionicons name="list-outline" size={24} color="grey" />
-              ) : (
-                <Ionicons name="grid-outline" size={24} color="grey" />
-              )}
-            </TouchableHighlight>
-          </View>
-          <View style={{ flexDirection: 'row', gap: Spacing.rowGap, marginBottom: Spacing.rowGap }}>
-            <AddButton
-              onPress={() => {
-                setEditingWarehouse(null)
-                setShowModal(true)
-              }}
-            />
-            <IconButton library='mui' icon="send" label="Tranferencia" />
-          </View>
+          <IconList
+            icons={[
+              {
+                icon: !cardList ? 'grid-outline' : 'list-outline',
+                onPress: () => toggleView(),
+              },
+              {
+                icon: 'add-circle-outline',
+                onPress: () => {
+                  setEditingWarehouse(null)
+                  setShowSaveModal(true)
+                },
+              },
+              {
+                icon: 'compare-arrows',
+                onPress: () => {
+                  setShowTransferModal(true)
+                },
+                library: 'mui',
+              },
+            ]}
+          />
+
           {!cardList ? (
-            <View style={{ flexDirection: 'column', rowGap: 20 }}>
+            <View
+              style={{
+                flexDirection: 'column',
+                rowGap: Spacing.rowGap,
+                marginBottom: 75,
+                padding: 16,
+                paddingTop: 0,
+              }}
+            >
               {warehouses.map((warehouse: any) => (
                 <WarehouseCard item={warehouse} key={warehouse.id} />
               ))}
             </View>
           ) : (
-            <WarehouseTable
-              pagination={pagination}
-              setPagination={setPagination}
-              total={total}
-              warehouses={warehouses}
-              sort={sort}
-              setSort={setSort}
-              onPressRow={(row: any) => {
-                router.push({
-                  pathname: '/warehouse-detail',
-                  params: { id: row.id },
-                })
-              }}
-              onLongPressRow={(row: any) => {
-                setEditingWarehouse(row)
-                setShowModal(true)
-              }}
-            />
+            <View style={{ paddingLeft: 16, paddingRight: 16 }}>
+              <WarehouseTable
+                pagination={pagination}
+                setPagination={setPagination}
+                total={total}
+                warehouses={warehouses}
+                sort={sort}
+                setSort={setSort}
+                onPressRow={(row: any) => {
+                  router.push({
+                    pathname: '/warehouse-detail',
+                    params: { id: row.id },
+                  })
+                }}
+                onLongPressRow={(row: any) => {
+                  setEditingWarehouse(row)
+                  setShowSaveModal(true)
+                }}
+              />
+            </View>
           )}
         </ScrollView>
       </Container>

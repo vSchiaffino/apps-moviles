@@ -11,6 +11,8 @@ import ProductTable from './ProductTable'
 import useProducts from '@/hooks/useProducts'
 import Pagination from '@/models/Pagination'
 import Sort from '@/models/Sort'
+import IconButton from '@/components/IconButton'
+import IconList from '../IconList'
 
 const ProductsPage = () => {
   const [pagination, setPagination] = React.useState<Pagination>({
@@ -42,37 +44,36 @@ const ProductsPage = () => {
           product={editingProduct}
         />
       )}
-      <ScrollView style={{ backgroundColor: Colors.gray[100], marginTop: Spacing.rowGap }}>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            marginBottom: Spacing.rowGap,
-          }}
-        >
-          <View style={{ height: 'auto' }}>
-            <Typography variant="h4">Productos</Typography>
-          </View>
-          <AddButton
-            onPress={() => {
-              setEditingProduct(null)
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={{ backgroundColor: Colors.gray[100], height: '100%' }}
+      >
+        <View style={{ padding: 16 }}>
+          <IconList
+            icons={[
+              {
+                icon: 'add-circle-outline',
+                onPress: () => {
+                  setEditingProduct(null)
+                  setShowModal(true)
+                },
+              },
+            ]}
+          />
+
+          <ProductTable
+            pagination={pagination}
+            products={products}
+            setPagination={setPagination}
+            setSort={setSort}
+            sort={sort}
+            total={total}
+            onClickRow={(row: any) => {
+              setEditingProduct(row)
               setShowModal(true)
             }}
           />
         </View>
-        <ProductTable
-          pagination={pagination}
-          products={products}
-          setPagination={setPagination}
-          setSort={setSort}
-          sort={sort}
-          total={total}
-          onClickRow={(row: any) => {
-            setEditingProduct(row)
-            setShowModal(true)
-          }}
-        />
       </ScrollView>
     </Container>
   )

@@ -6,7 +6,9 @@ import * as Progress from 'react-native-progress'
 import Card from './Card'
 import { FontAwesome6 } from '@expo/vector-icons'
 
-const WarehouseCard: React.FC<{ item: any }> = ({ item: { name, stock, capacity } }) => {
+const WarehouseCard: React.FC<{ item: any }> = ({
+  item: { name, stockNumber: stock, capacity },
+}) => {
   const full = stock / capacity >= 1
   const almostFull = stock / capacity >= 0.9 && !full
   const color = full ? 'danger' : almostFull ? 'yellow' : 'primary'

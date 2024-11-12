@@ -11,10 +11,10 @@ const CapacityColumn: React.FC<{ row: any }> = ({ row }) => {
   const state = row.state as 'full' | 'almostFull' | 'ok'
   const colorScheme = colorSchemeByState[state]
   const color = colorScheme[600]
-  const { stock, capacity } = row
+  const { stockNumber, capacity } = row
   return (
     <Typography key={row} variant="body" style={{ color }} justify="center">
-      {stock}
+      {stockNumber}
       <Typography key={row} variant="mini" style={{ color }}>
         {'/'}
         {capacity}

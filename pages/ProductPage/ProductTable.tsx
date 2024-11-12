@@ -24,7 +24,7 @@ const ProductTable: React.FC<{
         columns={[
           { key: 'name', title: 'Nombre', width: '75%', align: 'flex-start' },
           {
-            key: 'stock',
+            key: 'stockNumber',
             title: 'Stock',
             width: '25%',
             align: 'center',

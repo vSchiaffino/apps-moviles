@@ -13,7 +13,7 @@ export function useWarehouses(pagination: Pagination, sort: Sort) {
       data.data &&
       data.data.map((item: any) => ({
         ...item,
-        stock: item.stock.reduce((acc: number, stock: any) => acc + stock.quantity, 0),
+        stockNumber: item.stock.reduce((acc: number, stock: any) => acc + stock.quantity, 0),
       })),
     total: data?.total,
     create: async (warehouse: any) => {
@@ -22,6 +22,15 @@ export function useWarehouses(pagination: Pagination, sort: Sort) {
     },
     edit: async (id: number, warehouse: any) => {
       await warehouseService.edit(id, warehouse)
+      refetch()
+    },
+    transfer: async (transfer: any) => {
+      await warehouseService.transfer({
+        originId: transfer.origin.id,
+        destinationId: transfer.destination.id,
+        productId: transfer.product.id,
+        quantity: parseInt(transfer.quantity),
+      })
       refetch()
     },
     refetch,

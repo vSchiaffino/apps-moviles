@@ -1,45 +1,60 @@
-import { TouchableOpacity, TouchableOpacityProps } from 'react-native'
+import { Pressable, TouchableOpacity, TouchableOpacityProps } from 'react-native'
 import React from 'react'
 import Typography from './Typography'
 import { Ionicons, MaterialIcons } from '@expo/vector-icons'
 import { Colors } from '@/constants/Colors'
+import { TouchableHighlight } from 'react-native-gesture-handler'
 
 export interface AddButtonProps extends TouchableOpacityProps {
   label?: string
   icon?: string
   library?: 'Ionicons' | 'mui'
+  color?: string
+  size?: number
+  mode?: 'opacity' | 'highlight'
 }
 
 const IconButton: React.FC<AddButtonProps> = ({
-  label = 'Nuevo',
+  label,
+  mode,
   library = 'Ionicons',
   style,
   icon,
+  color = 'black',
+  size,
   ...rest
 }) => {
+  const MainComponent: any =
+    mode === 'opacity' ? TouchableOpacity : mode === 'highlight' ? TouchableHighlight : Pressable
   return (
-    <TouchableOpacity
+    <MainComponent
+      underlayColor={mode === 'highlight' ? 'rgba(1,1,1,0.05)' : undefined}
+      hitSlop={20}
       style={[
         {
           flexDirection: 'row',
           backgroundColor: Colors.primary[600],
           justifyContent: 'center',
           alignItems: 'center',
-          height: 50,
-          padding: 14,
-          gap: 5,
+          height: 'auto',
+          borderRadius: 999,
+          aspectRatio: 1 / 1,
+          alignSelf: 'center',
         },
         style,
       ]}
       {...rest}
     >
-      {library === 'Ionicons' && <Ionicons name={icon as any} size={24} color="white" />}
-      {library === 'mui' && <MaterialIcons name={icon as any} size={20} color="white" />}
-
-      <Typography variant="subtitle" color="light" style={{ textAlign: 'center' }}>
-        {label}
-      </Typography>
-    </TouchableOpacity>
+      <>
+        {library === 'Ionicons' && <Ionicons name={icon as any} size={size} color={color} />}
+        {library === 'mui' && <MaterialIcons name={icon as any} size={size} color={color} />}
+        {label !== undefined && (
+          <Typography variant="subtitle" color="light" style={{ textAlign: 'center' }}>
+            {label}
+          </Typography>
+        )}
+      </>
+    </MainComponent>
   )
 }
 
