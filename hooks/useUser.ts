@@ -29,7 +29,7 @@ export function useNotAuthorizedUser(): (user: UserPayload) => void {
 }
 
 export function useAuthorizedUser(): {
-  user: UserPayload | null
+  user: UserPayload
   setUser: (user: UserPayload | null) => void
 } {
   const { user, setUser } = useUser()
@@ -41,5 +41,5 @@ export function useAuthorizedUser(): {
       })
   }, [user])
 
-  return { user, setUser }
+  return { user: user as UserPayload, setUser }
 }

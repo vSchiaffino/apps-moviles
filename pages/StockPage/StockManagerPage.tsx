@@ -7,10 +7,8 @@ import Container from '@/components/Container'
 import { Calendar } from 'react-native-calendars'
 import DateSelect from '@/components/DateSelect'
 import StyledButton from '@/components/StyledButton'
-import { Colors } from '@/constants/Colors'
-import { Ionicons } from '@expo/vector-icons'
-import IconCard from '@/components/IconCard'
 import InfoCard from '@/components/InfoCard'
+import { router } from 'expo-router'
 
 const StockManagerPage: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState('')
@@ -34,7 +32,7 @@ const StockManagerPage: React.FC = () => {
       >
         <InfoCard
           infoText={
-            'Selecciona el depósito del cual quisieras retirar el stock para el turno.' +
+            'Selecciona el deposito en el que quieras registrar cambios en el stock' +
             '\n' +
             'Luego selecciona la fecha y presiona "Siguiente" para continuar'
           }
@@ -90,7 +88,7 @@ const StockManagerPage: React.FC = () => {
           </View>
         </Modal>
 
-        <StyledButton label="Siguiente"></StyledButton>
+        <StyledButton label="Siguiente" onPress={() => router.push('/stock-summary')}></StyledButton>
       </ScrollView>
     </Container>
   )

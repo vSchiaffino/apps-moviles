@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import Typography from '@/components/Typography'
-import { UserPayload } from '@/context/AuthContext'
 import Container from '@/components/Container'
 import { ScrollView } from 'react-native-gesture-handler'
 import ChangeProfilePictureModal from './ChangeProfilePictureModal'
@@ -13,11 +12,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useAuthorizedUser } from '@/hooks/useUser'
 import { View } from 'react-native'
 
-interface ProfilePageProps {
-  user: UserPayload
-}
-
-const ProfilePage = ({ user }: ProfilePageProps) => {
+const ProfilePage = () => {
+  const { user } = useAuthorizedUser()
   const { setUser } = useAuthorizedUser()
   const [userPic, setUserPic] = useState('../assets/images/test.jpeg')
   const [modalVisible, setModalVisible] = useState(false)

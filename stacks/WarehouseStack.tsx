@@ -6,21 +6,18 @@ import WarehouseDetailPage from '@/pages/WarehouseDetailPage/WarehouseDetailPage
 export type WarehouseStackParamList = {
   'warehouse-page': undefined
   'warehouse-detail': { id: number }
+  'warehouse-transfer': undefined
 }
 
 const Stack = createNativeStackNavigator<WarehouseStackParamList>()
 
 const WarehouseStack = () => {
   return (
-    <Stack.Navigator
-      id="warehouse"
-      initialRouteName="warehouse-page"
-      screenOptions={{ headerShown: false }}
-    >
+    <Stack.Navigator id="warehouse" initialRouteName="warehouse-page">
       <Stack.Screen
         component={WarehousePage}
         name="warehouse-page"
-        options={{ title: 'Depósitosss' }}
+        options={{ title: 'Depósitos' }}
       />
       <Stack.Screen
         component={WarehouseDetailPage}
