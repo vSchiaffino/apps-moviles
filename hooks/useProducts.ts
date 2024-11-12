@@ -20,7 +20,7 @@ export default function useProducts(pagination: Pagination, sort: Sort, filters:
       data?.data &&
       data.data.map((item: any) => ({
         ...item,
-        stock: item.storedIn.reduce((acc: number, stock: any) => acc + stock.quantity, 0),
+        stockNumber: item.storedIn.reduce((acc: number, stock: any) => acc + stock.quantity, 0),
       })),
     total: data?.total,
     ...rest,
