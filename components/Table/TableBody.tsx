@@ -12,6 +12,7 @@ export interface TableBodyProps {
   render?: (row: any) => React.ReactNode
   onClickRow: (row: any) => void
   onLongPressRow: (row: any) => void
+  rounded?: boolean
 }
 
 export const TableBody: React.FC<TableBodyProps> = ({
@@ -19,11 +20,13 @@ export const TableBody: React.FC<TableBodyProps> = ({
   rows,
   onClickRow,
   onLongPressRow,
+  rounded,
 }) => {
   const colorPallete = Colors['gray']
   return rows.map((row, index) => (
     <Card
       key={index}
+      noShadow={true}
       pressable
       onPress={() => onClickRow(row)}
       onLongPress={() => onLongPressRow(row)}
@@ -36,9 +39,15 @@ export const TableBody: React.FC<TableBodyProps> = ({
         minHeight: 'auto',
         backgroundColor: colorPallete[100],
         padding: 10,
-        borderRadius: 0,
-        borderBottomWidth: index === rows.length - 1 ? 0 : 1,
+        borderRadius: 0.1,
+        borderWidth: 0.5,
+        borderBottomLeftRadius: index === rows.length - 1 && rounded ? 16 : 0,
+        borderBottomRightRadius: index === rows.length - 1 && rounded ? 16 : 0,
+        borderBottomWidth: index === rows.length - 1 ? 1 : 1,
         borderColor: Colors.gray[200],
+        elevation: 3,
+        shadowColor: 'black',
+        shadowOpacity: 1,
       }}
     >
       {columns.map((column) => (

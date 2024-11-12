@@ -32,6 +32,7 @@ export interface TableProps {
   onClickRow?: (row: any) => void
   onLongPressRow?: (row: any) => void
   sortingFields?: string[]
+  rounded?: boolean
 }
 
 const Table: React.FC<TableProps> = ({
@@ -46,18 +47,13 @@ const Table: React.FC<TableProps> = ({
   onLongPressRow = () => {},
   entityName = 'items',
   sortingFields = [],
+  rounded = false,
 }) => {
   return (
-    <View>
-      <View
-        style={{
-          borderColor: Colors.gray[200],
-          borderWidth: 1,
-          borderRadius: 16,
-          marginBottom: 10,
-        }}
-      >
+    <View style={{ gap: 10 }}>
+      <View>
         <TableHeader
+          rounded={rounded}
           columns={columns}
           headerFont={headerFont}
           sort={sort}
@@ -65,22 +61,25 @@ const Table: React.FC<TableProps> = ({
           sortingFields={sortingFields}
         />
         <TableBody
+          rounded={rounded}
           columns={columns}
           rows={rows}
           onClickRow={onClickRow}
           onLongPressRow={onLongPressRow}
         />
       </View>
-      {pagination && onChangePagination && (
-        <TablePagination
-          entityName={entityName}
-          pagination={{
-            actual: rows.length,
-            ...pagination,
-          }}
-          onChangePagination={onChangePagination}
-        />
-      )}
+      <View>
+        {pagination && onChangePagination && (
+          <TablePagination
+            entityName={entityName}
+            pagination={{
+              actual: rows.length,
+              ...pagination,
+            }}
+            onChangePagination={onChangePagination}
+          />
+        )}
+      </View>
     </View>
   )
 }

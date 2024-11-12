@@ -12,6 +12,7 @@ export interface TableHeaderProps {
   sort?: Sort
   onChangeSort?: (sort: Sort) => void
   sortingFields?: string[]
+  rounded?: boolean
 }
 
 export const TableHeader: React.FC<TableHeaderProps> = ({
@@ -20,6 +21,7 @@ export const TableHeader: React.FC<TableHeaderProps> = ({
   sort,
   onChangeSort,
   sortingFields = [],
+  rounded,
 }) => {
   return (
     <View
@@ -30,6 +32,12 @@ export const TableHeader: React.FC<TableHeaderProps> = ({
         backgroundColor: Colors.primary[200],
         padding: 10,
         gap: 10,
+        borderTopLeftRadius: rounded ? 16 : 0,
+        borderTopRightRadius: rounded ? 16 : 0,
+
+        elevation: 3,
+        shadowColor: 'black',
+        shadowOpacity: 1,
       }}
     >
       {columns.map(({ width, title, align, font, key }, index) => (

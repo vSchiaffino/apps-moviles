@@ -3,7 +3,7 @@ import Sort from '@/models/Sort'
 import productService from '@/services/product.service'
 import { useQuery } from 'react-query'
 
-export default function useProducts(pagination: Pagination, sort: Sort) {
+export default function useProducts(pagination: Pagination, sort: Sort, filters: any[] = []) {
   const { data, refetch, ...rest } = useQuery(['products', pagination, sort], () =>
     productService.findMany(pagination, sort),
   )
@@ -20,7 +20,7 @@ export default function useProducts(pagination: Pagination, sort: Sort) {
       data?.data &&
       data.data.map((item: any) => ({
         ...item,
-        stock: item.storedIn.reduce((acc: number, stock: any) => acc + stock.quantity, 0),
+        stockNumber: item.storedIn.reduce((acc: number, stock: any) => acc + stock.quantity, 0),
       })),
     total: data?.total,
     ...rest,

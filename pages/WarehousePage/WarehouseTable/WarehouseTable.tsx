@@ -44,7 +44,7 @@ const WarehouseTable: React.FC<{
             component: BadgeColumn,
           },
           {
-            key: 'stock',
+            key: 'stockNumber',
             title: 'Capacidad',
             width: '33.3%',
             align: 'flex-end',
@@ -56,9 +56,9 @@ const WarehouseTable: React.FC<{
         rows={warehouses.map((warehouse) => ({
           ...warehouse,
           state:
-            warehouse.stock / warehouse.capacity >= 1
+            warehouse.stockNumber / warehouse.capacity >= 1
               ? 'full'
-              : warehouse.stock / warehouse.capacity >= 0.9
+              : warehouse.stockNumber / warehouse.capacity >= 0.9
                 ? 'almostFull'
                 : 'ok',
         }))}

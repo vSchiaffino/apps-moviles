@@ -21,6 +21,7 @@ export type ValidatedField = {
 export interface ValidatedFormProps {
   formProps?: UseFormProps
   onSubmit: (form: any) => Promise<void>
+  onFormChange?: (name: string, value: any) => void
   submitLabel?: string
   fields: ValidatedField[]
 }
@@ -29,6 +30,7 @@ const ValidatedForm = ({
   formProps,
   fields,
   onSubmit,
+  onFormChange,
   submitLabel = 'Enviar',
 }: ValidatedFormProps) => {
   const refs: TextInput[] = []
@@ -84,12 +86,17 @@ const ValidatedForm = ({
                 label={label}
                 onBlur={onBlur}
                 onChangeText={(value: any) => {
+                  onFormChange && onFormChange(name, value)
                   clearErrors()
                   onChange(value)
                 }}
                 value={value}
                 option={value}
-                setOption={onChange}
+                setOption={(value: any) => {
+                  onFormChange && onFormChange(name, value)
+                  clearErrors()
+                  onChange(value)
+                }}
                 {...inputProps}
               />
             )}

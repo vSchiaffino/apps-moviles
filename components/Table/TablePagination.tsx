@@ -54,8 +54,8 @@ export const TablePagination: React.FC<TablePaginationProps> = ({
           }}
           name="chevron-back-outline"
           color={page === 1 ? Colors.gray[400] : Colors.gray[800]}
-          size={30}
-          style={{ backgroundColor: Colors.gray[200], padding: 5, borderRadius: 999999 }}
+          size={24}
+          style={{ padding: 5, borderRadius: 999999 }}
         />
         <Ionicons
           onPress={() => {
@@ -64,8 +64,8 @@ export const TablePagination: React.FC<TablePaginationProps> = ({
           }}
           name="chevron-forward-outline"
           color={page === lastPage ? Colors.gray[400] : Colors.gray[800]}
-          size={30}
-          style={{ backgroundColor: Colors.gray[200], padding: 5, borderRadius: 999999 }}
+          size={24}
+          style={{ padding: 5, borderRadius: 999999 }}
         />
       </View>
     </View>

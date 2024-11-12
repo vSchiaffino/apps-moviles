@@ -11,6 +11,7 @@ import ChangePasswordTab from './ChangePasswordTab'
 import StyledButton from '@/components/StyledButton'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useAuthorizedUser } from '@/hooks/useUser'
+import { View } from 'react-native'
 
 interface ProfilePageProps {
   user: UserPayload
@@ -34,8 +35,17 @@ const ProfilePage = ({ user }: ProfilePageProps) => {
   }
 
   return (
-    <ScrollView>
-      <Container style={{ alignItems: 'center', height: 'auto', gap: 10 }}>
+    <Container>
+      <ScrollView
+        contentContainerStyle={{
+          alignItems: 'center',
+          gap: 10,
+          justifyContent: 'center',
+          padding: 16,
+          paddingBottom: 76,
+        }}
+        showsVerticalScrollIndicator={false}
+      >
         <ChangeProfilePictureModal
           saveImage={saveImage}
           setUserPic={setUserPic}
@@ -44,14 +54,14 @@ const ProfilePage = ({ user }: ProfilePageProps) => {
         />
         <ProfilePicture onClickEdit={() => setModalVisible(true)} picUrl={userPic} />
         <Typography variant="h4">{user.user}</Typography>
-        <Container style={{ gap: 15, padding: 0, marginTop: 0, height: 'auto' }}>
+        <View style={{ width: '100%', gap: 15 }}>
           <TabsSelector
             tabs={['Datos personales', 'Contraseña']}
             selected={selectedTab}
             setSelected={setSelectedTab}
           />
           {selectedTab === 0 ? <PersonalDataTab user={user} /> : <ChangePasswordTab />}
-        </Container>
+        </View>
         <StyledButton
           color="danger"
           label="Cerrar sesión"
@@ -61,8 +71,8 @@ const ProfilePage = ({ user }: ProfilePageProps) => {
             setUser(null)
           }}
         />
-      </Container>
-    </ScrollView>
+      </ScrollView>
+    </Container>
   )
 }
 

@@ -11,9 +11,39 @@ import { FontAwesome6, Ionicons } from '@expo/vector-icons'
 import { Colors } from '@/constants/Colors'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { QueryClient, QueryClientProvider } from 'react-query'
+import PageHeader from '@/components/PageHeader'
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync()
+
+const tabs = [
+  {
+    name: 'profile',
+    title: 'Productos',
+    showHeader: true,
+    iconName: 'person',
+  },
+  {
+    name: 'index',
+    title: 'Inicio',
+    showHeader: false,
+    iconName: 'home',
+  },
+  {
+    name: 'warehouse',
+    title: 'Depósitos',
+    showHeader: true,
+    iconName: 'warehouse',
+  },
+  {
+    name: 'products',
+    title: 'Productos',
+    showHeader: true,
+    iconName: 'cube',
+  },
+]
+
+const invisibleTabs = ['+not-found', 'login', 'register', 'warehouse-detail', 'warehouseTransfer']
 
 export default function RootLayout() {
   const colorScheme = useColorScheme()
@@ -44,53 +74,61 @@ export default function RootLayout() {
                 headerShown: false,
                 tabBarStyle: {
                   display: ['login', 'register'].includes(route.name) ? 'none' : 'flex',
+                  position: 'absolute',
+                  paddingBottom: 10,
+                  paddingTop: 10,
+                  height: 65,
+                  width: '90%',
+                  left: '5%',
+                  borderTopRightRadius: 16,
+                  borderTopLeftRadius: 16,
+                  backgroundColor:
+                    colorScheme === 'dark'
+                      ? DarkTheme.colors.background
+                      : DefaultTheme.colors.background,
                 },
               })}
             >
-              <Tabs.Screen
-                name="index"
-                options={{
-                  title: 'Home',
-                  tabBarIcon: ({ focused }) => (
-                    <Ionicons
-                      name="home"
-                      size={24}
-                      color={focused ? Colors.primary[600] : Colors.gray[600]}
-                    />
-                  ),
-                }}
-              />
-              <Tabs.Screen
-                name="profile"
-                options={{
-                  title: 'Perfil',
-                  tabBarIcon: ({ focused }) => (
-                    <Ionicons
-                      name="person"
-                      size={24}
-                      color={focused ? Colors.primary[600] : Colors.gray[600]}
-                    />
-                  ),
-                }}
-              />
-              <Tabs.Screen
-                name="warehouse"
-                options={{
-                  title: 'Depósitos',
-                  tabBarIcon: ({ focused }) => (
-                    <FontAwesome6
-                      name="warehouse"
-                      size={21}
-                      color={focused ? Colors.primary[600] : Colors.gray[600]}
-                    />
-                  ),
-                }}
-              />
-              <Tabs.Screen name="login" options={{ href: null }} />
-              <Tabs.Screen name="register" options={{ href: null }} />
-              <Tabs.Screen name="+not-found" options={{ href: null }} />
-              <Tabs.Screen name="warehouseTransfer" options={{ href: null }} />
-              <Tabs.Screen name="warehouse-detail" options={{ href: null }} />
+              {tabs.map(({ name, title, showHeader, iconName }, index) => (
+                <Tabs.Screen
+                  key={index}
+                  name={name}
+                  options={{
+                    title: title,
+                    headerShown: showHeader,
+                    headerTitle: showHeader ? () => <PageHeader title={title} /> : undefined,
+                    tabBarIcon: ({ focused }) =>
+                      iconName !== 'warehouse' ? (
+                        <Ionicons
+                          name={iconName as keyof typeof Ionicons.glyphMap}
+                          size={24}
+                          color={
+                            focused
+                              ? Colors.primary[600]
+                              : colorScheme === 'dark'
+                                ? Colors.gray[300]
+                                : Colors.gray[600]
+                          }
+                        />
+                      ) : (
+                        <FontAwesome6
+                          name={iconName}
+                          size={20}
+                          color={
+                            focused
+                              ? Colors.primary[600]
+                              : colorScheme === 'dark'
+                                ? Colors.gray[300]
+                                : Colors.gray[600]
+                          }
+                        />
+                      ),
+                  }}
+                />
+              ))}
+              {invisibleTabs.map((name, index) => (
+                <Tabs.Screen key={index} name={name} options={{ href: null }} />
+              ))}
             </Tabs>
           </GestureHandlerRootView>
         </QueryClientProvider>
