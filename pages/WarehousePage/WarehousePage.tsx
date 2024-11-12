@@ -11,7 +11,7 @@ import Pagination from '@/models/Pagination'
 import Sort from '@/models/Sort'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import IconList from '../IconList'
-import TransferWarehouseModal from './WarehuseTransferModal'
+import TransferWarehouseModal from './WarehouseTransferModal'
 import { WarehouseStackParamList } from '@/stacks/WarehouseStack'
 import { useNavigation } from 'expo-router'
 
