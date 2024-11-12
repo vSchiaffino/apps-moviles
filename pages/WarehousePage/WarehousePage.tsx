@@ -18,7 +18,7 @@ import { useNavigation } from 'expo-router'
 type WarehouseNavigationProp = NativeStackNavigationProp<WarehouseStackParamList, 'warehouse-page'>
 
 const WarehousePage = () => {
-  const { navigate } = useNavigation<WarehouseNavigationProp>('warehouse')
+  const { navigate } = useNavigation<WarehouseNavigationProp>()
   const [pagination, setPagination] = React.useState<Pagination>({ page: 1, limit: 5 })
   const [sort, setSort] = React.useState<Sort>({
     field: 'name',

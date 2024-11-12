@@ -7,9 +7,6 @@ import Container from '@/components/Container'
 import { Calendar } from 'react-native-calendars'
 import DateSelect from '@/components/DateSelect'
 import StyledButton from '@/components/StyledButton'
-import { Colors } from '@/constants/Colors'
-import { Ionicons } from '@expo/vector-icons'
-import IconCard from '@/components/IconCard'
 import InfoCard from '@/components/InfoCard'
 
 const StockManagerPage: React.FC = () => {

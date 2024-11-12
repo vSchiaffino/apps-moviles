@@ -25,6 +25,12 @@ const tabs = [
     iconName: 'person',
   },
   {
+    name: 'stock-manager',
+    title: 'Stock',
+    showHeader: true,
+    iconName: 'archive',
+  },
+  {
     name: 'index',
     title: 'Inicio',
     showHeader: false,
@@ -44,7 +50,7 @@ const tabs = [
   },
 ]
 
-const invisibleTabs = ['+not-found', 'login', 'register', 'warehouse-detail', 'warehouse-transfer']
+const invisibleTabs = ['+not-found', 'login', 'register', 'stock-summary']
 
 export default function RootLayout() {
   const colorScheme = useColorScheme()
