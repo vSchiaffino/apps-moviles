@@ -35,13 +35,13 @@ const ProfilePage = ({ user }: ProfilePageProps) => {
   }
 
   return (
-    <Container pageHeader="Perfil">
+    <Container>
       <ScrollView
         contentContainerStyle={{
           alignItems: 'center',
           gap: 10,
           justifyContent: 'center',
-          marginTop: 16,
+          padding: 16,
           paddingBottom: 76,
         }}
         showsVerticalScrollIndicator={false}

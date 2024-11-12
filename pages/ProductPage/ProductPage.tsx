@@ -1,8 +1,5 @@
-import AddButton from '@/components/AddButton'
 import Container from '@/components/Container'
-import Typography from '@/components/Typography'
 import { Colors } from '@/constants/Colors'
-import { Spacing } from '@/constants/Spacing'
 import { View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import React from 'react'
@@ -11,7 +8,6 @@ import ProductTable from './ProductTable'
 import useProducts from '@/hooks/useProducts'
 import Pagination from '@/models/Pagination'
 import Sort from '@/models/Sort'
-import IconButton from '@/components/IconButton'
 import IconList from '../IconList'
 
 const ProductsPage = () => {

@@ -21,33 +21,43 @@ const Dashboard = () => {
   ]
   return (
     user && (
-      <Container style={{ height: '100%', gap: 20, alignItems: 'center' }}>
-        <Typography variant="h4">Bienvenido {user.user}</Typography>
+      <Container style={{ height: '100%' }}>
         <View
           style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
+            marginTop: 50,
+            padding: 16,
+            justifyContent: 'center',
+            alignItems: 'center',
             gap: 20,
           }}
         >
-          <IconCard
-            icon="cube-outline"
-            color={'primary'}
-            text="Productos"
-            onPress={() => {
-              router.push('/warehouseTransfer')
+          <Typography variant="h4">Bienvenido {user.user}</Typography>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              gap: 20,
             }}
-          />
-          <IconCard
-            icon="ban-outline"
-            color={'danger'}
-            text="Anulaciones"
-            onPress={() => {
-              console.log('sape')
-            }}
-          />
+          >
+            <IconCard
+              icon="cube-outline"
+              color={'primary'}
+              text="Productos"
+              onPress={() => {
+                router.push('/warehouseTransfer')
+              }}
+            />
+            <IconCard
+              icon="ban-outline"
+              color={'danger'}
+              text="Anulaciones"
+              onPress={() => {
+                console.log('sape')
+              }}
+            />
+          </View>
+          <CardLineChart data={lineData} />
         </View>
-        <CardLineChart data={lineData} />
       </Container>
     )
   )

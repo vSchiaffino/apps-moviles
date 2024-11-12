@@ -1,9 +1,8 @@
-import { View, Text, useColorScheme } from 'react-native'
+import { View, useColorScheme } from 'react-native'
 import React from 'react'
 import { Colors } from '@/constants/Colors'
 import { Ionicons } from '@expo/vector-icons'
 import Typography from './Typography'
-import { ThemeProvider } from '@react-navigation/native'
 
 export interface PageHeaderProps {
   title: string
