@@ -1,33 +1,30 @@
-import React, { useState } from 'react'; 
-import { StyleSheet, View, Pressable, Modal } from 'react-native';
-import Typography from '@/components/Typography';
-import { MaterialIcons } from '@expo/vector-icons';
-import IconSelect from '@/components/IconSelect';
-import Container from '@/components/Container';
-import { Calendar } from 'react-native-calendars';
-import DateSelect from '@/components/DateSelect'; 
-import { Link, router } from 'expo-router';
-
+import React, { useState } from 'react'
+import { StyleSheet, View, Pressable, ScrollView } from 'react-native'
+import Modal from 'react-native-modal'
+import Typography from '@/components/Typography'
+import { MaterialIcons } from '@expo/vector-icons'
+import IconSelect from '@/components/IconSelect'
+import Container from '@/components/Container'
+import { Calendar } from 'react-native-calendars'
+import DateSelect from '@/components/DateSelect'
+import { Link, router } from 'expo-router'
 
 const StockManagerPage: React.FC = () => {
-  const [selectedDate, setSelectedDate] = useState('');
-  const [warehouse, setWarehouse] = useState('');
-  const [modalVisible, setModalVisible] = useState(false); 
+  const [selectedDate, setSelectedDate] = useState('')
+  const [warehouse, setWarehouse] = useState('')
+  const [modalVisible, setModalVisible] = useState(false)
 
   const handleDayPress = (day: any) => {
-    setSelectedDate(day.dateString);
-    setModalVisible(false); 
-  };
+    setSelectedDate(day.dateString)
+    setModalVisible(false)
+  }
 
   return (
-    <Container style={{ justifyContent: 'center', gap: 10 }}>
-      <View style={styles.headerContainer}>
-        <MaterialIcons name="inventory" size={24} color="#007bff" />
-        <Typography variant="h4" style={styles.header}>
-          Registro de Stock
-        </Typography>
-      </View>
-      <View style={styles.selectContainer}>
+    <Container>
+      <ScrollView
+        style={{ height: '100%' }}
+        contentContainerStyle={{ justifyContent: 'center', alignItems: 'center', padding: 16 }}
+      >
         <IconSelect
           icon="local-shipping"
           label="Depósito"
@@ -41,46 +38,57 @@ const StockManagerPage: React.FC = () => {
           onChange={setSelectedDate}
           onPressIcon={() => setModalVisible(true)}
         />
-      </View>
-      <Modal
-        visible={modalVisible}
-        animationType="slide"
-        transparent={true}
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalContainer}>
+        <Modal
+          isVisible={modalVisible}
+          animationIn="fadeInUp"
+          animationOut="fadeOutDown"
+          useNativeDriverForBackdrop={true}
+          backdropOpacity={0.7}
+          hasBackdrop={true}
+          onBackdropPress={() => setModalVisible(false)}
+          onBackButtonPress={() => setModalVisible(false)}
+          style={{
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <View
+            style={{
+              padding: 20,
+              borderRadius: 16,
+              backgroundColor: 'white',
+              backfaceVisibility: 'hidden',
+            }}
+          >
             <Calendar
+              style={{ backgroundColor: 'transparent' }}
               onDayPress={handleDayPress}
               markedDates={{
                 [selectedDate]: { selected: true, selectedColor: 'blue' },
               }}
-              monthFormat={'yyyy MMMM'}  
+              monthFormat={'yyyy MMMM'}
             />
             <Pressable onPress={() => setModalVisible(false)} style={styles.closeButton}>
-              <Typography variant="h6" style={{ color: 'white' }}>Cerrar</Typography>
+              <Typography variant="h6" style={{ color: 'white' }}>
+                Cerrar
+              </Typography>
             </Pressable>
           </View>
-        </View>
-      </Modal>
+        </Modal>
 
-      <Pressable onPress={() => router.push('/stockSummary')} style={styles.submitButton}>
-        <MaterialIcons name="send" size={20} color="#fff" />
-        <Typography variant="h6" style={styles.submitButtonText}>
-          Siguiente
-        </Typography>
-      </Pressable>
-
+        <Pressable onPress={() => router.push('/stock-summary')} style={{}}>
+          <MaterialIcons name="send" size={20} color="#fff" />
+          <Typography variant="h6" style={{}}>
+            Siguiente
+          </Typography>
+        </Pressable>
+      </ScrollView>
     </Container>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
-  headerContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+  headerContainer: {},
   header: {
     marginLeft: 8,
     textAlign: 'center',
@@ -108,7 +116,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', 
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   modalContainer: {
     width: '80%',
@@ -123,9 +131,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     alignItems: 'center',
   },
-});
+})
 
-export default StockManagerPage;
-
-
-
+export default StockManagerPage
