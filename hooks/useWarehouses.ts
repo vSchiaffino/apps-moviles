@@ -29,7 +29,7 @@ export function useWarehouses(pagination: Pagination, sort: Sort) {
         originId: transfer.origin.id,
         destinationId: transfer.destination.id,
         productId: transfer.product.id,
-        quantity: transfer.quantity,
+        quantity: parseInt(transfer.quantity),
       })
       refetch()
     },
