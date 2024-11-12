@@ -44,19 +44,18 @@ const ProductsPage = () => {
         showsVerticalScrollIndicator={false}
         style={{ backgroundColor: Colors.gray[100], height: '100%' }}
       >
-        <View style={{ padding: 16 }}>
-          <IconList
-            icons={[
-              {
-                icon: 'add-circle-outline',
-                onPress: () => {
-                  setEditingProduct(null)
-                  setShowModal(true)
-                },
+        <IconList
+          icons={[
+            {
+              icon: 'add-circle-outline',
+              onPress: () => {
+                setEditingProduct(null)
+                setShowModal(true)
               },
-            ]}
-          />
-
+            },
+          ]}
+        />
+        <View style={{ paddingLeft: 16, paddingRight: 16 }}>
           <ProductTable
             pagination={pagination}
             products={products}
