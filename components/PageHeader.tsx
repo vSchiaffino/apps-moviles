@@ -13,14 +13,18 @@ const PageHeader = ({ options, navigation, back }: NativeStackHeaderProps) => {
   const colorScheme = useColorScheme()
   return (
     <View
-      // Hace tu magia jorge
       style={{
         backgroundColor: colorScheme === 'dark' ? Colors.gray[900] : 'white',
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
         columnGap: 10,
-        paddingTop: 50,
+        paddingTop: 55,
+        padding: 10,
+        shadowColor: 'black',
+        shadowOpacity: 1,
+        elevation: 5,
+        width: '100%',
       }}
     >
       {back && (
@@ -33,7 +37,9 @@ const PageHeader = ({ options, navigation, back }: NativeStackHeaderProps) => {
       )}
       <Typography
         variant="h5"
-        style={{ color: colorScheme === 'dark' ? Colors.gray[100] : Colors.gray[700] }}
+        style={{
+          color: colorScheme === 'dark' ? Colors.gray[100] : Colors.gray[700],
+        }}
       >
         {title}
       </Typography>
