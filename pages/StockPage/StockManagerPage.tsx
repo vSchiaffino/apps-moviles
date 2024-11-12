@@ -24,7 +24,6 @@ const StockManagerPage: React.FC = () => {
     <Container>
       <ScrollView
         contentContainerStyle={{
-          justifyContent: 'center',
           alignItems: 'center',
           padding: 16,
           height: '100%',
@@ -88,7 +87,10 @@ const StockManagerPage: React.FC = () => {
           </View>
         </Modal>
 
-        <StyledButton label="Siguiente" onPress={() => router.push('/stock-summary')}></StyledButton>
+        <StyledButton
+          label="Siguiente"
+          onPress={() => router.push('/stock-summary')}
+        ></StyledButton>
       </ScrollView>
     </Container>
   )

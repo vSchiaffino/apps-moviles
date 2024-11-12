@@ -38,38 +38,39 @@ const StockSummaryPage = () => {
 
   const handleConfirmAndNext = () => {
     const currentProduct = items[currentProductIndex]
-    setSelectedItems((prev) => [...prev, currentProduct.id]) 
+    setSelectedItems((prev) => [...prev, currentProduct.id])
     setCurrentProductIndex((prevIndex) => {
       const nextIndex = (prevIndex + 1) % items.length
       return nextIndex
     })
-    closeModal() 
+    closeModal()
   }
 
   const handleAccept = () => {
     console.log('Datos de stock:', stockData)
   }
 
-  const filteredItems = items.filter((item) => selectedItems.includes(item.id)) 
+  const filteredItems = items.filter((item) => selectedItems.includes(item.id))
 
   return (
     <Container style={{ height: '100%' }}>
       <View
         style={{
           padding: 16,
-          justifyContent: 'center',
           alignItems: 'center',
-          height: '100%',
-          gap: 10,
         }}
       >
-        <View style={{marginVertical:'10%'}}>
-            <InfoCard infoText={'Agrega los productos y detalla el stock inicial y final para la fecha que seleccionaste.'} />
+        <View style={{ marginVertical: '10%' }}>
+          <InfoCard
+            infoText={
+              'Agrega los productos y detalla el stock inicial y final para la fecha que seleccionaste.'
+            }
+          />
         </View>
-        
+
         <IconButton size={32} icon="add-outline" color="white" onPress={openModal} />
         <FlatList
-          data={filteredItems} 
+          data={filteredItems}
           keyExtractor={(item) => item.id}
           contentContainerStyle={{ paddingTop: 16, paddingBottom: 80 }}
           renderItem={({ item }) => (
