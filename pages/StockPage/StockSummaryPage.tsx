@@ -1,32 +1,18 @@
 import React, { useState } from 'react';
-import { View, FlatList, Modal, Pressable, Text, StyleSheet } from 'react-native';
+import { View, FlatList, Pressable, Text, TextInput, StyleSheet } from 'react-native';
 import IconButton from '@/components/IconButton';
-import ProductTable from '../ProductPage/ProductTable'
-import Pagination from '@/models/Pagination';
-import Sort from '@/models/Sort';
+import MutateEntityModal from '@/components/MutateEntityModal';
 
 const StockSummaryPage = () => {
     const [items, setItems] = useState([
         { id: '1', name: 'Producto A', quantity: 10 },
-        { id: '2', name: 'Producto B', quantity: 5 },
-        { id: '3', name: 'Producto C', quantity: 7 },
-        { id: '4', name: 'Producto D', quantity: 7 },
-        { id: '5', name: 'Producto E', quantity: 4 },
-        { id: '6', name: 'Producto F', quantity: 2 },
-        { id: '7', name: 'Producto G', quantity: 1 },
+        { id: '2', name: 'Producto B', quantity: 20 },
     ]);
     
     const [modalVisible, setModalVisible] = useState(false);
-    const [products, setProducts] = useState(items);
-    const [pagination, setPagination] = React.useState<Pagination>({
-        page: 1,
-        limit: 5,
-      })
-    const [sort, setSort] = React.useState<Sort>({
-    field: 'name',
-    direction: 'ASC',
-    })
-    const total = products.length;
+    const [currentProductIndex, setCurrentProductIndex] = useState(0);
+    const [stockData, setStockData] = useState<{ [key: string]: { initial?: string; final?: string } }>({});
+    const [selectedItems, setSelectedItems] = useState<string[]>([]);  // Nuevo estado para productos seleccionados
 
     const openModal = () => {
         setModalVisible(true);
@@ -36,68 +22,98 @@ const StockSummaryPage = () => {
         setModalVisible(false);
     };
 
-    const handleAccept = () => {
-        console.log('Aceptado');
+    const handleStockChange = (productId: string, field: string, value: string) => {
+        setStockData(prev => ({
+            ...prev,
+            [productId]: {
+                ...prev[productId],
+                [field]: value,
+            }
+        }));
     };
 
-    const handleRowClick = (row: any) => {
-        console.log('Producto seleccionado:', row);
+    const handleConfirmAndNext = () => {
+        const currentProduct = items[currentProductIndex];
+        setSelectedItems(prev => [...prev, currentProduct.id]); // Agregar el producto a la lista de seleccionados
+        setCurrentProductIndex(prevIndex => {
+            const nextIndex = (prevIndex + 1) % items.length;
+            return nextIndex;
+        });
+        closeModal();  // Cerrar el modal después de confirmar
     };
+
+    const handleAccept = () => {
+        console.log('Datos de stock:', stockData);
+    };
+
+    const filteredItems = items.filter(item => selectedItems.includes(item.id)); // Filtrar solo los productos seleccionados
 
     return (
         <View style={styles.container}>
-            <Pressable style={styles.addButtonContainer} >
+            <View style={styles.addButtonContainer}>
                 <IconButton
                     size={32}
                     icon="add-outline"
                     color="white"
                     onPress={openModal}
                 />
-            </Pressable>
+            </View>
             <FlatList
-                data={items}
+                data={filteredItems} // Mostrar solo los productos seleccionados
                 keyExtractor={(item) => item.id}
                 contentContainerStyle={{ paddingTop: 16, paddingBottom: 80 }}
                 renderItem={({ item }) => (
                     <View style={styles.item}>
                         <Text style={styles.itemText}>{item.name}</Text>
-                        <Text style={styles.itemQuantity}>Cantidad: {item.quantity}</Text>
+                        <Text style={styles.itemStock}>Stock Inicial: {stockData[item.id]?.initial || '0'}</Text>
+                        <Text style={styles.itemStock}>Stock Final: {stockData[item.id]?.final || '0'}</Text>
                     </View>
                 )}
                 ListFooterComponent={
                     <Pressable style={styles.acceptButton} onPress={handleAccept}>
-                        <Text style={styles.acceptButtonText}>Aceptar</Text>
+                        <Text style={styles.acceptButtonText}>Confirmar</Text>
                     </Pressable>
                 }
             />
-            <Modal
-                animationType="slide"
-                transparent={true}
-                visible={modalVisible}
-                onRequestClose={closeModal}
+            <MutateEntityModal
+                show={modalVisible}
+                setShow={setModalVisible}
+                title="Modificar Stock"
             >
-                <View style={styles.modalView}>
-                    <View style={styles.modalContent}>
+                <View style={styles.productItem}>
+                    <Text style={styles.productName}>{items[currentProductIndex].name}</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Stock inicial"
+                        keyboardType="numeric"
+                        value={stockData[items[currentProductIndex].id]?.initial || ''}
+                        onChangeText={(text) => handleStockChange(items[currentProductIndex].id, 'initial', text)}
+                    />
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Stock final"
+                        keyboardType="numeric"
+                        value={stockData[items[currentProductIndex].id]?.final || ''}
+                        onChangeText={(text) => handleStockChange(items[currentProductIndex].id, 'final', text)}
+                    />
+                    <View style={styles.buttonContainer}>
+                        <IconButton
+                            onPress={handleConfirmAndNext}
+                            size={32}
+                            icon="checkmark-outline"
+                            color="white"
+                            style={styles.confirmButton}
+                        />
                         <IconButton
                             onPress={closeModal}
                             size={32}
-                            icon="close-outline"
+                            icon="close-outline" 
                             color="white"
                             style={styles.closeButton}
                         />
-                        {/* Hay que arreglar esto hay cosas que no me funcionan del todo bien  */}
-                        <ProductTable
-                            onClickRow={handleRowClick}
-                            products={products}
-                            total={total}
-                            sort={sort}
-                            setSort={setSort}
-                            pagination={pagination}
-                            setPagination={setPagination}
-                        />
                     </View>
                 </View>
-            </Modal>
+            </MutateEntityModal>
         </View>
     );
 };
@@ -116,19 +132,20 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
     },
-    itemQuantity: {
+    itemStock: {
         fontSize: 14,
         color: '#666',
     },
     addButtonContainer: {
-        right: 16,
-        top: 16,
-        padding:12,
-        borderRadius: 25,
-        width: 50,
-        height: 50,
-        justifyContent: 'center',
         alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: 16,
+    },
+    confirmButton: {
+        marginLeft: 8,
+    },
+    closeButton: {
+        marginRight: 8,
     },
     acceptButton: {
         padding: 16,
@@ -137,29 +154,41 @@ const styles = StyleSheet.create({
         marginVertical: 24,
         borderRadius: 8,
     },
+    itemQuantity: {
+        fontSize: 14,
+        color: '#666',
+    },
     acceptButtonText: {
         color: '#fff',
         fontSize: 16,
     },
-    modalView: {
-        flex: 1,
-        justifyContent: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    productItem: {
+        padding: 16,
+        justifyContent:'space-evenly',
+        alignContent:'space-evenly',
+        borderBottomWidth: 1,
+        borderBottomColor: '#ccc',
     },
-    modalContent: {
-        backgroundColor: 'white',
-        padding: 20,
-        marginHorizontal: 16,
+    productName: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        marginBottom: 8,
+    },
+    input: {
+        height: 40,
+        borderColor: '#ccc',
+        borderWidth: 1,
+        marginBottom: 12,
+        paddingLeft: 8,
         borderRadius: 8,
     },
-    closeButton: {
-        marginBottom: 15,
-        padding:8,
-    },
-    modalText: {
-        fontSize: 16,
-        textAlign: 'center',
+    buttonContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        marginTop: 16,
     },
 });
 
 export default StockSummaryPage;
+
+
