@@ -1,6 +1,6 @@
 import { View, Text, TouchableHighlight } from 'react-native'
 import React from 'react'
-import { useLocalSearchParams } from 'expo-router'
+import { useLocalSearchParams, useNavigation } from 'expo-router'
 import { useWarehouseDetail } from '@/hooks/useWarehouseDetail'
 import { Spacing } from '@/constants/Spacing'
 import Typography from '@/components/Typography'
@@ -12,9 +12,12 @@ import AddButton from '@/components/AddButton'
 import { AddStockModal } from './AddStockModal'
 import useProducts from '@/hooks/useProducts'
 import warehouseService from '@/services/warehouse.service'
+import { useRoute } from '@react-navigation/native'
 
-const WarehouesDetailPage = () => {
-  const { id } = useLocalSearchParams()
+const WarehouseDetailPage = () => {
+  const {
+    params: { id },
+  }: any = useRoute()
   const { products } = useProducts({ page: 1, limit: 999 }, { field: 'name', direction: 'DESC' })
   const { warehouse, refetch } = useWarehouseDetail(+id)
   const [showModal, setShowModal] = React.useState(false)
@@ -91,4 +94,4 @@ const WarehouesDetailPage = () => {
   )
 }
 
-export default WarehouesDetailPage
+export default WarehouseDetailPage
