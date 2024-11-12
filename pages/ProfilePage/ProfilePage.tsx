@@ -11,6 +11,7 @@ import StyledButton from '@/components/StyledButton'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useAuthorizedUser } from '@/hooks/useUser'
 import { View } from 'react-native'
+import { router } from 'expo-router'
 
 const ProfilePage = () => {
   const { user } = useAuthorizedUser()
@@ -49,7 +50,7 @@ const ProfilePage = () => {
           show={modalVisible}
         />
         <ProfilePicture onClickEdit={() => setModalVisible(true)} picUrl={userPic} />
-        <Typography variant="h4">{user.user}</Typography>
+        <Typography variant="h4">{user?.user}</Typography>
         <View style={{ width: '100%', gap: 15 }}>
           <TabsSelector
             tabs={['Datos personales', 'Contraseña']}
@@ -62,9 +63,10 @@ const ProfilePage = () => {
           color="danger"
           label="Cerrar sesión"
           iconRight={'log-out-outline'}
-          onPress={() => {
-            AsyncStorage.clear()
+          onPress={async () => {
             setUser(null)
+            await AsyncStorage.clear()
+            router.push('/login')
           }}
         />
       </ScrollView>
