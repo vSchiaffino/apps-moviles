@@ -11,7 +11,6 @@ import Pagination from '@/models/Pagination'
 import Sort from '@/models/Sort'
 import IconList from '../IconList'
 import TransferWarehouseModal from './WarehouseTransferModal'
-import { WarehouseStackParamList } from '@/stacks/WarehouseStack'
 import { useNavigation } from 'expo-router'
 import { WarehouseNavigationProp } from '@/app/warehouse'
 
@@ -24,6 +23,7 @@ const WarehousePage = () => {
   })
   const { warehouses, create, total, edit, transfer, refetch } = useWarehouses(pagination, sort)
   const [editingWarehouse, setEditingWarehouse] = useState<any>(null)
+  const [selectedRow, setSelectedRow] = useState<any>(undefined)
   const [showSaveModal, setShowSaveModal] = useState(false)
   const [showTransferModal, setShowTransferModal] = useState(false)
   const [cardList, setCardList] = useState(false)
@@ -65,28 +65,57 @@ const WarehousePage = () => {
           showsVerticalScrollIndicator={false}
           style={{ backgroundColor: Colors.gray[100], height: '100%' }}
         >
-          <IconList
-            icons={[
-              {
-                icon: !cardList ? 'grid-outline' : 'list-outline',
-                onPress: () => toggleView(),
-              },
-              {
-                icon: 'add-circle-outline',
-                onPress: () => {
-                  setEditingWarehouse(null)
-                  setShowSaveModal(true)
-                },
-              },
-              {
-                icon: 'compare-arrows',
-                onPress: () => {
-                  setShowTransferModal(true)
-                },
-                library: 'mui',
-              },
-            ]}
-          />
+          <View style={{ width: '100%', flexDirection: 'row', justifyContent: 'flex-end' }}>
+            {selectedRow === undefined ? (
+              <IconList
+                icons={[
+                  {
+                    icon: !cardList ? 'grid-outline' : 'list-outline',
+                    onPress: () => toggleView(),
+                  },
+                  {
+                    icon: 'add-circle-outline',
+                    onPress: () => {
+                      setEditingWarehouse(null)
+                      setShowSaveModal(true)
+                    },
+                  },
+                  {
+                    icon: 'compare-arrows',
+                    onPress: () => {
+                      setShowTransferModal(true)
+                    },
+                    library: 'mui',
+                  },
+                ]}
+              />
+            ) : (
+              <></>
+            )}
+            {selectedRow !== undefined ? (
+              <IconList
+                icons={[
+                  {
+                    icon: 'create-outline',
+                    onPress: () => {
+                      setEditingWarehouse(selectedRow)
+                      setShowSaveModal(true)
+                      setSelectedRow(undefined)
+                    },
+                  },
+                  {
+                    icon: 'trash-outline',
+                    onPress: () => {
+                      //Handle delete row
+                      setSelectedRow(undefined)
+                    },
+                  },
+                ]}
+              />
+            ) : (
+              <></>
+            )}
+          </View>
 
           {!cardList ? (
             <View
@@ -118,8 +147,7 @@ const WarehousePage = () => {
                   })
                 }}
                 onLongPressRow={(row: any) => {
-                  setEditingWarehouse(row)
-                  setShowSaveModal(true)
+                  setSelectedRow(row)
                 }}
               />
             </View>
