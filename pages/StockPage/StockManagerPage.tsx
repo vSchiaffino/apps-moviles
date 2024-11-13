@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { StyleSheet, View, Pressable, ScrollView } from 'react-native'
-import Modal from 'react-native-modal'
 import Typography from '@/components/Typography'
 import Container from '@/components/Container'
 import { Calendar } from 'react-native-calendars'
@@ -10,6 +9,9 @@ import Table from '@/components/Table/Table'
 import OutlinedInput from '@/components/OutlinedInput'
 import MutateEntityModal from '@/components/MutateEntityModal'
 import useProducts from '@/hooks/useProducts'
+import SelectDateModal from './SelectDateModal'
+import StockSummaryTable from './StockSummaryTable'
+import EditStockModal from './EditStockModal'
 
 const StockManagerPage: React.FC = () => {
   const { products } = useProducts({ page: 1, limit: 100 }, { field: 'name', direction: 'ASC' })
@@ -38,10 +40,7 @@ const StockManagerPage: React.FC = () => {
   const [modalDateVisible, setModalDateVisible] = useState(false)
   const [stockSelectedIndex, setStockSelectedIndex] = useState<number | null>(null)
   const [selectedRow, setSelectedRow] = useState<any | null>(null)
-  const handleDayPress = (day: any) => {
-    setSelectedDate(day.dateString)
-    setModalDateVisible(false)
-  }
+
   console.log('selectedDate', selectedDate)
   return (
     <Container>
@@ -52,11 +51,16 @@ const StockManagerPage: React.FC = () => {
         }}
       >
         <DateSelect
-        
           label=""
           value={selectedDate}
           onChange={setSelectedDate}
           onPressIcon={() => setModalDateVisible(true)}
+        />
+        <SelectDateModal
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
+          visible={modalDateVisible}
+          setVisible={setModalDateVisible}
         />
         <View style={{ width: '100%' }}>
           <View
@@ -71,111 +75,28 @@ const StockManagerPage: React.FC = () => {
               Resumen de stock
             </Typography>
           </View>
-          <Table
-            sortingFields={[]}
-            headerFont="geist"
-            entityName="Productos"
-            onClickRow={(row, index) => {
-              if (index != null) {
-                setStockSelectedIndex(index)
-                setSelectedRow(row)
-              }
-            }}
-            columns={[
-              { key: 'product', title: 'Producto', width: '40%', align: 'flex-start' },
-              { key: 'initialStock', title: 'Stock inicial', width: '30%', align: 'center' },
-              { key: 'finalStock', title: 'Stock final', width: '30%', align: 'center' },
-            ]}
+          <StockSummaryTable
             rows={rows}
-            pagination={{ page: 1, limit: 10, total: 3 }}
+            onClickRow={(row, index) => {
+              setStockSelectedIndex(index as number)
+              setSelectedRow(row)
+            }}
           />
         </View>
-        <Modal
-          isVisible={modalDateVisible}
-          animationIn="fadeInUp"
-          animationOut="fadeOutDown"
-          useNativeDriverForBackdrop={true}
-          backdropOpacity={0.7}
-          hasBackdrop={true}
-          onBackdropPress={() => setModalDateVisible(false)}
-          onBackButtonPress={() => setModalDateVisible(false)}
-          style={{
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <View
-            style={{
-              padding: 20,
-              borderRadius: 16,
-              backgroundColor: 'white',
-              backfaceVisibility: 'hidden',
-            }}
-          >
-            <Calendar
-              style={{ backgroundColor: 'transparent' }}
-              onDayPress={handleDayPress}
-              markedDates={{
-                [selectedDate]: { selected: true, selectedColor: 'blue' },
-              }}
-              monthFormat={'yyyy MMMM'}
-            />
-            <Pressable onPress={() => setModalDateVisible(false)} style={styles.closeButton}>
-              <Typography variant="h6" style={{ color: 'white' }}>
-                Cerrar
-              </Typography>
-            </Pressable>
-          </View>
-        </Modal>
-        <MutateEntityModal
-          show={selectedRow !== null}
-          setShow={() => {
-            setSelectedRow(null)
+        <EditStockModal
+          selectedRow={selectedRow}
+          setSelectedRow={setSelectedRow}
+          setStockSelectedIndex={setStockSelectedIndex}
+          onSubmit={() => {
+            setRows((prev) => {
+              const newRows = [...prev]
+              newRows[stockSelectedIndex as number] = selectedRow
+              return newRows
+            })
             setStockSelectedIndex(null)
+            setSelectedRow(null)
           }}
-          title="Editar stock registrado"
-        >
-          {selectedRow !== null && (
-            <View
-              style={{
-                gap: 20,
-                padding: 20,
-                borderRadius: 16,
-                backgroundColor: 'white',
-                backfaceVisibility: 'hidden',
-              }}
-            >
-              <OutlinedInput
-                label="Stock Inicial"
-                keyboardType="numeric"
-                value={selectedRow.initialStock}
-                onChangeText={(value: any) => {
-                  setSelectedRow({ ...selectedRow, initialStock: value })
-                }}
-              />
-              <OutlinedInput
-                label="Stock final"
-                keyboardType="numeric"
-                value={selectedRow.finalStock}
-                onChangeText={(value: any) => {
-                  setSelectedRow({ ...selectedRow, finalStock: value })
-                }}
-              />
-              <StyledButton
-                label="Guardar"
-                onPress={() => {
-                  setRows((prev) => {
-                    const newRows = [...prev]
-                    newRows[stockSelectedIndex as number] = selectedRow
-                    return newRows
-                  })
-                  setStockSelectedIndex(null)
-                  setSelectedRow(null)
-                }}
-              ></StyledButton>
-            </View>
-          )}
-        </MutateEntityModal>
+        />
         <StyledButton
           label="Confirmar stocks"
           onPress={() => {
