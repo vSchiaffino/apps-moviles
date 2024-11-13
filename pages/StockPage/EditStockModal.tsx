@@ -12,6 +12,7 @@ const EditStockModal = ({
   onNext,
   shouldShowNext,
 }: any) => {
+  const ref = React.useRef(null)
   return (
     <MutateEntityModal
       show={selectedRow !== null}
@@ -42,15 +43,18 @@ const EditStockModal = ({
             keyboardType="numeric"
             value={String(selectedRow.initialStock)}
             backgroundColor="white"
+            onSubmitEditing={() => (ref as any)?.current.focus()}
             onChangeText={(value: any) => {
               setSelectedRow({ ...selectedRow, initialStock: value })
             }}
           />
           <OutlinedInput
+            inputRef={ref}
             label="Stock final"
             keyboardType="numeric"
             value={String(selectedRow.finalStock)}
             backgroundColor="white"
+            onSubmitEditing={shouldShowNext ? onNext : onSubmit}
             onChangeText={(value: any) => {
               setSelectedRow({ ...selectedRow, finalStock: value })
             }}
