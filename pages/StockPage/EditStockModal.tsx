@@ -4,7 +4,14 @@ import OutlinedInput from '@/components/OutlinedInput'
 import StyledButton from '@/components/StyledButton'
 import { View } from 'react-native'
 
-const EditStockModal = ({ selectedRow, setSelectedRow, setStockSelectedIndex, onSubmit }: any) => {
+const EditStockModal = ({
+  selectedRow,
+  setSelectedRow,
+  setStockSelectedIndex,
+  onSubmit,
+  onNext,
+  shouldShowNext,
+}: any) => {
   return (
     <MutateEntityModal
       show={selectedRow !== null}
@@ -25,6 +32,12 @@ const EditStockModal = ({ selectedRow, setSelectedRow, setStockSelectedIndex, on
           }}
         >
           <OutlinedInput
+            label="Producto"
+            value={selectedRow.product.name}
+            disabled
+            backgroundColor="white"
+          />
+          <OutlinedInput
             label="Stock Inicial"
             keyboardType="numeric"
             value={String(selectedRow.initialStock)}
@@ -42,6 +55,7 @@ const EditStockModal = ({ selectedRow, setSelectedRow, setStockSelectedIndex, on
               setSelectedRow({ ...selectedRow, finalStock: value })
             }}
           />
+          {shouldShowNext && <StyledButton label="Siguiente" onPress={onNext}></StyledButton>}
           <StyledButton label="Guardar" onPress={onSubmit}></StyledButton>
         </View>
       )}

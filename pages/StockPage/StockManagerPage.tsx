@@ -14,8 +14,7 @@ const StockManagerPage: React.FC = () => {
   const [modalDateVisible, setModalDateVisible] = useState(false)
   const [stockSelectedIndex, setStockSelectedIndex] = useState<number | null>(null)
   const [selectedRow, setSelectedRow] = useState<any | null>(null)
-  const { stockLevels, save, editingStockLevel, setEditing, isEditing, message } =
-    useStockLevel(selectedDate)
+  const { save, editingStockLevel, setEditing, isEditing, message } = useStockLevel(selectedDate)
 
   return (
     <Container>
@@ -23,6 +22,7 @@ const StockManagerPage: React.FC = () => {
         contentContainerStyle={{
           alignItems: 'center',
           padding: 16,
+          paddingBottom: 200,
         }}
       >
         <DateSelect
@@ -64,6 +64,16 @@ const StockManagerPage: React.FC = () => {
           </>
         )}
         <EditStockModal
+          shouldShowNext={editingStockLevel?.length !== (stockSelectedIndex as any) + 1}
+          onNext={() => {
+            setEditing((prev: any) => {
+              const newRows = [...prev]
+              newRows[stockSelectedIndex as number] = selectedRow
+              return newRows
+            })
+            setStockSelectedIndex((prev) => (prev as number) + 1)
+            setSelectedRow(editingStockLevel?.[(stockSelectedIndex as number) + 1])
+          }}
           selectedRow={selectedRow}
           setSelectedRow={setSelectedRow}
           setStockSelectedIndex={setStockSelectedIndex}
@@ -77,16 +87,16 @@ const StockManagerPage: React.FC = () => {
             setSelectedRow(null)
           }}
         />
+        {message && (
+          <Typography
+            variant="body"
+            color="primary"
+            style={{ textAlign: 'center', marginBottom: 20 }}
+          >
+            {message}
+          </Typography>
+        )}
       </ScrollView>
-      {message && (
-        <Typography
-          variant="body"
-          color="primary"
-          style={{ textAlign: 'center', marginBottom: 20 }}
-        >
-          {message}
-        </Typography>
-      )}
     </Container>
   )
 }
