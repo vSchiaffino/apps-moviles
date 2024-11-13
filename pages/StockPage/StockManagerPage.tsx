@@ -18,7 +18,6 @@ import MutateEntityModal from '@/components/MutateEntityModal'
 
 const StockManagerPage: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState('')
-  const [warehouse, setWarehouse] = useState('')
   const [modalDateVisible, setModalDateVisible] = useState(false)
   const [stockSelectedIndex, setStockSelectedIndex] = useState<number | null>(null)
   const [rows, setRows] = useState<any[]>([
@@ -37,23 +36,8 @@ const StockManagerPage: React.FC = () => {
         contentContainerStyle={{
           alignItems: 'center',
           padding: 16,
-          height: '100%',
         }}
       >
-        {/* <InfoCard
-          infoText={
-            'Selecciona el deposito en el que quieras registrar cambios en el stock' +
-            '\n' +
-            'Luego selecciona la fecha y presiona "Siguiente" para continuar'
-          }
-        /> */}
-        {/* <IconSelect
-          icon="local-shipping"
-          label="Depósito"
-          options={['Depósito 1', 'Depósito 2', 'Depósito 3']}
-          value={warehouse}
-          onChange={setWarehouse}
-        /> */}
         <DateSelect
           label=""
           value={selectedDate}
@@ -72,13 +56,6 @@ const StockManagerPage: React.FC = () => {
             <Typography variant="h5" style={{ marginBottom: 10, alignContent: 'flex-end' }}>
               Resumen de stock
             </Typography>
-            <IconButton
-              style={{ padding: 8 }}
-              color={Colors.gray[100]}
-              icon="add-outline"
-              size={42}
-              onPress={() => {}}
-            />
           </View>
           <Table
             sortingFields={[]}
@@ -178,28 +155,14 @@ const StockManagerPage: React.FC = () => {
             </View>
           )}
         </MutateEntityModal>
-        {/* <Table
-          sortingFields={['name']}
-          entityName="Productos"
-          headerFont="geist"
-          columns={[
-            { key: 'name', title: 'Nombre', width: '75%', align: 'flex-start' },
-            {
-              key: 'stockNumber',
-              title: 'Stock',
-              width: '25%',
-              align: 'center',
-            },
-          ]}
-          rows={[
-            { name: 'Producto 1', stockNumber: 20 },
-            { name: 'Producto 2', stockNumber: 10 },
-            { name: 'Producto 3', stockNumber: 15 },
-          ]}
-        /> */}
         <StyledButton
           label="Confirmar stocks"
-          onPress={() => router.push('/stock-summary')}
+          onPress={() => {
+            // handle api connection
+            rows.forEach((row) => {
+              console.log({ date: selectedDate, row });
+            });
+          }}
         ></StyledButton>
       </ScrollView>
     </Container>
