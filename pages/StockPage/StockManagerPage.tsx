@@ -1,35 +1,48 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyleSheet, View, Pressable, ScrollView } from 'react-native'
 import Modal from 'react-native-modal'
 import Typography from '@/components/Typography'
-import IconSelect from '@/components/IconSelect'
 import Container from '@/components/Container'
 import { Calendar } from 'react-native-calendars'
 import DateSelect from '@/components/DateSelect'
 import StyledButton from '@/components/StyledButton'
-import InfoCard from '@/components/InfoCard'
-import { router } from 'expo-router'
 import Table from '@/components/Table/Table'
-import IconButton from '@/components/IconButton'
-import { Colors } from '@/constants/Colors'
-import OutlinedSelect from '@/components/OutlinedSelect/OutlinedSelect'
 import OutlinedInput from '@/components/OutlinedInput'
 import MutateEntityModal from '@/components/MutateEntityModal'
+import useProducts from '@/hooks/useProducts'
 
 const StockManagerPage: React.FC = () => {
+  const { products } = useProducts({ page: 1, limit: 100 }, { field: 'name', direction: 'ASC' })
+  const [rows, setRows] = useState<any[]>([])
+  useEffect(() => {
+    console.log(products)
+    if (!products) return
+
+    const newRows = products.map((product: any) => ({
+      id: product.id,
+      product: product.name,
+      initialStock: '0',
+      finalStock: '0',
+    }))
+
+    setRows((prevRows: any[]) => {
+      const prevIds = prevRows.map((row: any) => row.id)
+      const newIds = newRows.map((row: any) => row.id)
+      if (JSON.stringify(prevIds) === JSON.stringify(newIds)) {
+        return prevRows
+      }
+      return newRows
+    })
+  }, [products])
   const [selectedDate, setSelectedDate] = useState('')
   const [modalDateVisible, setModalDateVisible] = useState(false)
   const [stockSelectedIndex, setStockSelectedIndex] = useState<number | null>(null)
-  const [rows, setRows] = useState<any[]>([
-    { product: 'Producto 1', initialStock: 20, finalStock: 10 },
-    { product: 'Producto 2', initialStock: 10, finalStock: 5 },
-    { product: 'Producto 3', initialStock: 15, finalStock: 20 },
-  ])
+  const [selectedRow, setSelectedRow] = useState<any | null>(null)
   const handleDayPress = (day: any) => {
     setSelectedDate(day.dateString)
     setModalDateVisible(false)
   }
-
+  console.log('selectedDate', selectedDate)
   return (
     <Container>
       <ScrollView
@@ -39,6 +52,7 @@ const StockManagerPage: React.FC = () => {
         }}
       >
         <DateSelect
+        
           label=""
           value={selectedDate}
           onChange={setSelectedDate}
@@ -62,7 +76,10 @@ const StockManagerPage: React.FC = () => {
             headerFont="geist"
             entityName="Productos"
             onClickRow={(row, index) => {
-              if (index != null) setStockSelectedIndex(index)
+              if (index != null) {
+                setStockSelectedIndex(index)
+                setSelectedRow(row)
+              }
             }}
             columns={[
               { key: 'product', title: 'Producto', width: '40%', align: 'flex-start' },
@@ -111,11 +128,14 @@ const StockManagerPage: React.FC = () => {
           </View>
         </Modal>
         <MutateEntityModal
-          show={stockSelectedIndex !== null}
-          setShow={() => setStockSelectedIndex(null)}
+          show={selectedRow !== null}
+          setShow={() => {
+            setSelectedRow(null)
+            setStockSelectedIndex(null)
+          }}
           title="Editar stock registrado"
         >
-          {stockSelectedIndex !== null && (
+          {selectedRow !== null && (
             <View
               style={{
                 gap: 20,
@@ -128,28 +148,29 @@ const StockManagerPage: React.FC = () => {
               <OutlinedInput
                 label="Stock Inicial"
                 keyboardType="numeric"
-                value={rows[stockSelectedIndex as any].initialStock}
-                onChange={(e: any) => {
-                  console.log('value', e.target.value)
-                  rows[stockSelectedIndex as any].initialStock = e.target.value
-                  setRows(rows)
+                value={selectedRow.initialStock}
+                onChangeText={(value: any) => {
+                  setSelectedRow({ ...selectedRow, initialStock: value })
                 }}
               />
               <OutlinedInput
                 label="Stock final"
                 keyboardType="numeric"
-                value={rows[stockSelectedIndex as any].finalStock}
-                onChange={(e: any) => {
-                  setRows((prev) => {
-                    prev[stockSelectedIndex as any].finalStock = e.target.value
-                    return prev
-                  })
+                value={selectedRow.finalStock}
+                onChangeText={(value: any) => {
+                  setSelectedRow({ ...selectedRow, finalStock: value })
                 }}
               />
               <StyledButton
-                label="Salir"
+                label="Guardar"
                 onPress={() => {
+                  setRows((prev) => {
+                    const newRows = [...prev]
+                    newRows[stockSelectedIndex as number] = selectedRow
+                    return newRows
+                  })
                   setStockSelectedIndex(null)
+                  setSelectedRow(null)
                 }}
               ></StyledButton>
             </View>
@@ -160,8 +181,8 @@ const StockManagerPage: React.FC = () => {
           onPress={() => {
             // handle api connection
             rows.forEach((row) => {
-              console.log({ date: selectedDate, row });
-            });
+              console.log({ date: selectedDate, row })
+            })
           }}
         ></StyledButton>
       </ScrollView>
