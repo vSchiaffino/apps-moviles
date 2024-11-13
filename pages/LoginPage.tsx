@@ -26,6 +26,8 @@ const LoginPage = () => {
     setUser(payload)
     await AsyncStorage.clear()
     await AsyncStorage.setItem('user', JSON.stringify(payload))
+    await AsyncStorage.setItem('jwt', jwtToken)
+
     router.push('/')
   }
   const fields: ValidatedField[] = [

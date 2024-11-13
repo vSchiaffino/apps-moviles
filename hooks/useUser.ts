@@ -1,4 +1,5 @@
 import { AuthContext, AuthContextType, UserPayload } from '@/context/AuthContext'
+import userService from '@/services/user.service'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { router } from 'expo-router'
 import { useContext, useEffect } from 'react'
@@ -31,6 +32,7 @@ export function useNotAuthorizedUser(): (user: UserPayload) => void {
 export function useAuthorizedUser(): {
   user: UserPayload
   setUser: (user: UserPayload | null) => void
+  editUser: (form: any) => Promise<void>
 } {
   const { user, setUser } = useUser()
   useEffect(() => {
@@ -41,5 +43,15 @@ export function useAuthorizedUser(): {
       })
   }, [user])
 
-  return { user: user as UserPayload, setUser }
+  return {
+    user: user as UserPayload,
+    setUser,
+    editUser: async (form: any) => {
+      const jwt = await AsyncStorage.getItem('jwt')
+      if (!jwt) throw new Error('Inicia sesión para editar tus datos')
+      const response = await userService.editUser(jwt, { name: form.name, lastName: form.lastName })
+      const updatedUser = await response.json()
+      setUser(updatedUser)
+    },
+  }
 }

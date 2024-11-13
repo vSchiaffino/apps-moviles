@@ -14,14 +14,13 @@ import { View } from 'react-native'
 import { router } from 'expo-router'
 
 const ProfilePage = () => {
-  const { user } = useAuthorizedUser()
-  const { setUser } = useAuthorizedUser()
+  const { user, setUser, editUser } = useAuthorizedUser()
   const [userPic, setUserPic] = useState('../assets/images/test.jpeg')
   const [modalVisible, setModalVisible] = useState(false)
   const [selectedTab, setSelectedTab] = useState(0)
 
-  const onSubmit = async () => {
-    return //TODO: Handle onSubmit change user
+  const onSubmit = async (form: any) => {
+    await editUser(form)
   }
 
   const saveImage = async (image: string) => {
@@ -57,7 +56,11 @@ const ProfilePage = () => {
             selected={selectedTab}
             setSelected={setSelectedTab}
           />
-          {selectedTab === 0 ? <PersonalDataTab user={user} /> : <ChangePasswordTab />}
+          {selectedTab === 0 ? (
+            <PersonalDataTab user={user} onSubmit={onSubmit} />
+          ) : (
+            <ChangePasswordTab />
+          )}
         </View>
         <StyledButton
           color="danger"
