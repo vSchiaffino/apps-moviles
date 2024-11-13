@@ -14,6 +14,7 @@ import TransferWarehouseModal from './WarehouseTransferModal'
 import { useNavigation } from 'expo-router'
 import { WarehouseNavigationProp } from '@/app/warehouse'
 import ActionsList from '@/components/ActionsList'
+import InfoCard from '@/components/InfoCard'
 
 const WarehousePage = () => {
   const { navigate } = useNavigation<WarehouseNavigationProp>()
@@ -30,7 +31,7 @@ const WarehousePage = () => {
   const [selectedRow, setSelectedRow] = useState<any>(undefined)
   const [showSaveModal, setShowSaveModal] = useState(false)
   const [showTransferModal, setShowTransferModal] = useState(false)
-  const [cardList, setCardList] = useState(false)
+  const [cardList, setCardList] = useState(true)
   function toggleView() {
     setCardList((prev) => !prev)
   }
@@ -77,7 +78,6 @@ const WarehousePage = () => {
               setShowSaveModal(true)
             }}
             onPressDelete={() => {
-              //Handle delete row
               setSelectedRow(undefined)
               remove(selectedRow.id)
             }}
@@ -117,27 +117,31 @@ const WarehousePage = () => {
             </View>
           ) : (
             <View style={{ paddingLeft: 16, paddingRight: 16 }}>
-              <WarehouseTable
-                selectedRow={selectedRow}
-                pagination={pagination}
-                setPagination={setPagination}
-                total={total}
-                warehouses={warehouses}
-                sort={sort}
-                setSort={setSort}
-                onPressRow={(row: any) => {
-                  navigate('warehouse-detail', {
-                    id: row.id,
-                  })
-                }}
-                onLongPressRow={(row: any) => {
-                  selectedRow !== undefined && selectedRow.id !== row.id
-                    ? setSelectedRow(row)
-                    : selectedRow === undefined
+              {warehouses.length !== 0 ? (
+                <WarehouseTable
+                  selectedRow={selectedRow}
+                  pagination={pagination}
+                  setPagination={setPagination}
+                  total={total}
+                  warehouses={warehouses}
+                  sort={sort}
+                  setSort={setSort}
+                  onPressRow={(row: any) => {
+                    navigate('warehouse-detail', {
+                      id: row.id,
+                    })
+                  }}
+                  onLongPressRow={(row: any) => {
+                    selectedRow !== undefined && selectedRow.id !== row.id
                       ? setSelectedRow(row)
-                      : setSelectedRow(undefined)
-                }}
-              />
+                      : selectedRow === undefined
+                        ? setSelectedRow(row)
+                        : setSelectedRow(undefined)
+                  }}
+                />
+              ) : (
+                <InfoCard infoText="No tenés depósitos. Tocá el botón de arriba para añadir uno" />
+              )}
             </View>
           )}
         </ScrollView>

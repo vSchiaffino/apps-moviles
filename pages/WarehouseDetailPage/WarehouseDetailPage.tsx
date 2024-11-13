@@ -12,6 +12,7 @@ import useProducts from '@/hooks/useProducts'
 import warehouseService from '@/services/warehouse.service'
 import { useRoute } from '@react-navigation/native'
 import IconButton from '@/components/IconButton'
+import InfoCard from '@/components/InfoCard'
 
 const WarehouseDetailPage = () => {
   const {
@@ -50,42 +51,48 @@ const WarehouseDetailPage = () => {
               flexDirection: 'row',
               justifyContent: 'space-between',
               alignItems: 'center',
+              paddingHorizontal: 16,
+              paddingTop: 10,
             }}
           >
-            <Typography variant="h4" style={{ alignSelf: 'flex-end' }}>
-              En stock:
-            </Typography>
+            <Typography variant="h5">Productos en stock</Typography>
             <IconButton
-              style={{ padding: 8 }}
-              color={Colors.gray[100]}
-              icon="add-outline"
-              size={42}
+              icon="add-circle-outline"
+              size={24}
+              style={{ backgroundColor: 'transparent' }}
               onPress={() => {
                 setSelectedProduct(null)
                 setShowModal(true)
               }}
             />
           </View>
-          <Table
-            rows={warehouse.stock}
-            onClickRow={(row) => {
-              setSelectedProduct(row.product)
-              setShowModal(true)
-            }}
-            columns={[
-              {
-                key: 'name',
-                title: 'Nombre',
-                width: '70%',
-                getValue: (row) => row.product.name,
-              },
-              {
-                key: 'quantity',
-                title: 'Cantidad',
-                width: '30%',
-              },
-            ]}
-          />
+          {warehouse.stock.length !== 0 ? (
+            <Table
+              headerFont="geist"
+              rows={warehouse.stock}
+              onClickRow={(row) => {
+                setSelectedProduct(row.product)
+                setShowModal(true)
+              }}
+              columns={[
+                {
+                  key: 'name',
+                  title: 'Nombre',
+                  width: '70%',
+                  getValue: (row) => row.product.name,
+                  align: 'flex-start',
+                },
+                {
+                  key: 'quantity',
+                  title: 'Cantidad',
+                  width: '30%',
+                  align: 'flex-end',
+                },
+              ]}
+            />
+          ) : (
+            <InfoCard infoText="El depósito no tiene productos. Tocá el botón de arriba para añadir stock" />
+          )}
         </Container>
       </ScrollView>
     )
