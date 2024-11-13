@@ -33,6 +33,7 @@ export interface TableProps {
   onLongPressRow?: (row: any) => void
   sortingFields?: string[]
   rounded?: boolean
+  selectedRow: any
 }
 
 const Table: React.FC<TableProps> = ({
@@ -48,6 +49,7 @@ const Table: React.FC<TableProps> = ({
   entityName = 'items',
   sortingFields = [],
   rounded = false,
+  selectedRow,
 }) => {
   return (
     <View style={{ gap: 10 }}>
@@ -61,6 +63,7 @@ const Table: React.FC<TableProps> = ({
           sortingFields={sortingFields}
         />
         <TableBody
+          selectedRow={selectedRow}
           rounded={rounded}
           columns={columns}
           rows={rows}

@@ -14,6 +14,7 @@ const WarehouseTable: React.FC<{
   setSort: (sort: Sort) => void
   pagination: Pagination
   setPagination: (pagination: Pagination) => void
+  selectedRow: any
 }> = ({
   warehouses,
   onPressRow,
@@ -23,10 +24,12 @@ const WarehouseTable: React.FC<{
   pagination,
   setPagination,
   total,
+  selectedRow,
 }) => {
   return (
     warehouses && (
       <Table
+        selectedRow={selectedRow}
         entityName="Depósitos"
         onClickRow={onPressRow}
         onLongPressRow={onLongPressRow}
