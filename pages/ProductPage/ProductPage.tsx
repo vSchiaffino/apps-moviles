@@ -83,7 +83,7 @@ const ProductsPage = () => {
           }}
         />
         <View style={{ paddingLeft: 16, paddingRight: 16 }}>
-          {products.length !== 0 ? (
+          {products !== undefined && products.length !== 0 ? (
             <ProductTable
               onClickRow={() => {}}
               selectedRow={selectedRow}

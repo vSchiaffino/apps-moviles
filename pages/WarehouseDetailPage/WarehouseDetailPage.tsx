@@ -13,6 +13,7 @@ import warehouseService from '@/services/warehouse.service'
 import { useRoute } from '@react-navigation/native'
 import IconButton from '@/components/IconButton'
 import InfoCard from '@/components/InfoCard'
+import { router } from 'expo-router'
 
 const WarehouseDetailPage = () => {
   const {
@@ -22,30 +23,34 @@ const WarehouseDetailPage = () => {
   const { warehouse, refetch } = useWarehouseDetail(+id)
   const [showModal, setShowModal] = React.useState(false)
   const [selectedProduct, setSelectedProduct] = React.useState<any>(null)
+
+  const noProducts = products === undefined || products.length === 0
+  const message = noProducts ? 'Añadí productos aquí' : 'Tocá el botón de arriba para añadir stock'
   return (
     warehouse && (
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        style={{ backgroundColor: Colors.gray[100], marginTop: Spacing.rowGap }}
-      >
-        {showModal && (
-          <AddStockModal
-            selectedProduct={selectedProduct}
-            products={products}
-            setShow={setShowModal}
-            show={showModal}
-            onSubmit={async (form: any) => {
-              const { product, quantity } = form
-              await warehouseService.addStock(+id, {
-                productId: product.id,
-                quantity: parseInt(quantity),
-              })
-              await refetch()
-              setShowModal(false)
-            }}
-          />
-        )}
-        <Container style={{ gap: Spacing.rowGap, paddingHorizontal: 16 }}>
+      <Container style={{ gap: Spacing.rowGap, paddingHorizontal: 16 }}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ gap: 15, marginTop: 16 }}
+          style={{ backgroundColor: Colors.gray[100] }}
+        >
+          {showModal && (
+            <AddStockModal
+              selectedProduct={selectedProduct}
+              products={products}
+              setShow={setShowModal}
+              show={showModal}
+              onSubmit={async (form: any) => {
+                const { product, quantity } = form
+                await warehouseService.addStock(+id, {
+                  productId: product.id,
+                  quantity: parseInt(quantity),
+                })
+                await refetch()
+                setShowModal(false)
+              }}
+            />
+          )}
           <View
             style={{
               flexDirection: 'row',
@@ -61,7 +66,7 @@ const WarehouseDetailPage = () => {
               size={24}
               style={{ backgroundColor: 'transparent' }}
               onPress={() => {
-                setSelectedProduct(null)
+                noProducts ? router.push('/products') : setSelectedProduct(null)
                 setShowModal(true)
               }}
             />
@@ -91,10 +96,10 @@ const WarehouseDetailPage = () => {
               ]}
             />
           ) : (
-            <InfoCard infoText="El depósito no tiene productos. Tocá el botón de arriba para añadir stock" />
+            <InfoCard infoText={'El depósito no tiene productos. ' + message} />
           )}
-        </Container>
-      </ScrollView>
+        </ScrollView>
+      </Container>
     )
   )
 }
