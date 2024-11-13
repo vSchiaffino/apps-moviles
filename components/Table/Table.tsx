@@ -29,7 +29,7 @@ export interface TableProps {
   pagination?: { page: number; limit: number; total: number }
   onChangePagination?: (pagination: Pagination) => void
   entityName?: string
-  onClickRow?: (row: any) => void
+  onClickRow?: (row: any, index?: number) => void
   onLongPressRow?: (row: any) => void
   sortingFields?: string[]
   rounded?: boolean
