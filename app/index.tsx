@@ -6,6 +6,7 @@ import { useAuthorizedUser } from '@/hooks/useUser'
 import { router } from 'expo-router'
 import React from 'react'
 import { View } from 'react-native'
+import { ScrollView } from 'react-native-gesture-handler'
 
 const Dashboard = () => {
   const { user } = useAuthorizedUser()
@@ -22,42 +23,53 @@ const Dashboard = () => {
   return (
     user && (
       <Container style={{ height: '100%' }}>
-        <View
-          style={{
-            marginTop: 50,
-            padding: 16,
-            justifyContent: 'center',
-            alignItems: 'center',
-            gap: 20,
-          }}
-        >
-          <Typography variant="h4">Bienvenido {user.user}</Typography>
+        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{}}>
           <View
             style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
+              marginTop: 70,
+              padding: 16,
+              justifyContent: 'center',
+              alignItems: 'center',
               gap: 20,
+              paddingBottom: 100,
             }}
           >
-            <IconCard
-              icon="cube-outline"
-              color={'primary'}
-              text="Productos"
-              onPress={() => {
-                router.push('/products')
+            <Typography variant="h4">Bienvenido {user.user}</Typography>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                gap: 20,
               }}
-            />
+            >
+              <IconCard
+                icon="cube-outline"
+                color={'primary'}
+                text="Productos"
+                onPress={() => {
+                  router.push('/products')
+                }}
+              />
+              <IconCard
+                icon="warehouse"
+                color={'primary'}
+                text="Depósitos"
+                onPress={() => {
+                  router.push('/warehouse')
+                }}
+              />
+            </View>
+            <CardLineChart data={lineData} />
             <IconCard
-              icon="ban-outline"
-              color={'danger'}
-              text="Anulaciones"
+              icon="bar-chart-outline"
+              color={'primary'}
+              text="Reportes"
               onPress={() => {
-                console.log('sape')
+                router.push('/reports')
               }}
             />
           </View>
-          <CardLineChart data={lineData} />
-        </View>
+        </ScrollView>
       </Container>
     )
   )

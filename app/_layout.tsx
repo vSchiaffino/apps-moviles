@@ -52,6 +52,7 @@ const invisibleTabs = [
   { name: 'login' },
   { name: 'register' },
   { name: 'stock-summary', title: 'Resumen Stock', showRootHeader: true },
+  { name: 'reports', title: 'Reportes', showRootHeader: true },
 ]
 
 export default function RootLayout() {

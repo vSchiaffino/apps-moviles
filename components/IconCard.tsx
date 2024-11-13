@@ -3,6 +3,7 @@ import Card from './Card'
 import { FontAwesome6, Ionicons } from '@expo/vector-icons'
 import Typography from './Typography'
 import { Colors } from '@/constants/Colors'
+import { GestureResponderEvent } from 'react-native'
 
 const IconCard = ({
   icon,
@@ -13,7 +14,7 @@ const IconCard = ({
   icon: keyof typeof Ionicons.glyphMap | 'warehouse'
   color: 'primary' | 'danger' | 'gray'
   text: string
-  onPress?: Function
+  onPress?: (event: GestureResponderEvent) => void
 }) => {
   const colorPallete = Colors[color]
   return (
