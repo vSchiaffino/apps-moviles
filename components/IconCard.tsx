@@ -12,7 +12,7 @@ const IconCard = ({
   onPress,
 }: {
   icon: keyof typeof Ionicons.glyphMap | 'warehouse'
-  color: 'primary' | 'danger' | 'gray' | 'info'
+  color: 'primary' | 'danger' | 'gray' | 'green' | 'yellow'
   text: string
   onPress?: (event: GestureResponderEvent) => void
 }) => {

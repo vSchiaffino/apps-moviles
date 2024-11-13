@@ -11,6 +11,7 @@ import Sort from '@/models/Sort'
 import IconList from '../IconList'
 import { set } from 'react-hook-form'
 import ActionsList from '@/components/ActionsList'
+import InfoCard from '@/components/InfoCard'
 
 const ProductsPage = () => {
   const [pagination, setPagination] = React.useState<Pagination>({
@@ -72,7 +73,6 @@ const ProductsPage = () => {
             setShowModal(true)
           }}
           onPressDelete={() => {
-            //Handle delete row
             setSelectedRow(undefined)
             remove(selectedRow.id)
           }}
@@ -83,23 +83,27 @@ const ProductsPage = () => {
           }}
         />
         <View style={{ paddingLeft: 16, paddingRight: 16 }}>
-          <ProductTable
-            onClickRow={() => {}}
-            selectedRow={selectedRow}
-            pagination={pagination}
-            products={products}
-            setPagination={setPagination}
-            setSort={setSort}
-            sort={sort}
-            total={total}
-            onLongPressRow={(row: any) => {
-              selectedRow !== undefined && selectedRow.id !== row.id
-                ? setSelectedRow(row)
-                : selectedRow === undefined
+          {products !== undefined && products.length !== 0 ? (
+            <ProductTable
+              onClickRow={() => {}}
+              selectedRow={selectedRow}
+              pagination={pagination}
+              products={products}
+              setPagination={setPagination}
+              setSort={setSort}
+              sort={sort}
+              total={total}
+              onLongPressRow={(row: any) => {
+                selectedRow !== undefined && selectedRow.id !== row.id
                   ? setSelectedRow(row)
-                  : setSelectedRow(undefined)
-            }}
-          />
+                  : selectedRow === undefined
+                    ? setSelectedRow(row)
+                    : setSelectedRow(undefined)
+              }}
+            />
+          ) : (
+            <InfoCard infoText="No tenés ningún producto. Tocá el botón de arriba para crear uno" />
+          )}
         </View>
       </ScrollView>
     </Container>

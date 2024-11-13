@@ -59,7 +59,7 @@ const SelectItems: React.FC<SelectItemProps> = ({
                     backgroundColor: pressedInOption === option ? backgroundColor : 'transparent',
                   }}
                 >
-                  <Typography variant="body" color="dark" style={{ width: 50 }}>
+                  <Typography variant="body" color="dark" style={{ width: '150%' }}>
                     {renderOption(option)}
                   </Typography>
                 </Animated.View>

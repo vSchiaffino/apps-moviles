@@ -6,9 +6,17 @@ import { Colors } from '@/constants/Colors'
 
 export interface InfoCardProps {
   infoText: string
+  backgroundColor?: string
+  textColor?: string
+  iconColor?: string
 }
 
-const InfoCard = ({ infoText }: InfoCardProps) => {
+const InfoCard = ({
+  infoText,
+  backgroundColor = Colors.gray[200],
+  textColor = Colors.gray[700],
+  iconColor = Colors.primary[600],
+}: InfoCardProps) => {
   return (
     <View
       style={{
@@ -18,15 +26,15 @@ const InfoCard = ({ infoText }: InfoCardProps) => {
         paddingLeft: 10,
         borderRadius: 16,
         gap: 10,
-        backgroundColor: Colors.gray[200],
+        backgroundColor: backgroundColor,
         flexDirection: 'row',
       }}
     >
-      <Ionicons name="information-circle" size={24} color={Colors.primary[600]} />
+      <Ionicons name="information-circle" size={24} color={iconColor} />
       <Typography
         variant="body"
         textBreakStrategy="highQuality"
-        style={{ textAlign: 'justify', color: Colors.gray[700], width: '90%' }}
+        style={{ color: textColor, width: '90%' }}
       >
         {infoText}
       </Typography>

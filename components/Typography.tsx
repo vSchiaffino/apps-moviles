@@ -15,7 +15,7 @@ type Variants =
   | 'bold'
   | 'bolder'
   | 'mini'
-type Colors = 'dark' | 'light' | 'primary' | 'danger' | 'gray' | 'yellow'
+type Colors = 'dark' | 'light' | 'primary' | 'danger' | 'gray' | 'yellow' | 'green'
 export type Fonts = 'roboto' | 'poppins' | 'geist'
 
 export interface TypographyProps extends TextProps {
@@ -38,13 +38,7 @@ const Typography: React.FC<TypographyProps> = ({
 }) => {
   return (
     <Text
-      style={[
-        { textAlign: justify },
-        styles[font],
-        styles[variant],
-        styles[color],
-        style,
-      ]}
+      style={[{ textAlign: justify }, styles[font], styles[variant], styles[color], style]}
       {...rest}
     >
       {children}
@@ -81,6 +75,9 @@ const styles = StyleSheet.create({
   },
   yellow: {
     color: Colors.yellow[600],
+  },
+  green: {
+    color: Colors.green[600],
   },
   bold: {
     fontWeight: 600,
