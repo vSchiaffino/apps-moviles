@@ -6,9 +6,10 @@ import { Colors } from '@/constants/Colors'
 
 export interface InfoCardProps {
   infoText: string
+  backgroundColor?: string
 }
 
-const InfoCard = ({ infoText }: InfoCardProps) => {
+const InfoCard = ({ infoText, backgroundColor = Colors.gray[200] }: InfoCardProps) => {
   return (
     <View
       style={{
@@ -18,7 +19,7 @@ const InfoCard = ({ infoText }: InfoCardProps) => {
         paddingLeft: 10,
         borderRadius: 16,
         gap: 10,
-        backgroundColor: Colors.gray[200],
+        backgroundColor: backgroundColor,
         flexDirection: 'row',
       }}
     >
