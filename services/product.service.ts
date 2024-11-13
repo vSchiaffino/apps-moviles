@@ -21,6 +21,10 @@ export class ProductService {
     const response = await apiService.get(`/products?${query.toString()}`)
     return await response.json()
   }
+
+  public async delete(id: number) {
+    return await apiService.delete(`/products/${id}`)
+  }
 }
 
 const productService = new ProductService()

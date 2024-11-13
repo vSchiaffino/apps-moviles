@@ -1,34 +1,20 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyleSheet, View, Pressable, ScrollView } from 'react-native'
-import Modal from 'react-native-modal'
 import Typography from '@/components/Typography'
-import IconSelect from '@/components/IconSelect'
 import Container from '@/components/Container'
-import { Calendar } from 'react-native-calendars'
 import DateSelect from '@/components/DateSelect'
 import StyledButton from '@/components/StyledButton'
-import InfoCard from '@/components/InfoCard'
-import { router } from 'expo-router'
-import Table from '@/components/Table/Table'
-import IconButton from '@/components/IconButton'
-import { Colors } from '@/constants/Colors'
-import OutlinedSelect from '@/components/OutlinedSelect/OutlinedSelect'
-import OutlinedInput from '@/components/OutlinedInput'
-import MutateEntityModal from '@/components/MutateEntityModal'
+import SelectDateModal from './SelectDateModal'
+import StockSummaryTable from './StockSummaryTable'
+import EditStockModal from './EditStockModal'
+import useStockLevel from '@/hooks/useStockLevel'
 
 const StockManagerPage: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState('')
   const [modalDateVisible, setModalDateVisible] = useState(false)
   const [stockSelectedIndex, setStockSelectedIndex] = useState<number | null>(null)
-  const [rows, setRows] = useState<any[]>([
-    { product: 'Producto 1', initialStock: 20, finalStock: 10 },
-    { product: 'Producto 2', initialStock: 10, finalStock: 5 },
-    { product: 'Producto 3', initialStock: 15, finalStock: 20 },
-  ])
-  const handleDayPress = (day: any) => {
-    setSelectedDate(day.dateString)
-    setModalDateVisible(false)
-  }
+  const [selectedRow, setSelectedRow] = useState<any | null>(null)
+  const { save, editingStockLevel, setEditing, isEditing, message } = useStockLevel(selectedDate)
 
   return (
     <Container>
@@ -36,6 +22,7 @@ const StockManagerPage: React.FC = () => {
         contentContainerStyle={{
           alignItems: 'center',
           padding: 16,
+          paddingBottom: 200,
         }}
       >
         <DateSelect
@@ -44,175 +31,74 @@ const StockManagerPage: React.FC = () => {
           onChange={setSelectedDate}
           onPressIcon={() => setModalDateVisible(true)}
         />
-        <View style={{ width: '100%' }}>
-          <View
-            style={{
-              width: '100%',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              paddingVertical: 20,
-            }}
-          >
-            <Typography variant="h5" style={{ marginBottom: 10, alignContent: 'flex-end' }}>
-              Resumen de stock
-            </Typography>
-          </View>
-          <Table
-            sortingFields={[]}
-            headerFont="geist"
-            entityName="Productos"
-            onClickRow={(row, index) => {
-              if (index != null) setStockSelectedIndex(index)
-            }}
-            columns={[
-              { key: 'product', title: 'Producto', width: '40%', align: 'flex-start' },
-              { key: 'initialStock', title: 'Stock inicial', width: '30%', align: 'center' },
-              { key: 'finalStock', title: 'Stock final', width: '30%', align: 'center' },
-            ]}
-            rows={rows}
-            pagination={{ page: 1, limit: 10, total: 3 }}
-          />
-        </View>
-        <Modal
-          isVisible={modalDateVisible}
-          animationIn="fadeInUp"
-          animationOut="fadeOutDown"
-          useNativeDriverForBackdrop={true}
-          backdropOpacity={0.7}
-          hasBackdrop={true}
-          onBackdropPress={() => setModalDateVisible(false)}
-          onBackButtonPress={() => setModalDateVisible(false)}
-          style={{
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <View
-            style={{
-              padding: 20,
-              borderRadius: 16,
-              backgroundColor: 'white',
-              backfaceVisibility: 'hidden',
-            }}
-          >
-            <Calendar
-              style={{ backgroundColor: 'transparent' }}
-              onDayPress={handleDayPress}
-              markedDates={{
-                [selectedDate]: { selected: true, selectedColor: 'blue' },
-              }}
-              monthFormat={'yyyy MMMM'}
-            />
-            <Pressable onPress={() => setModalDateVisible(false)} style={styles.closeButton}>
-              <Typography variant="h6" style={{ color: 'white' }}>
-                Cerrar
-              </Typography>
-            </Pressable>
-          </View>
-        </Modal>
-        <MutateEntityModal
-          show={stockSelectedIndex !== null}
-          setShow={() => setStockSelectedIndex(null)}
-          title="Editar stock registrado"
-        >
-          {stockSelectedIndex !== null && (
-            <View
-              style={{
-                gap: 20,
-                padding: 20,
-                borderRadius: 16,
-                backgroundColor: 'white',
-                backfaceVisibility: 'hidden',
-              }}
-            >
-              <OutlinedInput
-                label="Stock Inicial"
-                keyboardType="numeric"
-                value={rows[stockSelectedIndex as any].initialStock}
-                onChange={(e: any) => {
-                  console.log('value', e.target.value)
-                  rows[stockSelectedIndex as any].initialStock = e.target.value
-                  setRows(rows)
+        <SelectDateModal
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
+          visible={modalDateVisible}
+          setVisible={setModalDateVisible}
+        />
+        {editingStockLevel && (
+          <>
+            <View style={{ width: '100%' }}>
+              <View
+                style={{
+                  width: '100%',
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  paddingVertical: 20,
+                }}
+              >
+                <Typography variant="h5" style={{ marginBottom: 10, alignContent: 'flex-end' }}>
+                  {isEditing ? 'Editando' : 'Creando'} resumen de stock
+                </Typography>
+              </View>
+              <StockSummaryTable
+                rows={editingStockLevel as any}
+                onClickRow={(row, index) => {
+                  setStockSelectedIndex(index as number)
+                  setSelectedRow(row)
                 }}
               />
-              <OutlinedInput
-                label="Stock final"
-                keyboardType="numeric"
-                value={rows[stockSelectedIndex as any].finalStock}
-                onChange={(e: any) => {
-                  setRows((prev) => {
-                    prev[stockSelectedIndex as any].finalStock = e.target.value
-                    return prev
-                  })
-                }}
-              />
-              <StyledButton
-                label="Salir"
-                onPress={() => {
-                  setStockSelectedIndex(null)
-                }}
-              ></StyledButton>
             </View>
-          )}
-        </MutateEntityModal>
-        <StyledButton
-          label="Confirmar stocks"
-          onPress={() => {
-            // handle api connection
-            rows.forEach((row) => {
-              console.log({ date: selectedDate, row });
-            });
+            <StyledButton label="Confirmar stocks" onPress={save}></StyledButton>
+          </>
+        )}
+        <EditStockModal
+          shouldShowNext={editingStockLevel?.length !== (stockSelectedIndex as any) + 1}
+          onNext={() => {
+            setEditing((prev: any) => {
+              const newRows = [...prev]
+              newRows[stockSelectedIndex as number] = selectedRow
+              return newRows
+            })
+            setStockSelectedIndex((prev) => (prev as number) + 1)
+            setSelectedRow(editingStockLevel?.[(stockSelectedIndex as number) + 1])
           }}
-        ></StyledButton>
+          selectedRow={selectedRow}
+          setSelectedRow={setSelectedRow}
+          setStockSelectedIndex={setStockSelectedIndex}
+          onSubmit={() => {
+            setEditing((prev: any) => {
+              const newRows = [...prev]
+              newRows[stockSelectedIndex as number] = selectedRow
+              return newRows
+            })
+            setStockSelectedIndex(null)
+            setSelectedRow(null)
+          }}
+        />
+        {message && (
+          <Typography
+            variant="body"
+            color="primary"
+            style={{ textAlign: 'center', marginBottom: 20 }}
+          >
+            {message}
+          </Typography>
+        )}
       </ScrollView>
     </Container>
   )
 }
-
-const styles = StyleSheet.create({
-  headerContainer: {},
-  header: {
-    marginLeft: 8,
-    textAlign: 'center',
-  },
-  selectContainer: {
-    display: 'flex',
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
-  },
-  submitButton: {
-    flexDirection: 'row',
-    backgroundColor: '#007bff',
-    borderRadius: 8,
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 10,
-  },
-  submitButtonText: {
-    color: '#fff',
-    fontSize: 18,
-  },
-  modalOverlay: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
-  modalContainer: {
-    width: '80%',
-    backgroundColor: 'white',
-    padding: 20,
-    borderRadius: 10,
-  },
-  closeButton: {
-    marginTop: 20,
-    backgroundColor: '#007bff',
-    paddingVertical: 10,
-    borderRadius: 5,
-    alignItems: 'center',
-  },
-})
 
 export default StockManagerPage
