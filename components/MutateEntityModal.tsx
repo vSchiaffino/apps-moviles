@@ -5,6 +5,7 @@ import Typography from '@/components/Typography'
 import Card from '@/components/Card'
 import { Ionicons } from '@expo/vector-icons'
 import { Colors } from '@/constants/Colors'
+import IconButton from './IconButton'
 
 export interface MutateEntityModalProps {
   show: boolean
@@ -23,7 +24,7 @@ const MutateEntityModal: React.FC<MutateEntityModalProps> = ({
   entityName,
   children,
 }) => {
-  const action = isCreating ? 'Creando' : 'Editando'
+  const action = isCreating ? 'Crear' : 'Editar'
   return (
     <ReactNativeModal
       isVisible={show}
@@ -32,17 +33,10 @@ const MutateEntityModal: React.FC<MutateEntityModalProps> = ({
       animationInTiming={300}
       animationOutTiming={300}
       hideModalContentWhileAnimating={true}
-      useNativeDriver={true}
       onBackButtonPress={() => setShow(false)}
+      onBackdropPress={() => setShow(false)}
+      useNativeDriverForBackdrop={true}
     >
-      <Pressable
-        style={{
-          width: '100%',
-          height: '100%',
-          position: 'absolute',
-        }}
-        onPress={() => setShow(false)}
-      />
       <Card
         style={{
           height: 'auto',
@@ -54,6 +48,7 @@ const MutateEntityModal: React.FC<MutateEntityModalProps> = ({
           style={{
             flexDirection: 'row',
             padding: 20,
+            paddingBottom: 16,
             borderTopLeftRadius: 16,
             borderTopRightRadius: 16,
             backgroundColor: Colors.gray[100],
@@ -61,9 +56,10 @@ const MutateEntityModal: React.FC<MutateEntityModalProps> = ({
           }}
         >
           <Typography variant="h5">{title ? title : `${action} ${entityName}`}</Typography>
-          <Ionicons
-            name="close"
-            size={30}
+          <IconButton
+            icon="close"
+            hitSlop={20}
+            size={20}
             style={{
               marginLeft: 'auto',
               backgroundColor: Colors.gray[200],

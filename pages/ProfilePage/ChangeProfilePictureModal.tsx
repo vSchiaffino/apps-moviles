@@ -70,15 +70,12 @@ const ChangeProfilePictureModal: React.FC<ChangeProfilePictureModalProps> = ({
       animationInTiming={300}
       animationOutTiming={300}
       hideModalContentWhileAnimating={true}
-      useNativeDriver={true}
+      useNativeDriverForBackdrop={true}
       onBackButtonPress={() => setShow(false)}
+      onBackdropPress={() => setShow(false)}
     >
-      <Pressable
-        style={{ width: '100%', height: '100%', position: 'absolute' }}
-        onPress={() => setShow(false)}
-      />
-      <Container style={{ height: 'auto', gap: 10, borderRadius: 10 }}>
-        <Typography variant="h5">Elegí una foto</Typography>
+      <Container style={{ height: 'auto', gap: 10, borderRadius: 10, padding: 16 }}>
+        <Typography variant="h5">Cambiar foto</Typography>
         <View style={{ flexDirection: 'row', gap: 10 }}>
           <IconCard
             icon="camera-outline"
