@@ -34,7 +34,7 @@ const InfoCard = ({
       <Typography
         variant="body"
         textBreakStrategy="highQuality"
-        style={{ textAlign: 'justify', color: textColor, width: '90%' }}
+        style={{ color: textColor, width: '90%' }}
       >
         {infoText}
       </Typography>
