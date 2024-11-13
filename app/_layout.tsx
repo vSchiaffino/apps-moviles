@@ -1,6 +1,6 @@
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native'
 import { useFonts } from 'expo-font'
-import { Tabs } from 'expo-router'
+import { Redirect, Tabs } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
 import React, { useEffect } from 'react'
 import 'react-native-reanimated'
@@ -111,6 +111,7 @@ export default function RootLayout() {
                   key={index}
                   name={name}
                   options={{
+                    unmountOnBlur: true,
                     title: title,
                     header: (props: any) => <PageHeader {...props} back={undefined} />,
                     headerShown: showRootHeader,
