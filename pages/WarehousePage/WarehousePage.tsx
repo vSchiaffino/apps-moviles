@@ -165,7 +165,11 @@ const WarehousePage = () => {
                   })
                 }}
                 onLongPressRow={(row: any) => {
-                  selectedRow === undefined ? setSelectedRow(row) : setSelectedRow(undefined)
+                  selectedRow !== undefined && selectedRow.id !== row.id
+                    ? setSelectedRow(row)
+                    : selectedRow === undefined
+                      ? setSelectedRow(row)
+                      : setSelectedRow(undefined)
                 }}
               />
             </View>

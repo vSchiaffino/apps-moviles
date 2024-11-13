@@ -9,6 +9,7 @@ import useProducts from '@/hooks/useProducts'
 import Pagination from '@/models/Pagination'
 import Sort from '@/models/Sort'
 import IconList from '../IconList'
+import { set } from 'react-hook-form'
 
 const ProductsPage = () => {
   const [pagination, setPagination] = React.useState<Pagination>({
@@ -115,7 +116,11 @@ const ProductsPage = () => {
             sort={sort}
             total={total}
             onLongPressRow={(row: any) => {
-              selectedRow === undefined ? setSelectedRow(row) : setSelectedRow(undefined)
+              selectedRow !== undefined && selectedRow.id !== row.id
+                ? setSelectedRow(row)
+                : selectedRow === undefined
+                  ? setSelectedRow(row)
+                  : setSelectedRow(undefined)
             }}
           />
         </View>
