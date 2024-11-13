@@ -31,7 +31,7 @@ const WarehousePage = () => {
     setCardList((prev) => !prev)
   }
   const fadeAnim = useRef(new Animated.Value(1)).current
-  const [hasFadedIn, setHasFadedIn] = useState(false)
+  const [hasFadedIn, setHasFadedIn] = useState(true)
 
   useEffect(() => {
     if (hasFadedIn) {
