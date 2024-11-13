@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 16,
     position: 'absolute',
-    left: 15,
+    left: 50,
     zIndex: 1,
     paddingHorizontal: 5,
     paddingVertical: 0,

@@ -26,7 +26,7 @@ const StockManagerPage: React.FC = () => {
         }}
       >
         <DateSelect
-          label=""
+          label="Fecha del resumen"
           value={selectedDate}
           onChange={setSelectedDate}
           onPressIcon={() => setModalDateVisible(true)}
