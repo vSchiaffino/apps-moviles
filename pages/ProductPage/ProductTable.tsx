@@ -11,13 +11,27 @@ const ProductTable: React.FC<{
   setSort: (sort: Sort) => void
   pagination: Pagination
   setPagination: (pagination: Pagination) => void
-}> = ({ onClickRow, products, total, sort, setSort, pagination, setPagination }) => {
+  selectedRow?: any
+  onLongPressRow: (row: any) => void
+}> = ({
+  onClickRow,
+  products,
+  total,
+  sort,
+  setSort,
+  pagination,
+  setPagination,
+  selectedRow,
+  onLongPressRow,
+}) => {
   return (
     products && (
       <Table
+        selectedRow={selectedRow}
         sortingFields={['name']}
         entityName="Productos"
         onClickRow={onClickRow}
+        onLongPressRow={onLongPressRow}
         sort={sort}
         onChangeSort={setSort}
         headerFont="geist"
