@@ -10,7 +10,7 @@ export interface TableBodyProps {
   rows: any[]
   component?: React.FC<{ row: any }>
   render?: (row: any) => React.ReactNode
-  onClickRow: (row: any) => void
+  onClickRow: (row: any, index?: number) => void
   onLongPressRow: (row: any) => void
   rounded?: boolean
   selectedRow: any
@@ -30,7 +30,7 @@ export const TableBody: React.FC<TableBodyProps> = ({
       key={index}
       noShadow={true}
       pressable
-      onPress={() => onClickRow(row)}
+      onPress={() => onClickRow(row, index)}
       onLongPress={() => onLongPressRow(row)}
       style={{
         opacity: selectedRow !== undefined && row.id === selectedRow.id ? 0.4 : 1,
