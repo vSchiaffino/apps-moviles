@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { View, ScrollView, StyleSheet, Pressable, Dimensions } from 'react-native'
-import { BarChart, LineChart } from 'react-native-gifted-charts'
-import Modal from 'react-native-modal'
+import { View, ScrollView, StyleSheet, Dimensions } from 'react-native'
+import { BarChart } from 'react-native-gifted-charts'
 import Typography from '@/components/Typography'
 import DateSelect from '@/components/DateSelect'
-import { Calendar } from 'react-native-calendars'
 import SelectDateModal from './StockPage/SelectDateModal'
+import StyledButton from '@/components/StyledButton'
+import { Colors } from '@/constants/Colors'
+import { useReportData } from '@/hooks/useReportData'
 
 interface Sale {
   productId: string
@@ -14,8 +15,8 @@ interface Sale {
 
 interface ProductStock {
   productId: string
-  initial: number
-  final: number
+  initialStock: number
+  finalStock: number
 }
 
 interface APIResponse {
@@ -30,96 +31,33 @@ const ReportsScreen = () => {
   const [finalModalVisible, setFinalModalVisible] = useState(false)
   const [data, setData] = useState<APIResponse | null>(null)
   const [showReport, setShowReport] = useState(false)
-  const handleShowReport = () => {
-    setShowReport((prevState) => !prevState)
-  }
-
-  const handleInitialDayPress = (day: any) => {
-    setSelectedInitialDate(day.dateString)
-    setInitialModalVisible(false)
-  }
-
-  const handleFinalDayPress = (day: any) => {
-    setSelectedFinalDate(day.dateString)
-    setFinalModalVisible(false)
-  }
-
-  const mockData: APIResponse = {
-    sales: [
-      {
-        date: '2024-11-01',
-        products: [
-          { productId: 'A', quantity: 10 },
-          { productId: 'B', quantity: 5 },
-        ],
-      },
-      {
-        date: '2024-11-07',
-        products: [
-          { productId: 'A', quantity: 5 },
-          { productId: 'B', quantity: 8 },
-        ],
-      },
-      {
-        date: '2024-11-14',
-        products: [
-          { productId: 'C', quantity: 2 },
-          { productId: 'B', quantity: 2 },
-        ],
-      },
-    ],
-    stockLevels: [
-      {
-        date: '2024-11-01',
-        products: [
-          { productId: 'A', initial: 100, final: 80 },
-          { productId: 'B', initial: 20, final: 8 },
-        ],
-      },
-      {
-        date: '2024-11-07',
-        products: [
-          { productId: 'A', initial: 100, final: 80 },
-          { productId: 'B', initial: 20, final: 8 },
-        ],
-      },
-    ],
-  }
-
-  const fetchData = async () => {
-    setData(mockData)
-  }
-
-  useEffect(() => {
-    fetchData()
-    console.log([selectedInitialDate, selectedFinalDate])
-  }, [selectedInitialDate, selectedFinalDate])
+  const { report } = useReportData(selectedInitialDate, selectedFinalDate)
 
   const processDataForCharts = () => {
-    if (!data) return { barData: [], lineData: [] }
+    if (!report) return { barData: [], lineData: [] }
 
     let barData: any[] = []
     let lineData: any[] = []
 
     // Pérdidas por fecha
-    data.sales.forEach((sale) => {
+    report.sales.forEach((sale) => {
       // Filtrar los registros de stock para la fecha de la venta
-      const stockOnSaleDate = data.stockLevels.filter((stock) => stock.date === sale.date)
+      const stockOnSaleDate = report.stockLevels.filter((stock) => stock.date === sale.date)
 
       // Si no hay registros de stock para esa fecha, no se procesan las pérdidas
       if (stockOnSaleDate.length === 0) {
         return // No hay stock para esta fecha, por lo que no se cuentan pérdidas
       }
 
-      let totalSales = sale.products.reduce((sum, product) => sum + product.quantity, 0)
+      let totalSales = sale.products.reduce((sum: any, product: any) => sum + product.quantity, 0)
       let totalLosses = 0
 
       // Comparar ventas con stock para cada producto en la fecha de venta
       stockOnSaleDate.forEach((stock) => {
         stock.products.forEach((product) => {
-          const stockChange = product.initial - product.final
+          const stockChange = product.initialStock - product.finalStock
           const actualSales =
-            sale.products.find((p) => p.productId === product.productId)?.quantity || 0
+            sale.products.find((p) => p.productId == (product.productId as any))?.quantity || 0
           const validLoss = stockChange >= actualSales ? stockChange - actualSales : 0
           totalLosses += validLoss
         })
@@ -146,7 +84,7 @@ const ReportsScreen = () => {
   const displayedData = barData.slice(-maxDays)
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={{ backgroundColor: Colors.gray[100] }}>
       <View style={{ padding: 16 }}>
         <DateSelect
           label="Fecha inicio"
@@ -173,11 +111,7 @@ const ReportsScreen = () => {
           visible={finalModalVisible}
           setVisible={setFinalModalVisible}
         />
-        <Pressable onPress={handleShowReport} style={styles.closeButton}>
-          <Typography variant="h6" style={{ color: 'white' }}>
-            Ver Reportes
-          </Typography>
-        </Pressable>
+        <StyledButton label="Ver reportes" onPress={() => setShowReport(true)} />
         {showReport && (
           <View style={styles.chartContainer}>
             <Typography variant="subtitle" style={[styles.centeredText, { marginTop: 24 }]}>
@@ -209,11 +143,6 @@ const ReportsScreen = () => {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f7f7f7',
-    marginBottom: 50,
-  },
   centeredText: {
     textAlign: 'center',
   },
