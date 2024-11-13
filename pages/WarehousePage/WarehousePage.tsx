@@ -79,8 +79,15 @@ const WarehousePage = () => {
         <ScrollView
           showsVerticalScrollIndicator={false}
           style={{ backgroundColor: Colors.gray[100], height: '100%' }}
+          contentContainerStyle={{ paddingBottom: 250 }}
         >
-          <View style={{ width: '100%', flexDirection: 'row', justifyContent: 'flex-end' }}>
+          <View
+            style={{
+              width: '100%',
+              flexDirection: 'row',
+              justifyContent: 'flex-end',
+            }}
+          >
             <Animated.View style={{ opacity: fadeAnim }}>
               {selectedRow === undefined ? (
                 <IconList
