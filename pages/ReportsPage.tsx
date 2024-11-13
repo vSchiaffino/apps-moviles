@@ -28,6 +28,10 @@ const ReportsScreen = () => {
   const [initialModalVisible, setInitialModalVisible] = useState(false);
   const [finalModalVisible, setFinalModalVisible] = useState(false);
   const [data, setData] = useState<APIResponse | null>(null);
+  const [showReport, setShowReport] = useState(false);
+  const handleShowReport = () => {
+    setShowReport(prevState => !prevState); 
+  };
 
   const handleInitialDayPress = (day: any) => {
     setSelectedInitialDate(day.dateString);
@@ -191,26 +195,30 @@ const ReportsScreen = () => {
             </Pressable>
           </View>
         </Modal>
-
-        <Typography variant="subtitle" style={[styles.centeredText, { marginTop: 24 }]}>
-          Comparación de Ventas y Disminución de Stock
-        </Typography>
-        <View style={styles.chartContainer}>
-          <Typography variant="mini" style={styles.yAxisLabel}>Unidades por perdida</Typography>
-          <ScrollView style={styles.chartWrapper} horizontal={true}>
-            <BarChart
-              data={displayedData.map(item => ({ value: item.value, label: item.label }))}
-              barWidth={chartWidth}
-              barBorderRadius={4}
-              frontColor="#3498db"
-              height={200}
-              yAxisThickness={2}
-              yAxisTextStyle={{ color: '#000', fontSize: 12 }}
-              stepValue={3}
-            />
-            <Typography variant="body" style={styles.xAxisLabel}>Días</Typography>
-          </ScrollView>
-        </View>
+        <Pressable onPress={handleShowReport} style={styles.closeButton}>
+            <Typography variant="h6" style={{ color: 'white' }}>Ver Reportes</Typography>
+        </Pressable>
+        {showReport && (
+          <View style={styles.chartContainer}>
+            <Typography variant="subtitle" style={[styles.centeredText, { marginTop: 24 }]}>
+              Comparación de Ventas y Disminución de Stock
+            </Typography>
+            <Typography variant="mini" style={styles.yAxisLabel}>Unidades por pérdida</Typography>
+            <ScrollView style={styles.chartWrapper} horizontal={true}>
+              <BarChart
+                data={displayedData.map(item => ({ value: item.value, label: item.label }))}
+                barWidth={chartWidth}
+                barBorderRadius={4}
+                frontColor="#3498db"
+                height={200}
+                yAxisThickness={2}
+                yAxisTextStyle={{ color: '#000', fontSize: 12 }}
+                stepValue={3}
+              />
+              <Typography variant="body" style={styles.xAxisLabel}>Días</Typography>
+            </ScrollView>
+          </View>
+        )}
       </View>
     </ScrollView>
   );
