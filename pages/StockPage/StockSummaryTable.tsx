@@ -10,18 +10,26 @@ const StockSummaryTable = ({
   onClickRow: (row: any, index?: number) => void
 }) => {
   return (
-    <Table
-      sortingFields={[]}
-      headerFont="geist"
-      entityName="Productos"
-      onClickRow={onClickRow}
-      columns={[
-        { key: 'product', title: 'Producto', width: '40%', align: 'flex-start' },
-        { key: 'initialStock', title: 'Stock inicial', width: '30%', align: 'center' },
-        { key: 'finalStock', title: 'Stock final', width: '30%', align: 'center' },
-      ]}
-      rows={rows}
-    />
+    rows && (
+      <Table
+        sortingFields={[]}
+        headerFont="geist"
+        entityName="Productos"
+        onClickRow={onClickRow}
+        columns={[
+          {
+            key: 'product',
+            title: 'Producto',
+            width: '40%',
+            align: 'flex-start',
+            getValue: (row) => row.product.name,
+          },
+          { key: 'initialStock', title: 'Stock inicial', width: '30%', align: 'center' },
+          { key: 'finalStock', title: 'Stock final', width: '30%', align: 'center' },
+        ]}
+        rows={rows.sort((a, b) => a.product.name.localeCompare(b.product.name))}
+      />
+    )
   )
 }
 

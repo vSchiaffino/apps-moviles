@@ -1,8 +1,8 @@
-import { View, Text } from 'react-native'
 import React from 'react'
+import MutateEntityModal from '@/components/MutateEntityModal'
 import OutlinedInput from '@/components/OutlinedInput'
 import StyledButton from '@/components/StyledButton'
-import MutateEntityModal from '@/components/MutateEntityModal'
+import { View } from 'react-native'
 
 const EditStockModal = ({ selectedRow, setSelectedRow, setStockSelectedIndex, onSubmit }: any) => {
   return (
@@ -27,7 +27,8 @@ const EditStockModal = ({ selectedRow, setSelectedRow, setStockSelectedIndex, on
           <OutlinedInput
             label="Stock Inicial"
             keyboardType="numeric"
-            value={selectedRow.initialStock}
+            value={String(selectedRow.initialStock)}
+            backgroundColor="white"
             onChangeText={(value: any) => {
               setSelectedRow({ ...selectedRow, initialStock: value })
             }}
@@ -35,7 +36,8 @@ const EditStockModal = ({ selectedRow, setSelectedRow, setStockSelectedIndex, on
           <OutlinedInput
             label="Stock final"
             keyboardType="numeric"
-            value={selectedRow.finalStock}
+            value={String(selectedRow.finalStock)}
+            backgroundColor="white"
             onChangeText={(value: any) => {
               setSelectedRow({ ...selectedRow, finalStock: value })
             }}

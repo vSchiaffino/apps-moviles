@@ -111,7 +111,6 @@ const WarehousePage = () => {
                 sort={sort}
                 setSort={setSort}
                 onPressRow={(row: any) => {
-                  console.log('id from onPressRow', row.id)
                   navigate('warehouse-detail', {
                     id: row.id,
                   })
