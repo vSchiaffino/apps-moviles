@@ -4,7 +4,7 @@ import warehouseService from '@/services/warehouse.service'
 import { useQuery } from 'react-query'
 
 export function useWarehouses(pagination: Pagination, sort: Sort) {
-  const { data, refetch, ...restQuery } = useQuery(['warehouses', pagination, sort], () =>
+  const { data, refetch, remove, ...restQuery } = useQuery(['warehouses', pagination, sort], () =>
     warehouseService.findMany(pagination, sort),
   )
   return {
@@ -31,6 +31,10 @@ export function useWarehouses(pagination: Pagination, sort: Sort) {
         productId: transfer.product.id,
         quantity: parseInt(transfer.quantity),
       })
+      refetch()
+    },
+    remove: async (id: number) => {
+      await warehouseService.delete(id)
       refetch()
     },
     refetch,

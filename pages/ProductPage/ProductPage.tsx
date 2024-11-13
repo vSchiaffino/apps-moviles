@@ -10,6 +10,7 @@ import Pagination from '@/models/Pagination'
 import Sort from '@/models/Sort'
 import IconList from '../IconList'
 import { set } from 'react-hook-form'
+import ActionsList from '@/components/ActionsList'
 
 const ProductsPage = () => {
   const [pagination, setPagination] = React.useState<Pagination>({
@@ -20,7 +21,7 @@ const ProductsPage = () => {
     field: 'name',
     direction: 'ASC',
   })
-  const { products, total, create, edit } = useProducts(pagination, sort)
+  const { products, total, create, edit, remove } = useProducts(pagination, sort)
   const [showModal, setShowModal] = React.useState(false)
   const [editingProduct, setEditingProduct] = React.useState<any>(null)
 
@@ -64,48 +65,23 @@ const ProductsPage = () => {
         style={{ backgroundColor: Colors.gray[100], height: '100%' }}
         contentContainerStyle={{ paddingBottom: 250 }}
       >
-        <View style={{ width: '100%', flexDirection: 'row', justifyContent: 'flex-end' }}>
-          <Animated.View style={{ opacity: fadeAnim }}>
-            {selectedRow === undefined ? (
-              <IconList
-                icons={[
-                  {
-                    icon: 'add-circle-outline',
-                    onPress: () => {
-                      setEditingProduct(null)
-                      setShowModal(true)
-                    },
-                  },
-                ]}
-              />
-            ) : (
-              <></>
-            )}
-            {selectedRow !== undefined ? (
-              <IconList
-                icons={[
-                  {
-                    icon: 'create-outline',
-                    onPress: () => {
-                      setEditingProduct(selectedRow)
-                      setShowModal(true)
-                      setSelectedRow(undefined)
-                    },
-                  },
-                  {
-                    icon: 'trash-outline',
-                    onPress: () => {
-                      //Handle delete row
-                      setSelectedRow(undefined)
-                    },
-                  },
-                ]}
-              />
-            ) : (
-              <></>
-            )}
-          </Animated.View>
-        </View>
+        <ActionsList
+          isRowSelected={selectedRow}
+          onPressCreate={() => {
+            setEditingProduct(null)
+            setShowModal(true)
+          }}
+          onPressDelete={() => {
+            //Handle delete row
+            setSelectedRow(undefined)
+            remove(selectedRow.id)
+          }}
+          onPressEdit={() => {
+            setEditingProduct(selectedRow)
+            setShowModal(true)
+            setSelectedRow(undefined)
+          }}
+        />
         <View style={{ paddingLeft: 16, paddingRight: 16 }}>
           <ProductTable
             onClickRow={() => {}}

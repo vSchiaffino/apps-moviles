@@ -60,6 +60,24 @@ export class ApiService {
     }
     return response
   }
+
+  async delete(endpoint: string) {
+    const headers = {
+      'Content-Type': 'application/json',
+    }
+    const response = await fetch(this.baseUrl + endpoint, {
+      method: 'DELETE',
+      headers: headers,
+    })
+    if (response.status >= 500) {
+      console.log(response.body, response.status)
+      throw new Error('Server error')
+    } else if (response.status >= 400) {
+      const { message, field } = await response.json()
+      throw new ApiValidationError(message, field)
+    }
+    return response
+  }
 }
 
 const apiService = new ApiService()

@@ -36,6 +36,10 @@ export class WarehouseService {
   public async transfer(transfer: any) {
     return await apiService.post('/warehouses/transfer', transfer)
   }
+
+  public async delete(id: number) {
+    return await apiService.delete(`/warehouses/${id}`)
+  }
 }
 
 const warehouseService = new WarehouseService()

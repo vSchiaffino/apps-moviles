@@ -4,7 +4,7 @@ import productService from '@/services/product.service'
 import { useQuery } from 'react-query'
 
 export default function useProducts(pagination: Pagination, sort: Sort, filters: any[] = []) {
-  const { data, refetch, ...rest } = useQuery(['products', pagination, sort], () =>
+  const { data, refetch, remove, ...rest } = useQuery(['products', pagination, sort], () =>
     productService.findMany(pagination, sort),
   )
   return {
@@ -23,6 +23,10 @@ export default function useProducts(pagination: Pagination, sort: Sort, filters:
         stockNumber: item.storedIn.reduce((acc: number, stock: any) => acc + stock.quantity, 0),
       })),
     total: data?.total,
+    remove: async (id: number) => {
+      await productService.delete(id)
+      await refetch()
+    },
     ...rest,
   }
 }
