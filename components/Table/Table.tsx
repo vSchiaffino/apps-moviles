@@ -33,7 +33,7 @@ export interface TableProps {
   onLongPressRow?: (row: any) => void
   sortingFields?: string[]
   rounded?: boolean
-  selectedRow: any
+  selectedRow?: any
 }
 
 const Table: React.FC<TableProps> = ({
