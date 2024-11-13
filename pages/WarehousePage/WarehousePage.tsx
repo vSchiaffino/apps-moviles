@@ -1,5 +1,5 @@
-import { ScrollView, View } from 'react-native'
-import React, { useState } from 'react'
+import { Animated, ScrollView, View } from 'react-native'
+import React, { useEffect, useRef, useState } from 'react'
 import Container from '@/components/Container'
 import { Colors } from '@/constants/Colors'
 import { Spacing } from '@/constants/Spacing'
@@ -23,12 +23,28 @@ const WarehousePage = () => {
   })
   const { warehouses, create, total, edit, transfer, refetch } = useWarehouses(pagination, sort)
   const [editingWarehouse, setEditingWarehouse] = useState<any>(null)
+  const [selectedRow, setSelectedRow] = useState<any>(undefined)
   const [showSaveModal, setShowSaveModal] = useState(false)
   const [showTransferModal, setShowTransferModal] = useState(false)
   const [cardList, setCardList] = useState(false)
   function toggleView() {
     setCardList((prev) => !prev)
   }
+  const fadeAnim = useRef(new Animated.Value(1)).current
+  const [hasFadedIn, setHasFadedIn] = useState(true)
+
+  useEffect(() => {
+    if (hasFadedIn) {
+      fadeAnim.setValue(0)
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 600,
+        useNativeDriver: true,
+      }).start(() => {
+        setHasFadedIn(true)
+      })
+    }
+  }, [selectedRow])
 
   return (
     warehouses && (
@@ -63,29 +79,67 @@ const WarehousePage = () => {
         <ScrollView
           showsVerticalScrollIndicator={false}
           style={{ backgroundColor: Colors.gray[100], height: '100%' }}
+          contentContainerStyle={{ paddingBottom: 250 }}
         >
-          <IconList
-            icons={[
-              {
-                icon: !cardList ? 'grid-outline' : 'list-outline',
-                onPress: () => toggleView(),
-              },
-              {
-                icon: 'add-circle-outline',
-                onPress: () => {
-                  setEditingWarehouse(null)
-                  setShowSaveModal(true)
-                },
-              },
-              {
-                icon: 'compare-arrows',
-                onPress: () => {
-                  setShowTransferModal(true)
-                },
-                library: 'mui',
-              },
-            ]}
-          />
+          <View
+            style={{
+              width: '100%',
+              flexDirection: 'row',
+              justifyContent: 'flex-end',
+            }}
+          >
+            <Animated.View style={{ opacity: fadeAnim }}>
+              {selectedRow === undefined ? (
+                <IconList
+                  icons={[
+                    {
+                      icon: !cardList ? 'grid-outline' : 'list-outline',
+                      onPress: () => toggleView(),
+                    },
+                    {
+                      icon: 'add-circle-outline',
+                      onPress: () => {
+                        setEditingWarehouse(null)
+                        setShowSaveModal(true)
+                      },
+                    },
+                    {
+                      icon: 'compare-arrows',
+                      onPress: () => {
+                        setShowTransferModal(true)
+                      },
+                      library: 'mui',
+                    },
+                  ]}
+                />
+              ) : (
+                <></>
+              )}
+              {selectedRow !== undefined ? (
+                <IconList
+                  icons={[
+                    {
+                      icon: 'create-outline',
+                      onPress: () => {
+                        setEditingWarehouse(selectedRow)
+                        setShowSaveModal(true)
+                        setSelectedRow(undefined)
+                      },
+                    },
+                    {
+                      icon: 'trash-outline',
+                      onPress: () => {
+                        //Handle delete row
+                        setSelectedRow(undefined)
+                      },
+                    },
+                  ]}
+                />
+              ) : (
+                <></>
+              )}
+            </Animated.View>
+          </View>
 
           {!cardList ? (
             <View
@@ -104,6 +158,7 @@ const WarehousePage = () => {
           ) : (
             <View style={{ paddingLeft: 16, paddingRight: 16 }}>
               <WarehouseTable
+                selectedRow={selectedRow}
                 pagination={pagination}
                 setPagination={setPagination}
                 total={total}
@@ -117,8 +172,11 @@ const WarehousePage = () => {
                   })
                 }}
                 onLongPressRow={(row: any) => {
-                  setEditingWarehouse(row)
-                  setShowSaveModal(true)
+                  selectedRow !== undefined && selectedRow.id !== row.id
+                    ? setSelectedRow(row)
+                    : selectedRow === undefined
+                      ? setSelectedRow(row)
+                      : setSelectedRow(undefined)
                 }}
               />
             </View>

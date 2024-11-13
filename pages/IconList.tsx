@@ -1,11 +1,12 @@
 import React from 'react'
 import IconButton from '@/components/IconButton'
-import { GestureResponderEvent, View } from 'react-native'
+import { GestureResponderEvent, View, ViewStyle } from 'react-native'
 import { Spacing } from '@/constants/Spacing'
 import { Colors } from '@/constants/Colors'
 
 export interface IconProps {
   icons: Icon[]
+  style?: ViewStyle
 }
 
 export interface Icon {
@@ -15,7 +16,7 @@ export interface Icon {
   library?: string
 }
 
-const IconList = ({ icons }: IconProps) => {
+const IconList = ({ icons, style }: IconProps) => {
   return (
     <View
       style={{
@@ -24,6 +25,7 @@ const IconList = ({ icons }: IconProps) => {
         gap: Spacing.rowGap,
         padding: 16,
         paddingRight: 30,
+        ...style,
       }}
     >
       {icons.map(({ icon, onPress, mode = 'opacity', library }, index) => (
