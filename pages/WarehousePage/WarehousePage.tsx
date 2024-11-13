@@ -9,11 +9,14 @@ import { useWarehouses } from '@/hooks/useWarehouses'
 import WarehouseModal from './WarehouseModal'
 import Pagination from '@/models/Pagination'
 import Sort from '@/models/Sort'
-import { router } from 'expo-router'
 import IconList from '../IconList'
-import TransferWarehouseModal from './WarehuseTransferModal'
+import TransferWarehouseModal from './WarehouseTransferModal'
+import { WarehouseStackParamList } from '@/stacks/WarehouseStack'
+import { useNavigation } from 'expo-router'
+import { WarehouseNavigationProp } from '@/app/warehouse'
 
 const WarehousePage = () => {
+  const { navigate } = useNavigation<WarehouseNavigationProp>()
   const [pagination, setPagination] = React.useState<Pagination>({ page: 1, limit: 5 })
   const [sort, setSort] = React.useState<Sort>({
     field: 'name',
@@ -109,9 +112,9 @@ const WarehousePage = () => {
                 sort={sort}
                 setSort={setSort}
                 onPressRow={(row: any) => {
-                  router.push({
-                    pathname: '/warehouse-detail',
-                    params: { id: row.id },
+                  console.log('id from onPressRow', row.id)
+                  navigate('warehouse-detail', {
+                    id: row.id,
                   })
                 }}
                 onLongPressRow={(row: any) => {

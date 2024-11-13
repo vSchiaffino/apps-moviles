@@ -1,18 +1,18 @@
-import React, { useState, useRef } from 'react';
-import { View, Text, StyleSheet, Animated, Pressable } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
-import { Calendar } from 'react-native-calendars';
-import { Colors } from '@/constants/Colors';
-import Typography from './Typography';
+import React, { useState, useRef } from 'react'
+import { View, Text, StyleSheet, Animated, Pressable } from 'react-native'
+import { MaterialIcons } from '@expo/vector-icons'
+import { Calendar } from 'react-native-calendars'
+import { Colors } from '@/constants/Colors'
+import Typography from './Typography'
 
 export interface DateSelectProps {
-  label: string;
-  value: string;
-  onChange: (date: string) => void;
-  onPressIcon: () => void;
-  error?: boolean;
-  errorMessage?: string;
-  disabled?: boolean;
+  label: string
+  value: string
+  onChange: (date: string) => void
+  onPressIcon: () => void
+  error?: boolean
+  errorMessage?: string
+  disabled?: boolean
 }
 
 const DateSelect: React.FC<DateSelectProps> = ({
@@ -24,29 +24,29 @@ const DateSelect: React.FC<DateSelectProps> = ({
   errorMessage = '',
   disabled = false,
 }) => {
-  const [isFocused, setIsFocused] = useState(false);
-  const animatedValue = useRef(new Animated.Value(0)).current;
-  
-  const showError = error === true || errorMessage !== '';
-  const isEmpty = value === '';
+  const [isFocused, setIsFocused] = useState(false)
+  const animatedValue = useRef(new Animated.Value(0)).current
+
+  const showError = error === true || errorMessage !== ''
+  const isEmpty = value === ''
 
   const labelPosition = animatedValue.interpolate({
     inputRange: [0, 1],
     outputRange: [19, -7],
-  });
+  })
 
   const handleDayPress = (day: any) => {
-    onChange(day.dateString);
-    setIsFocused(false);
-  };
+    onChange(day.dateString)
+    setIsFocused(false)
+  }
 
   const animateLabel = (toValue: number) => {
     Animated.timing(animatedValue, {
       toValue,
       duration: 150,
       useNativeDriver: false,
-    }).start();
-  };
+    }).start()
+  }
 
   return (
     <View style={styles.container}>
@@ -59,10 +59,10 @@ const DateSelect: React.FC<DateSelectProps> = ({
             color: disabled
               ? Colors.gray[500]
               : showError
-              ? Colors.danger[600]
-              : isFocused
-              ? Colors.primary[600]
-              : Colors.gray[900],
+                ? Colors.danger[600]
+                : isFocused
+                  ? Colors.primary[600]
+                  : Colors.gray[900],
           },
           isEmpty
             ? {
@@ -91,8 +91,8 @@ const DateSelect: React.FC<DateSelectProps> = ({
               borderColor: showError
                 ? Colors.danger[600]
                 : isFocused
-                ? Colors.primary[600]
-                : Colors.gray[900],
+                  ? Colors.primary[600]
+                  : Colors.gray[900],
               opacity: disabled ? 0.4 : 1,
             },
           ]}
@@ -118,13 +118,13 @@ const DateSelect: React.FC<DateSelectProps> = ({
         </View>
       )}
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    marginVertical:'5%'
+    marginVertical: '5%',
   },
   label: {
     fontWeight: '400',
@@ -141,17 +141,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   icon: {
-    marginRight: 10, 
-    marginLeft:4
+    marginRight: 10,
+    marginLeft: 4,
   },
   input: {
+    backgroundColor: Colors.gray[100],
     position: 'relative',
     borderRadius: 8,
     paddingTop: 12,
     paddingRight: 40,
     paddingBottom: 12,
     paddingLeft: 15,
-    backgroundColor: 'white',
     marginBottom: 5,
     flex: 1,
   },
@@ -169,15 +169,6 @@ const styles = StyleSheet.create({
     elevation: 10,
     padding: 20,
   },
-});
+})
 
-export default DateSelect;
-
-
-
-
-
-
-
-
-
+export default DateSelect

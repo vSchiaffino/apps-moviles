@@ -12,6 +12,7 @@ import { Colors } from '@/constants/Colors'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import PageHeader from '@/components/PageHeader'
+import { Easing } from 'react-native'
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync()
@@ -19,31 +20,39 @@ SplashScreen.preventAutoHideAsync()
 const tabs = [
   {
     name: 'profile',
-    title: 'Productos',
-    showHeader: true,
+    title: 'Perfil',
+    showRootHeader: true,
     iconName: 'person',
+  },
+  {
+    name: 'stock-manager',
+    title: 'Administrar Stock',
+    showRootHeader: true,
+    iconName: 'archive',
   },
   {
     name: 'index',
     title: 'Inicio',
-    showHeader: false,
     iconName: 'home',
   },
   {
     name: 'warehouse',
     title: 'Depósitos',
-    showHeader: true,
     iconName: 'warehouse',
   },
   {
     name: 'products',
     title: 'Productos',
-    showHeader: true,
     iconName: 'cube',
   },
 ]
 
-const invisibleTabs = ['+not-found', 'login', 'register', 'warehouse-detail', 'warehouseTransfer']
+const invisibleTabs = [
+  { name: '+not-found' },
+  { name: 'login' },
+  { name: 'register' },
+  { name: 'stock-summary', title: 'Resumen Stock', showRootHeader: true },
+]
 
 export default function RootLayout() {
   const colorScheme = useColorScheme()
@@ -71,7 +80,14 @@ export default function RootLayout() {
           <GestureHandlerRootView>
             <Tabs
               screenOptions={({ route }) => ({
+                tabBarHideOnKeyboard: true,
                 headerShown: false,
+                tabBarVisibilityAnimationConfig: {
+                  hide: {
+                    config: { duration: 150 },
+                    animation: 'timing',
+                  },
+                },
                 tabBarStyle: {
                   display: ['login', 'register'].includes(route.name) ? 'none' : 'flex',
                   position: 'absolute',
@@ -89,14 +105,14 @@ export default function RootLayout() {
                 },
               })}
             >
-              {tabs.map(({ name, title, showHeader, iconName }, index) => (
+              {tabs.map(({ name, title, iconName, showRootHeader = false }, index) => (
                 <Tabs.Screen
                   key={index}
                   name={name}
                   options={{
                     title: title,
-                    headerShown: showHeader,
-                    headerTitle: showHeader ? () => <PageHeader title={title} /> : undefined,
+                    header: (props: any) => <PageHeader {...props} back={undefined} />,
+                    headerShown: showRootHeader,
                     tabBarIcon: ({ focused }) =>
                       iconName !== 'warehouse' ? (
                         <Ionicons
@@ -126,8 +142,19 @@ export default function RootLayout() {
                   }}
                 />
               ))}
-              {invisibleTabs.map((name, index) => (
-                <Tabs.Screen key={index} name={name} options={{ href: null }} />
+              {invisibleTabs.map(({ name, title = '', showRootHeader }, index) => (
+                <Tabs.Screen
+                  key={index}
+                  name={name}
+                  options={{
+                    title: title,
+                    href: null,
+                    header: showRootHeader
+                      ? (props: any) => <PageHeader {...props} back={undefined} />
+                      : () => <></>,
+                    headerShown: showRootHeader,
+                  }}
+                />
               ))}
             </Tabs>
           </GestureHandlerRootView>

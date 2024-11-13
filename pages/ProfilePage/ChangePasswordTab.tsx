@@ -1,5 +1,7 @@
 import Typography from '@/components/Typography'
 import ValidatedForm, { ValidatedField } from '@/components/ValidatedForm'
+import userService from '@/services/user.service'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import React from 'react'
 
 const ChangePasswordTab = () => {
@@ -9,10 +11,6 @@ const ChangePasswordTab = () => {
       label: 'Contraseña Actual',
       rules: {
         required: 'La contraseña es requerida',
-        minLength: {
-          value: 8,
-          message: 'La contraseña no coincide con la contraseña actual',
-        },
       },
       component: 'input-password',
     },
@@ -33,14 +31,19 @@ const ChangePasswordTab = () => {
       label: 'Repetir contraseña',
       rules: {
         required: 'La contraseña es requerida',
-        validate: (value: string, { password }: { password: string }) =>
-          value === password || 'Las contraseñas deben coincidir',
+        validate: (value: string, { newPassword }: { newPassword: string }) =>
+          value === newPassword || 'Las contraseñas deben coincidir',
       },
       component: 'input-password',
     },
   ]
-  const onSubmit = async () => {
-    // TODO: Handle onSubmit change user
+  const onSubmit = async (form: any) => {
+    const jwt = await AsyncStorage.getItem('jwt')
+    if (!jwt) throw new Error('Inicia sesión para editar tus datos')
+    await userService.changePassword(jwt, {
+      password: form.actualPassword,
+      newPassword: form.newPassword,
+    })
   }
   return (
     <>
@@ -56,8 +59,9 @@ const ChangePasswordTab = () => {
           },
         }}
         submitLabel="Cambiar Contraseña"
-        onSubmit={() => onSubmit()}
+        onSubmit={onSubmit}
         fields={fields}
+        successMessage={'Contraseña cambiada correctamente'}
       />
     </>
   )

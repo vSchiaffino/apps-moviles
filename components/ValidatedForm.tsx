@@ -24,6 +24,7 @@ export interface ValidatedFormProps {
   onFormChange?: (name: string, value: any) => void
   submitLabel?: string
   fields: ValidatedField[]
+  successMessage?: string
 }
 
 const ValidatedForm = ({
@@ -31,11 +32,13 @@ const ValidatedForm = ({
   fields,
   onSubmit,
   onFormChange,
+  successMessage = '',
   submitLabel = 'Enviar',
 }: ValidatedFormProps) => {
   const refs: TextInput[] = []
   const { control, handleSubmit, formState, setError, clearErrors, setFocus } = useForm(formProps)
-  const { errors } = formState
+
+  const { errors, isSubmitSuccessful } = formState
   const submitWrapper = async (form: any) => {
     try {
       await onSubmit(form)
@@ -112,6 +115,11 @@ const ValidatedForm = ({
       {errors.form && (
         <Typography variant="body" color="danger">
           {errors.form.message as string}
+        </Typography>
+      )}
+      {isSubmitSuccessful && successMessage && (
+        <Typography variant="body" color="primary">
+          {successMessage}
         </Typography>
       )}
     </>

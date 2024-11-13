@@ -40,13 +40,16 @@ export class ApiService {
     return response
   }
 
-  async put(endpoint: string, body: any) {
+  async put(endpoint: string, body: any, aditionalHeaders?: any) {
+    const headers = {
+      'Content-Type': 'application/json',
+      ...aditionalHeaders,
+    }
+    console.log('headers', headers)
     const response = await fetch(this.baseUrl + endpoint, {
       method: 'PUT',
       body: JSON.stringify(body),
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: headers,
     })
     if (response.status >= 500) {
       console.log(response.body, response.status)

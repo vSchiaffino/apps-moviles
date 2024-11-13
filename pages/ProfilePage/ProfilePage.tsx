@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import Typography from '@/components/Typography'
-import { UserPayload } from '@/context/AuthContext'
 import Container from '@/components/Container'
 import { ScrollView } from 'react-native-gesture-handler'
 import ChangeProfilePictureModal from './ChangeProfilePictureModal'
@@ -12,19 +11,16 @@ import StyledButton from '@/components/StyledButton'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useAuthorizedUser } from '@/hooks/useUser'
 import { View } from 'react-native'
+import { router } from 'expo-router'
 
-interface ProfilePageProps {
-  user: UserPayload
-}
-
-const ProfilePage = ({ user }: ProfilePageProps) => {
-  const { setUser } = useAuthorizedUser()
+const ProfilePage = () => {
+  const { user, setUser, editUser } = useAuthorizedUser()
   const [userPic, setUserPic] = useState('../assets/images/test.jpeg')
   const [modalVisible, setModalVisible] = useState(false)
   const [selectedTab, setSelectedTab] = useState(0)
 
-  const onSubmit = async () => {
-    return //TODO: Handle onSubmit change user
+  const onSubmit = async (form: any) => {
+    await editUser(form)
   }
 
   const saveImage = async (image: string) => {
@@ -53,22 +49,27 @@ const ProfilePage = ({ user }: ProfilePageProps) => {
           show={modalVisible}
         />
         <ProfilePicture onClickEdit={() => setModalVisible(true)} picUrl={userPic} />
-        <Typography variant="h4">{user.user}</Typography>
+        <Typography variant="h4">{user?.user}</Typography>
         <View style={{ width: '100%', gap: 15 }}>
           <TabsSelector
             tabs={['Datos personales', 'Contraseña']}
             selected={selectedTab}
             setSelected={setSelectedTab}
           />
-          {selectedTab === 0 ? <PersonalDataTab user={user} /> : <ChangePasswordTab />}
+          {selectedTab === 0 ? (
+            <PersonalDataTab user={user} onSubmit={onSubmit} />
+          ) : (
+            <ChangePasswordTab />
+          )}
         </View>
         <StyledButton
           color="danger"
           label="Cerrar sesión"
           iconRight={'log-out-outline'}
-          onPress={() => {
-            AsyncStorage.clear()
+          onPress={async () => {
             setUser(null)
+            await AsyncStorage.clear()
+            router.push('/login')
           }}
         />
       </ScrollView>

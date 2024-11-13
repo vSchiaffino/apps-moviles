@@ -9,9 +9,13 @@ export interface PersonalDataTabProps {
     lastName: string
     mail: string
   }
+  onSubmit: (form: any) => Promise<void>
 }
 
-const PersonalDataTab: React.FC<PersonalDataTabProps> = ({ user }: PersonalDataTabProps) => {
+const PersonalDataTab: React.FC<PersonalDataTabProps> = ({
+  user,
+  onSubmit,
+}: PersonalDataTabProps) => {
   const fields: ValidatedField[] = [
     {
       name: 'name',
@@ -52,9 +56,6 @@ const PersonalDataTab: React.FC<PersonalDataTabProps> = ({ user }: PersonalDataT
       },
     },
   ]
-  const onSubmit = async () => {
-    // TODO: Handle onSubmit change user
-  }
   return (
     <>
       <Typography variant="h6" color="gray">
@@ -63,8 +64,9 @@ const PersonalDataTab: React.FC<PersonalDataTabProps> = ({ user }: PersonalDataT
       <ValidatedForm
         formProps={{ defaultValues: user }}
         submitLabel="Guardar"
-        onSubmit={() => onSubmit()}
+        onSubmit={onSubmit}
         fields={fields}
+        successMessage="Usuario actualizado correctamente"
       />
     </>
   )

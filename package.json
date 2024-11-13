@@ -36,6 +36,7 @@
     "react-hook-form": "^7.53.0",
     "react-native": "0.74.5",
     "react-native-async-storage": "^0.0.1",
+    "react-native-calendars": "^1.1307.0",
     "react-native-gesture-handler": "~2.16.1",
     "react-native-gifted-charts": "^1.4.47",
     "react-native-modal": "^13.0.1",

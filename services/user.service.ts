@@ -14,6 +14,20 @@ export class UserService {
   }) {
     return await apiService.post('/users', createUserDto)
   }
+
+  public async editUser(
+    jwt: string,
+    editUserDto: { user?: string; name: string; lastName: string; mail?: string },
+  ) {
+    return await apiService.put('/users', editUserDto, { Authorization: jwt })
+  }
+
+  public async changePassword(
+    jwt: string,
+    changePasswordDto: { password: string; newPassword: string },
+  ) {
+    return await apiService.put('/users/password', changePasswordDto, { Authorization: jwt })
+  }
 }
 
 const userService = new UserService()
