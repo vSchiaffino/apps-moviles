@@ -11,7 +11,6 @@ import Pagination from '@/models/Pagination'
 import Sort from '@/models/Sort'
 import IconList from '../IconList'
 import TransferWarehouseModal from './WarehouseTransferModal'
-import { WarehouseStackParamList } from '@/stacks/WarehouseStack'
 import { useNavigation } from 'expo-router'
 import { WarehouseNavigationProp } from '@/app/warehouse'
 
