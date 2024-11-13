@@ -7,6 +7,8 @@ import Typography from './Typography'
 import { TextInput, TextInputProps } from 'react-native'
 import OutlinedInputPassword from './OutlinedInputPassword'
 import OutlinedSelect, { OutlinedSelectProps } from './OutlinedSelect/OutlinedSelect'
+import InfoCard from './InfoCard'
+import { Colors } from '@/constants/Colors'
 
 export type ValidatedField = {
   name: string
@@ -113,15 +115,14 @@ const ValidatedForm = ({
         disabled={errors && Object.entries(errors).length > 0}
       />
       {errors.form && (
-        <Typography variant="body" color="danger">
-          {errors.form.message as string}
-        </Typography>
+        <InfoCard
+          infoText={errors.form.message as string}
+          backgroundColor={Colors.danger[200]}
+          textColor={Colors.danger[900]}
+          iconColor={Colors.danger[700]}
+        />
       )}
-      {isSubmitSuccessful && successMessage && (
-        <Typography variant="body" color="primary">
-          {successMessage}
-        </Typography>
-      )}
+      {isSubmitSuccessful && successMessage && <InfoCard infoText={successMessage} />}
     </>
   )
 }

@@ -38,6 +38,7 @@ const ProfilePage = () => {
           gap: 10,
           justifyContent: 'center',
           padding: 16,
+          paddingTop: 30,
           paddingBottom: 76,
         }}
         showsVerticalScrollIndicator={false}
