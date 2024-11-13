@@ -70,7 +70,7 @@ const ChangeProfilePictureModal: React.FC<ChangeProfilePictureModalProps> = ({
       animationInTiming={300}
       animationOutTiming={300}
       hideModalContentWhileAnimating={true}
-      useNativeDriver={true}
+      useNativeDriverForBackdrop={true}
       onBackButtonPress={() => setShow(false)}
     >
       <Pressable
