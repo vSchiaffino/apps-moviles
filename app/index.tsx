@@ -62,7 +62,7 @@ const Dashboard = () => {
             <CardLineChart data={lineData} />
             <IconCard
               icon="bar-chart-outline"
-              color={'yellow'}
+              color={'primary'}
               text="Reportes"
               onPress={() => {
                 router.push('/reports')
