@@ -7,13 +7,27 @@ import userService from '@/services/user.service'
 import { Spacing } from '@/constants/Spacing'
 import { Colors } from '@/constants/Colors'
 import { useNotAuthorizedUser } from '@/hooks/useUser'
+import { UserPayload } from '@/context/AuthContext'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const RegisterPage = () => {
-  useNotAuthorizedUser()
+  const setUser = useNotAuthorizedUser()
   const onSubmit = async (form: any) => {
     const response = await userService.register(form)
-    // TODO: show success message
-    router.push('/login')
+    const json = await response.json()
+    const jwtToken = json.token
+    const parts = jwtToken
+      .split('.')
+      .map((part: string) =>
+        Buffer.from(part.replace(/-/g, '+').replace(/_/g, '/'), 'base64').toString(),
+      )
+    const payload: UserPayload = JSON.parse(parts[1])
+    setUser(payload)
+    await AsyncStorage.clear()
+    await AsyncStorage.setItem('user', JSON.stringify(payload))
+    await AsyncStorage.setItem('jwt', jwtToken)
+
+    router.push('/')
   }
   const fields: ValidatedField[] = [
     {
