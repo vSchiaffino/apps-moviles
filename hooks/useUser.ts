@@ -16,7 +16,7 @@ export function useNotAuthorizedUser(): (user: UserPayload) => void {
   const { user, setUser } = useUser()
   useEffect(() => {
     if (user) {
-      router.push('/')
+      // router.push('/')
       return
     }
     AsyncStorage.getItem('user').then((user) => {
