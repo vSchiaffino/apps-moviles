@@ -15,29 +15,20 @@ const RegisterPage = () => {
   const setUser = useNotAuthorizedUser()
   const onSubmit = async (form: any) => {
     const response = await userService.register(form)
-    console.log(response)
     const json = await response.json()
-    console.log(json)
     const jwtToken = json.token
-    console.log(jwtToken)
-    try {
-      const parts = jwtToken
-        .split('.')
-        .map((part: string) =>
-          Buffer.from(part.replace(/-/g, '+').replace(/_/g, '/'), 'base64').toString(),
-        )
-      const payload: UserPayload = JSON.parse(parts[1])
-      setUser(payload)
-      await AsyncStorage.clear()
-      await AsyncStorage.setItem('user', JSON.stringify(payload))
-      await AsyncStorage.setItem('jwt', jwtToken)
+    const parts = jwtToken
+      .split('.')
+      .map((part: string) =>
+        Buffer.from(part.replace(/-/g, '+').replace(/_/g, '/'), 'base64').toString(),
+      )
+    const payload: UserPayload = JSON.parse(parts[1])
+    setUser(payload)
+    await AsyncStorage.clear()
+    await AsyncStorage.setItem('user', JSON.stringify(payload))
+    await AsyncStorage.setItem('jwt', jwtToken)
 
-      router.push('/')
-    } catch (e: any) {
-      console.log(e.message)
-    } finally {
-      router.push('/register')
-    }
+    router.push('/')
   }
   const fields: ValidatedField[] = [
     {
