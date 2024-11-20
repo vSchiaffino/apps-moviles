@@ -34,7 +34,7 @@ const ChangeProfilePictureModal: React.FC<ChangeProfilePictureModalProps> = ({
         cameraType: CameraType.front,
         allowsEditing: true,
         aspect: [1, 1],
-        quality: 1,
+        quality: 0.5,
       })
       if (!result.canceled) {
         await saveImage(result.assets[0].uri)
