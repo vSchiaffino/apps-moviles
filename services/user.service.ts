@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import apiService from './api.service'
 
 export class UserService {
@@ -27,6 +28,25 @@ export class UserService {
     changePasswordDto: { password: string; newPassword: string },
   ) {
     return await apiService.put('/users/password', changePasswordDto, { Authorization: jwt })
+  }
+
+  public async changePicture(uri: string) {
+    const formData = new FormData()
+    const file = {
+      uri,
+      type: 'image/jpeg',
+      name: 'profile_picture.jpg',
+    }
+    formData.append('file', file as any)
+
+    return await fetch(apiService.baseUrl + '/users/picture', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: await AsyncStorage.getItem('jwt'),
+      } as any,
+      body: formData,
+    })
   }
 }
 

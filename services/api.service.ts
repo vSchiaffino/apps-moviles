@@ -7,7 +7,7 @@ export class ApiValidationError extends Error {
 }
 
 export class ApiService {
-  private baseUrl = process.env.EXPO_PUBLIC_API_BASE_URL
+  public baseUrl = process.env.EXPO_PUBLIC_API_BASE_URL
   async post(endpoint: string, body: any) {
     const response = await fetch(this.baseUrl + endpoint, {
       method: 'POST',
@@ -45,7 +45,6 @@ export class ApiService {
       'Content-Type': 'application/json',
       ...aditionalHeaders,
     }
-    console.log('headers', headers)
     const response = await fetch(this.baseUrl + endpoint, {
       method: 'PUT',
       body: JSON.stringify(body),

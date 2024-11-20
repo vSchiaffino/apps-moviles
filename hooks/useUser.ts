@@ -33,6 +33,7 @@ export function useAuthorizedUser(): {
   user: UserPayload
   setUser: (user: UserPayload | null) => void
   editUser: (form: any) => Promise<void>
+  changePicture: (pictureUrl: string) => Promise<void>
 } {
   const { user, setUser } = useUser()
   useEffect(() => {
@@ -52,6 +53,15 @@ export function useAuthorizedUser(): {
       const response = await userService.editUser(jwt, { name: form.name, lastName: form.lastName })
       const updatedUser = await response.json()
       setUser(updatedUser)
+    },
+    changePicture: async (pictureUrl: string) => {
+      try {
+        const response = await userService.changePicture(pictureUrl)
+        const { profilePictureUrl } = await response.json()
+        setUser({ ...user, profilePictureUrl } as any)
+      } catch (error) {
+        console.log('Error subiendo la imagen', error)
+      }
     },
   }
 }

@@ -13,6 +13,7 @@ interface UserPayload {
   mail: string
   name: string
   user: string
+  profilePictureUrl: string
 }
 
 type AuthContextType = {

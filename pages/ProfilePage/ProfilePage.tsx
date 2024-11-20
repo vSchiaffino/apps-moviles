@@ -14,8 +14,7 @@ import { View } from 'react-native'
 import { router } from 'expo-router'
 
 const ProfilePage = () => {
-  const { user, setUser, editUser } = useAuthorizedUser()
-  const [userPic, setUserPic] = useState('../assets/images/test.jpeg')
+  const { user, setUser, editUser, changePicture } = useAuthorizedUser()
   const [modalVisible, setModalVisible] = useState(false)
   const [selectedTab, setSelectedTab] = useState(0)
 
@@ -23,11 +22,13 @@ const ProfilePage = () => {
     await editUser(form)
   }
 
-  const saveImage = async (image: string) => {
+  const saveImage = async (imageUri: string) => {
     try {
-      setUserPic(image)
+      changePicture(imageUri)
       setModalVisible(false)
-    } catch (error) {}
+    } catch (error) {
+      console.error('Error uploading image', error)
+    }
   }
 
   return (
@@ -45,11 +46,14 @@ const ProfilePage = () => {
       >
         <ChangeProfilePictureModal
           saveImage={saveImage}
-          setUserPic={setUserPic}
+          setUserPic={saveImage}
           setShow={setModalVisible}
           show={modalVisible}
         />
-        <ProfilePicture onClickEdit={() => setModalVisible(true)} picUrl={userPic} />
+        <ProfilePicture
+          onClickEdit={() => setModalVisible(true)}
+          picUrl={user?.profilePictureUrl}
+        />
         <Typography variant="h4">{user?.user}</Typography>
         <View style={{ width: '100%', gap: 15 }}>
           <TabsSelector

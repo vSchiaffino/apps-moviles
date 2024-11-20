@@ -94,7 +94,7 @@ const ChangeProfilePictureModal: React.FC<ChangeProfilePictureModalProps> = ({
             color={'danger'}
             text="Remover"
             onPress={() => {
-              setUserPic('../assets/images/test.jpeg')
+              setUserPic(process.env.EXPO_PUBLIC_DEFAULT_IMAGE_URL)
               setShow(false)
             }}
           />
