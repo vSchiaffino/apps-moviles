@@ -39,20 +39,16 @@ const ReportsScreen = () => {
     let barData: any[] = []
     let lineData: any[] = []
 
-    // Pérdidas por fecha
     report.sales.forEach((sale) => {
-      // Filtrar los registros de stock para la fecha de la venta
       const stockOnSaleDate = report.stockLevels.filter((stock) => stock.date === sale.date)
 
-      // Si no hay registros de stock para esa fecha, no se procesan las pérdidas
       if (stockOnSaleDate.length === 0) {
-        return // No hay stock para esta fecha, por lo que no se cuentan pérdidas
+        return
       }
 
       let totalSales = sale.products.reduce((sum: any, product: any) => sum + product.quantity, 0)
       let totalLosses = 0
 
-      // Comparar ventas con stock para cada producto en la fecha de venta
       stockOnSaleDate.forEach((stock) => {
         stock.products.forEach((product) => {
           const stockChange = product.initialStock - product.finalStock
@@ -63,7 +59,6 @@ const ReportsScreen = () => {
         })
       })
 
-      // Si hubo una pérdida, se agrega al gráfico de barras
       if (totalLosses > 0) {
         barData.push({
           label: sale.date,
@@ -155,7 +150,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   chartWrapper: {
-    //alignItems: 'center',
     marginVertical: 20,
   },
   xAxisLabel: {
