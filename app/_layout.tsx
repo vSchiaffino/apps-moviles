@@ -80,6 +80,7 @@ export default function RootLayout() {
         <QueryClientProvider client={queryClient}>
           <GestureHandlerRootView>
             <Tabs
+              backBehavior="history"
               screenOptions={({ route }) => ({
                 tabBarHideOnKeyboard: true,
                 headerShown: false,
