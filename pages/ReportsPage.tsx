@@ -7,6 +7,7 @@ import SelectDateModal from './StockPage/SelectDateModal'
 import StyledButton from '@/components/StyledButton'
 import { Colors } from '@/constants/Colors'
 import { useReportData } from '@/hooks/useReportData'
+import InfoCard from '@/components/InfoCard'
 
 interface Sale {
   productId: string
@@ -32,6 +33,11 @@ const ReportsScreen = () => {
   const [data, setData] = useState<APIResponse | null>(null)
   const [showReport, setShowReport] = useState(false)
   const { report } = useReportData(selectedInitialDate, selectedFinalDate)
+  const [availableDates, setAvailableDates] = useState<string[]>([])
+
+  if (data !== null) {
+    setAvailableDates(data.sales.map((sale) => sale.date))
+  }
 
   const processDataForCharts = () => {
     if (!report) return { barData: [], lineData: [] }
@@ -47,7 +53,7 @@ const ReportsScreen = () => {
       }
 
       let totalSales = sale.products.reduce((sum: any, product: any) => sum + product.quantity, 0)
-      let totalLosses = 0
+      var totalLosses = 0
 
       stockOnSaleDate.forEach((stock) => {
         stock.products.forEach((product) => {
@@ -84,7 +90,10 @@ const ReportsScreen = () => {
         <DateSelect
           label="Fecha inicio"
           value={selectedInitialDate}
-          onChange={setSelectedInitialDate}
+          onChange={() => {
+            setSelectedInitialDate
+            setShowReport(false)
+          }}
           onPressIcon={() => setInitialModalVisible(true)}
         />
         <SelectDateModal
@@ -97,7 +106,10 @@ const ReportsScreen = () => {
         <DateSelect
           label="Fecha final"
           value={selectedFinalDate}
-          onChange={setSelectedFinalDate}
+          onChange={() => {
+            setSelectedFinalDate
+            setShowReport(false)
+          }}
           onPressIcon={() => setFinalModalVisible(true)}
         />
         <SelectDateModal
@@ -106,32 +118,47 @@ const ReportsScreen = () => {
           visible={finalModalVisible}
           setVisible={setFinalModalVisible}
         />
-        <StyledButton label="Ver reportes" onPress={() => setShowReport(true)} />
-        {showReport && (
-          <View style={styles.chartContainer}>
-            <Typography variant="subtitle" style={[styles.centeredText, { marginTop: 24 }]}>
-              Comparación de Ventas y Disminución de Stock
-            </Typography>
-            <Typography variant="mini" style={styles.yAxisLabel}>
-              Unidades por pérdida
-            </Typography>
-            <ScrollView style={styles.chartWrapper} horizontal={true}>
-              <BarChart
-                data={displayedData.map((item) => ({ value: item.value, label: item.label }))}
-                barWidth={chartWidth}
-                barBorderRadius={4}
-                frontColor="#3498db"
-                height={200}
-                yAxisThickness={2}
-                yAxisTextStyle={{ color: '#000', fontSize: 12 }}
-                stepValue={3}
-              />
-              <Typography variant="body" style={styles.xAxisLabel}>
-                Días
+        <StyledButton
+          label="Ver reportes"
+          onPress={() => {
+            setShowReport(true)
+            console.log(report)
+            console.log(report !== undefined ? report.stockLevels.map((info) => info.products) : '')
+          }}
+        />
+        <View style={styles.chartContainer}>
+          {report !== undefined && showReport ? (
+            <>
+              <Typography variant="subtitle" style={[styles.centeredText, { marginTop: 24 }]}>
+                Comparación de Ventas y Disminución de Stock
               </Typography>
-            </ScrollView>
-          </View>
-        )}
+              <Typography variant="mini" style={styles.yAxisLabel}>
+                Unidades por pérdida
+              </Typography>
+              <ScrollView style={styles.chartWrapper} horizontal={true}>
+                <BarChart
+                  data={displayedData.map((item) => ({ value: item.value, label: item.label }))}
+                  barWidth={chartWidth}
+                  barBorderRadius={4}
+                  frontColor="#3498db"
+                  height={200}
+                  yAxisThickness={2}
+                  yAxisTextStyle={{ color: '#000', fontSize: 12 }}
+                  stepValue={3}
+                />
+                <Typography variant="body" style={styles.xAxisLabel}>
+                  Días
+                </Typography>
+              </ScrollView>
+            </>
+          ) : report !== undefined && report.sales.length === 0 ? (
+            <InfoCard infoText="No se registraron ventas en esas fechas" />
+          ) : report !== undefined && report.stockLevels.length === 0 ? (
+            <InfoCard infoText="No se registraron cambios en el stock en esas fechas" />
+          ) : (
+            <InfoCard infoText="No hay reportes para esas fechas" />
+          )}
+        </View>
       </View>
     </ScrollView>
   )
