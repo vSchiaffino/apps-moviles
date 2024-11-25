@@ -107,8 +107,8 @@ export default function RootLayout(this: any) {
                   key={index}
                   name={name}
                   options={{
+                    title: title,
                     tabBarShowLabel: false,
-                    tabBarLabel: title,
                     header: (props: any) => <PageHeader {...props} back={undefined} />,
                     headerShown: showRootHeader,
                     tabBarButton: ({ accessibilityState }) => (
