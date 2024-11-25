@@ -17,8 +17,8 @@ const TabBarButton = ({ iconName, colorScheme, focused, onPress }: TabBarButtonP
   const viewRef = useRef<any>(null)
   useEffect(() => {
     focused
-      ? viewRef.current.animate({ 0: { scale: 1 }, 1: { scale: 1.3 } })
-      : viewRef.current.animate({ 0: { scale: 1.3 }, 1: { scale: 1 } })
+      ? viewRef.current.animate({ 0: { scale: 1 }, 1: { scale: iconName === 'home' ? 1.1 : 1.3 } })
+      : viewRef.current.animate({ 0: { scale: iconName === 'home' ? 1.1 : 1.3 }, 1: { scale: 1 } })
   }, [focused])
 
   return (
@@ -28,7 +28,7 @@ const TabBarButton = ({ iconName, colorScheme, focused, onPress }: TabBarButtonP
           {iconName !== 'warehouse' ? (
             <Ionicons
               name={iconName}
-              size={24}
+              size={iconName === 'home' ? 40 : 24}
               color={
                 focused
                   ? Colors.primary[500]

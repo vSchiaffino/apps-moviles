@@ -119,32 +119,6 @@ export default function RootLayout(this: any) {
                         focused={accessibilityState?.selected}
                       />
                     ),
-                    tabBarIcon: ({ focused }) =>
-                      iconName !== 'warehouse' ? (
-                        <Ionicons
-                          name={iconName as keyof typeof Ionicons.glyphMap}
-                          size={24}
-                          color={
-                            focused
-                              ? Colors.primary[500]
-                              : colorScheme === 'dark'
-                                ? Colors.primary[300]
-                                : Colors.primary[500]
-                          }
-                        />
-                      ) : (
-                        <FontAwesome6
-                          name={iconName}
-                          size={20}
-                          color={
-                            focused
-                              ? Colors.primary[500]
-                              : colorScheme === 'dark'
-                                ? Colors.primary[300]
-                                : Colors.primary[500]
-                          }
-                        />
-                      ),
                   }}
                 />
               ))}
