@@ -30,7 +30,10 @@ const PageHeader = ({ options, navigation, back }: NativeStackHeaderProps) => {
       {back && (
         <Ionicons
           name="chevron-back-sharp"
-          onPress={() => navigation.goBack()}
+          onPress={() => {
+            navigation.reset({ index: 0, routes: [{ name: 'warehouse' }] })
+            navigation.goBack()
+          }}
           size={24}
           color={colorScheme === 'dark' ? Colors.gray[100] : Colors.gray[700]}
         />

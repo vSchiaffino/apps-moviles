@@ -12,7 +12,7 @@ import Sort from '@/models/Sort'
 import IconList from '../IconList'
 import TransferWarehouseModal from './WarehouseTransferModal'
 import { useNavigation } from 'expo-router'
-import { WarehouseNavigationProp } from '@/app/warehouse'
+import { WarehouseNavigationProp } from '@/app/(tabs)/warehouse'
 import ActionsList from '@/components/ActionsList'
 import InfoCard from '@/components/InfoCard'
 
