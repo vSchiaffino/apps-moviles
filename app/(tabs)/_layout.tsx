@@ -1,6 +1,6 @@
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native'
 import { useFonts } from 'expo-font'
-import { Redirect, Tabs } from 'expo-router'
+import { Href, Tabs, router } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
 import React, { useEffect } from 'react'
 import 'react-native-reanimated'
@@ -12,6 +12,7 @@ import { Colors } from '@/constants/Colors'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import PageHeader from '@/components/PageHeader'
+import TabBarButton from '@/components/navigation/TabBarButton'
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync()
@@ -77,7 +78,8 @@ export default function RootLayout(this: any) {
           <GestureHandlerRootView>
             <Tabs
               backBehavior="history"
-              screenOptions={({ route }) => ({
+              screenOptions={() => ({
+                unmountOnBlur: true,
                 tabBarHideOnKeyboard: true,
                 headerShown: false,
                 tabBarVisibilityAnimationConfig: {
@@ -87,13 +89,12 @@ export default function RootLayout(this: any) {
                   },
                 },
                 tabBarStyle: {
-                  paddingBottom: 10,
-                  paddingTop: 10,
-                  height: 65,
-                  width: '90%',
-                  left: '5%',
-                  borderTopRightRadius: 16,
-                  borderTopLeftRadius: 16,
+                  position: 'absolute',
+                  height: 60,
+                  bottom: 16,
+                  right: 16,
+                  left: 16,
+                  borderRadius: 16,
                   backgroundColor:
                     colorScheme === 'dark'
                       ? DarkTheme.colors.background
@@ -106,10 +107,18 @@ export default function RootLayout(this: any) {
                   key={index}
                   name={name}
                   options={{
-                    unmountOnBlur: true,
-                    title: title,
+                    tabBarShowLabel: false,
+                    tabBarLabel: title,
                     header: (props: any) => <PageHeader {...props} back={undefined} />,
                     headerShown: showRootHeader,
+                    tabBarButton: ({ accessibilityState }) => (
+                      <TabBarButton
+                        onPress={() => router.push(('/' + name) as Href<string | object>)}
+                        iconName={iconName}
+                        colorScheme={colorScheme}
+                        focused={accessibilityState?.selected}
+                      />
+                    ),
                     tabBarIcon: ({ focused }) =>
                       iconName !== 'warehouse' ? (
                         <Ionicons
@@ -117,10 +126,10 @@ export default function RootLayout(this: any) {
                           size={24}
                           color={
                             focused
-                              ? Colors.primary[600]
+                              ? Colors.primary[500]
                               : colorScheme === 'dark'
-                                ? Colors.gray[300]
-                                : Colors.gray[600]
+                                ? Colors.primary[300]
+                                : Colors.primary[500]
                           }
                         />
                       ) : (
@@ -129,10 +138,10 @@ export default function RootLayout(this: any) {
                           size={20}
                           color={
                             focused
-                              ? Colors.primary[600]
+                              ? Colors.primary[500]
                               : colorScheme === 'dark'
-                                ? Colors.gray[300]
-                                : Colors.gray[600]
+                                ? Colors.primary[300]
+                                : Colors.primary[500]
                           }
                         />
                       ),
