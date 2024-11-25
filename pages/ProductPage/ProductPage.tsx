@@ -8,8 +8,6 @@ import ProductTable from './ProductTable'
 import useProducts from '@/hooks/useProducts'
 import Pagination from '@/models/Pagination'
 import Sort from '@/models/Sort'
-import IconList from '../IconList'
-import { set } from 'react-hook-form'
 import ActionsList from '@/components/ActionsList'
 import InfoCard from '@/components/InfoCard'
 
@@ -63,7 +61,7 @@ const ProductsPage = () => {
       )}
       <ScrollView
         showsVerticalScrollIndicator={false}
-        style={{ backgroundColor: Colors.gray[100], height: '100%' }}
+        style={{ height: '100%' }}
         contentContainerStyle={{ paddingBottom: 250 }}
       >
         <ActionsList

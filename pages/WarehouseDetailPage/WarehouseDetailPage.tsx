@@ -32,7 +32,6 @@ const WarehouseDetailPage = () => {
         <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ gap: 15, marginTop: 16 }}
-          style={{ backgroundColor: Colors.gray[100] }}
         >
           {showModal && (
             <AddStockModal
