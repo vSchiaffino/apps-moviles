@@ -1,7 +1,9 @@
 import CardLineChart from '@/components/charts/CardLineChart'
 import Container from '@/components/Container'
 import IconCard from '@/components/IconCard'
+import StyledButton from '@/components/StyledButton'
 import Typography from '@/components/Typography'
+import useShift from '@/hooks/useShift'
 import { useAuthorizedUser } from '@/hooks/useUser'
 import { router, useNavigation } from 'expo-router'
 import React from 'react'
@@ -10,6 +12,7 @@ import { ScrollView } from 'react-native-gesture-handler'
 
 const Dashboard = () => {
   const { user } = useAuthorizedUser()
+  const { shift, start, end } = useShift()
   const lineData = [
     { value: 0 },
     { value: 20 },
@@ -74,6 +77,9 @@ const Dashboard = () => {
               text="Iniciar turno"
               onPress={() => router.push('/dashboard/startshift')}
             />
+            <Typography variant="body">{JSON.stringify(shift)}</Typography>
+            <StyledButton label="Empezar turno" onPress={start} />
+            <StyledButton label="Terminar turno" onPress={end} />
           </View>
         </ScrollView>
       </Container>
