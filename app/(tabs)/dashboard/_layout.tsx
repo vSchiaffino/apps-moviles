@@ -16,6 +16,7 @@ const StackLayout = () => {
     >
       <Stack.Screen name="index" options={{ headerShown: false }} />
       <Stack.Screen name="reports" options={{ headerTitle: 'Reportes' }} />
+      <Stack.Screen name="startshift" options={{ headerTitle: 'Iniciar Turno' }} />
     </Stack>
   )
 }

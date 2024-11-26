@@ -72,7 +72,7 @@ const Dashboard = () => {
               icon="time-outline"
               color={'primary'}
               text="Iniciar turno"
-              onPress={() => router.push('/stock-manager')}
+              onPress={() => router.push('/dashboard/startshift')}
             />
           </View>
         </ScrollView>
