@@ -20,7 +20,6 @@ const Dashboard = () => {
     { value: 90 },
     { value: 75 },
   ]
-  const navigation = useNavigation()
   return (
     user && (
       <Container style={{ height: '100%' }}>
@@ -66,8 +65,14 @@ const Dashboard = () => {
               color={'primary'}
               text="Reportes"
               onPress={() => {
-                navigation.navigate('reports' as never)
+                router.push('/dashboard/reports')
               }}
+            />
+            <IconCard
+              icon="time-outline"
+              color={'primary'}
+              text="Iniciar turno"
+              onPress={() => router.push('/stock-manager')}
             />
           </View>
         </ScrollView>
