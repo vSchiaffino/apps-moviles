@@ -73,13 +73,10 @@ const Dashboard = () => {
             />
             <IconCard
               icon="time-outline"
-              color={'primary'}
-              text="Iniciar turno"
-              onPress={() => router.push('/dashboard/startshift')}
+              color={shift ? 'yellow' : 'primary'}
+              text={shift ? 'Turno en curso' : 'Iniciar turno'}
+              onPress={() => (shift ? end() : start())}
             />
-            <Typography variant="body">{JSON.stringify(shift)}</Typography>
-            <StyledButton label="Empezar turno" onPress={start} />
-            <StyledButton label="Terminar turno" onPress={end} />
           </View>
         </ScrollView>
       </Container>
