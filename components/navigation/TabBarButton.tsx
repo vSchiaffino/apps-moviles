@@ -23,7 +23,7 @@ const TabBarButton = ({ iconName, colorScheme, focused, onPress }: TabBarButtonP
 
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <TouchableOpacity onPress={onPress} hitSlop={20} activeOpacity={0.7}>
+      <TouchableOpacity onPress={!focused ? onPress : () => {}} hitSlop={20} activeOpacity={0.7}>
         <Animatable.View ref={viewRef} duration={300}>
           {iconName !== 'warehouse' ? (
             <Ionicons
