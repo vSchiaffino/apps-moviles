@@ -6,7 +6,7 @@ import * as Progress from 'react-native-progress'
 import Card from './Card'
 import { FontAwesome6 } from '@expo/vector-icons'
 import { useNavigation } from 'expo-router'
-import { WarehouseNavigationProp } from '@/app/warehouse'
+import { WarehouseNavigationProp } from '@/app/(tabs)/warehouse/warehouse'
 
 const WarehouseCard: React.FC<{ item: any }> = ({
   item: { id, name, stockNumber: stock, capacity },

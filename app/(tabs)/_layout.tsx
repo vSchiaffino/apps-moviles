@@ -7,50 +7,12 @@ import 'react-native-reanimated'
 
 import { useColorScheme } from '@/hooks/useColorScheme'
 import { AuthProvider } from '@/context/AuthContext'
-import { FontAwesome6, Ionicons } from '@expo/vector-icons'
-import { Colors } from '@/constants/Colors'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { QueryClient, QueryClientProvider } from 'react-query'
-import PageHeader from '@/components/PageHeader'
 import TabBarButton from '@/components/navigation/TabBarButton'
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync()
-
-const tabs = [
-  {
-    name: 'products',
-    title: 'Productos',
-    iconName: 'cube',
-  },
-  {
-    name: 'stock-manager',
-    title: 'Administrar Stock',
-    showRootHeader: true,
-    iconName: 'archive',
-  },
-  {
-    name: 'dashboard',
-    title: 'Inicio',
-    iconName: 'home',
-  },
-  {
-    name: 'warehouse',
-    title: 'Depósitos',
-    iconName: 'warehouse',
-  },
-  {
-    name: 'profile',
-    title: 'Perfil',
-    showRootHeader: true,
-    iconName: 'person',
-  },
-]
-
-const invisibleTabs = [
-  { name: 'stock-summary', title: 'Resumen Stock', showRootHeader: true },
-  { name: 'reports', title: 'Reportes', showRootHeader: true },
-]
 
 export default function RootLayout(this: any) {
   const colorScheme = useColorScheme()
@@ -70,6 +32,15 @@ export default function RootLayout(this: any) {
   if (!loaded) {
     return null
   }
+
+  const tabs = [
+    { name: 'products', iconName: 'cube' },
+    { name: 'stock-manager', iconName: 'archive' },
+    { name: 'dashboard', iconName: 'home' },
+    { name: 'warehouse', iconName: 'warehouse' },
+    { name: 'profile', iconName: 'person' },
+  ]
+
   const queryClient = new QueryClient()
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
@@ -102,40 +73,26 @@ export default function RootLayout(this: any) {
                 },
               })}
             >
-              {tabs.map(({ name, title, iconName, showRootHeader = false }, index) => (
+              {tabs.map(({ name, iconName }, index) => (
                 <Tabs.Screen
                   key={index}
                   name={name}
                   options={{
-                    title: title,
                     tabBarShowLabel: false,
-                    header: (props: any) => <PageHeader {...props} back={undefined} />,
-                    headerShown: showRootHeader,
                     tabBarButton: ({ accessibilityState }) => (
                       <TabBarButton
-                        onPress={() => router.push(('/' + name) as Href<string | object>)}
                         iconName={iconName}
                         colorScheme={colorScheme}
                         focused={accessibilityState?.selected}
+                        onPress={() => {
+                          router.push(('/' + name) as Href<string | object>)
+                        }}
                       />
                     ),
                   }}
                 />
               ))}
-              {invisibleTabs.map(({ name, title = '', showRootHeader }, index) => (
-                <Tabs.Screen
-                  key={index}
-                  name={name}
-                  options={{
-                    title: title,
-                    href: null,
-                    header: showRootHeader
-                      ? (props: any) => <PageHeader {...props} back={undefined} />
-                      : () => <></>,
-                    headerShown: showRootHeader,
-                  }}
-                />
-              ))}
+              <Tabs.Screen name="reports" options={{ href: null }} />
             </Tabs>
           </GestureHandlerRootView>
         </QueryClientProvider>

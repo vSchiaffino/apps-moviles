@@ -3,7 +3,7 @@ import Container from '@/components/Container'
 import IconCard from '@/components/IconCard'
 import Typography from '@/components/Typography'
 import { useAuthorizedUser } from '@/hooks/useUser'
-import { router } from 'expo-router'
+import { router, useNavigation } from 'expo-router'
 import React from 'react'
 import { View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
@@ -20,6 +20,7 @@ const Dashboard = () => {
     { value: 90 },
     { value: 75 },
   ]
+  const navigation = useNavigation()
   return (
     user && (
       <Container style={{ height: '100%' }}>
@@ -65,7 +66,7 @@ const Dashboard = () => {
               color={'primary'}
               text="Reportes"
               onPress={() => {
-                router.push('/reports')
+                navigation.navigate('reports' as never)
               }}
             />
           </View>

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { StyleSheet, View, Pressable, ScrollView } from 'react-native'
+import React, { useState } from 'react'
+import { View, ScrollView } from 'react-native'
 import Typography from '@/components/Typography'
 import Container from '@/components/Container'
 import DateSelect from '@/components/DateSelect'
@@ -8,6 +8,9 @@ import SelectDateModal from './SelectDateModal'
 import StockSummaryTable from './StockSummaryTable'
 import EditStockModal from './EditStockModal'
 import useStockLevel from '@/hooks/useStockLevel'
+import InfoCard from '@/components/InfoCard'
+import { Spacing } from '@/constants/Spacing'
+import { router } from 'expo-router'
 
 const StockManagerPage: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState('')
@@ -22,7 +25,8 @@ const StockManagerPage: React.FC = () => {
         contentContainerStyle={{
           alignItems: 'center',
           padding: 16,
-          paddingBottom: 200,
+          paddingBottom: 120,
+          gap: Spacing.rowGap,
         }}
       >
         <DateSelect
@@ -87,15 +91,13 @@ const StockManagerPage: React.FC = () => {
             setSelectedRow(null)
           }}
         />
-        {message && (
-          <Typography
-            variant="body"
-            color="primary"
-            style={{ textAlign: 'center', marginBottom: 20 }}
-          >
-            {message}
-          </Typography>
+        {selectedDate && (
+          <StyledButton
+            label="Ver Resumen"
+            onPress={() => router.push({ pathname: '/(tabs)/stock-manager/stock-summary' })}
+          />
         )}
+        {message && <InfoCard infoText="Registro de stock guardado" />}
       </ScrollView>
     </Container>
   )

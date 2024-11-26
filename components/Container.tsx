@@ -25,7 +25,7 @@ const Container: React.FC<ContainerProps> = ({ children, style, animated = true 
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Animated.View
         style={{
-          transform: animated ? [{ translateX: slideAnim }] : undefined,
+          // transform: animated ? [{ translateX: slideAnim }] : undefined,
           width: '100%',
           backgroundColor: colorScheme === 'dark' ? DarkTheme : DefaultTheme,
           ...Object(style),
