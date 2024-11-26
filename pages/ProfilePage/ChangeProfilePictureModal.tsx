@@ -74,7 +74,10 @@ const ChangeProfilePictureModal: React.FC<ChangeProfilePictureModalProps> = ({
       onBackButtonPress={() => setShow(false)}
       onBackdropPress={() => setShow(false)}
     >
-      <Container style={{ height: 'auto', gap: 10, borderRadius: 10, padding: 16 }}>
+      <Container
+        animated={false}
+        style={{ height: 'auto', gap: 10, borderRadius: 10, padding: 16, backgroundColor: 'white' }}
+      >
         <Typography variant="h5">Cambiar foto</Typography>
         <View style={{ flexDirection: 'row', gap: 10 }}>
           <IconCard

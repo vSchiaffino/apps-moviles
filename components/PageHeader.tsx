@@ -4,6 +4,7 @@ import { Colors } from '@/constants/Colors'
 import { Ionicons } from '@expo/vector-icons'
 import Typography from './Typography'
 import { NativeStackHeaderProps } from '@react-navigation/native-stack'
+import { CommonActions } from '@react-navigation/native'
 export interface PageHeaderProps {
   title: string
 }
@@ -30,7 +31,9 @@ const PageHeader = ({ options, navigation, back }: NativeStackHeaderProps) => {
       {back && (
         <Ionicons
           name="chevron-back-sharp"
-          onPress={() => navigation.goBack()}
+          onPress={() => {
+            navigation.dispatch(CommonActions.reset({ index: 0, routes: [{ name: 'warehouse' }] }))
+          }}
           size={24}
           color={colorScheme === 'dark' ? Colors.gray[100] : Colors.gray[700]}
         />

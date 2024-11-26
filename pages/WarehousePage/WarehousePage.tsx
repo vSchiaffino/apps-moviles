@@ -1,7 +1,6 @@
-import { Animated, ScrollView, View } from 'react-native'
-import React, { useEffect, useRef, useState } from 'react'
+import { ScrollView, View } from 'react-native'
+import React, { useState } from 'react'
 import Container from '@/components/Container'
-import { Colors } from '@/constants/Colors'
 import { Spacing } from '@/constants/Spacing'
 import WarehouseTable from './WarehouseTable/WarehouseTable'
 import WarehouseCard from '@/components/WarehouseCard'
@@ -9,12 +8,17 @@ import { useWarehouses } from '@/hooks/useWarehouses'
 import WarehouseModal from './WarehouseModal'
 import Pagination from '@/models/Pagination'
 import Sort from '@/models/Sort'
-import IconList from '../IconList'
 import TransferWarehouseModal from './WarehouseTransferModal'
 import { useNavigation } from 'expo-router'
-import { WarehouseNavigationProp } from '@/app/warehouse'
 import ActionsList from '@/components/ActionsList'
 import InfoCard from '@/components/InfoCard'
+import { NativeStackNavigationProp } from 'react-native-screens/lib/typescript/native-stack/types'
+
+export type WarehouseStackParamList = {
+  'warehouse-page': undefined
+  'warehouse-detail': { id: number; name: string }
+}
+export type WarehouseNavigationProp = NativeStackNavigationProp<WarehouseStackParamList>
 
 const WarehousePage = () => {
   const { navigate } = useNavigation<WarehouseNavigationProp>()
@@ -68,7 +72,7 @@ const WarehousePage = () => {
         )}
         <ScrollView
           showsVerticalScrollIndicator={false}
-          style={{ backgroundColor: Colors.gray[100], height: '100%' }}
+          style={{ height: '100%' }}
           contentContainerStyle={{ paddingBottom: 250 }}
         >
           <ActionsList
@@ -129,6 +133,7 @@ const WarehousePage = () => {
                   onPressRow={(row: any) => {
                     navigate('warehouse-detail', {
                       id: row.id,
+                      name: row.name,
                     })
                   }}
                   onLongPressRow={(row: any) => {

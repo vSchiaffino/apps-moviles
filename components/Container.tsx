@@ -1,28 +1,39 @@
-import { View, Text, StyleProp, ViewStyle } from 'react-native'
-import React from 'react'
+import { View, Text, StyleProp, ViewStyle, Animated, Easing, useColorScheme } from 'react-native'
+import React, { useEffect, useRef, useState } from 'react'
 import { Colors } from '@/constants/Colors'
-import Typography from './Typography'
-import { Ionicons } from '@expo/vector-icons'
-import PageHeader from './PageHeader'
+import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native'
 
 export interface ContainerProps {
   children: React.ReactNode
   style?: StyleProp<ViewStyle>
+  animated?: boolean
 }
 
-const Container: React.FC<ContainerProps> = ({ children, style }) => {
+const Container: React.FC<ContainerProps> = ({ children, style, animated = true }) => {
+  const colorScheme = useColorScheme()
+  const slideAnim = useRef(new Animated.Value(300)).current
+  useEffect(() => {
+    Animated.timing(slideAnim, {
+      toValue: 0,
+      duration: 200,
+      easing: Easing.out(Easing.ease),
+      useNativeDriver: false,
+    }).start()
+  }, [])
+
   return (
-    <>
-      <View
+    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+      <Animated.View
         style={{
+          // transform: animated ? [{ translateX: slideAnim }] : undefined,
           width: '100%',
-          backgroundColor: Colors.gray[100],
+          backgroundColor: colorScheme === 'dark' ? DarkTheme : DefaultTheme,
           ...Object(style),
         }}
       >
         {children}
-      </View>
-    </>
+      </Animated.View>
+    </ThemeProvider>
   )
 }
 

@@ -84,7 +84,7 @@ const ReportsScreen = () => {
   const displayedData = barData.slice(-maxDays)
 
   return (
-    <ScrollView style={{ backgroundColor: Colors.gray[100] }}>
+    <ScrollView style={{ height: '100%' }}>
       <View style={{ padding: 16 }}>
         <DateSelect
           label="Fecha inicio"

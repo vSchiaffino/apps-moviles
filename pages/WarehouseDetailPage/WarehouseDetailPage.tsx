@@ -19,6 +19,7 @@ const WarehouseDetailPage = () => {
   const {
     params: { id },
   }: any = useRoute()
+
   const { products } = useProducts({ page: 1, limit: 999 }, { field: 'name', direction: 'DESC' })
   const { warehouse, refetch } = useWarehouseDetail(+id)
   const [showModal, setShowModal] = React.useState(false)
@@ -32,7 +33,6 @@ const WarehouseDetailPage = () => {
         <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ gap: 15, marginTop: 16 }}
-          style={{ backgroundColor: Colors.gray[100] }}
         >
           {showModal && (
             <AddStockModal
