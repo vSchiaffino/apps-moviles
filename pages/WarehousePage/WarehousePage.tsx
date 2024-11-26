@@ -131,10 +131,14 @@ const WarehousePage = () => {
                   sort={sort}
                   setSort={setSort}
                   onPressRow={(row: any) => {
-                    navigate('warehouse-detail', {
-                      id: row.id,
-                      name: row.name,
-                    })
+                    if (selectedRow === undefined) {
+                      navigate('warehouse-detail', {
+                        id: row.id,
+                        name: row.name,
+                      })
+                    } else {
+                      setSelectedRow(undefined)
+                    }
                   }}
                   onLongPressRow={(row: any) => {
                     selectedRow !== undefined && selectedRow.id !== row.id
