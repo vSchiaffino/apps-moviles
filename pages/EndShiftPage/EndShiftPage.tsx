@@ -30,6 +30,25 @@ const EndShiftPage = () => {
     result.push({ product, finStock })
   }
 
+  const handleEndShift = () => {
+    if (result.length === 0)
+      Alert.alert('Aviso', 'Indicá los stocks finales para cada producto', [
+        {
+          text: 'OK',
+        },
+      ])
+    else {
+      console.log(result)
+      end()
+      navigation.dispatch(CommonActions.reset({ index: 0, routes: [{ name: 'dashboard' }] }))
+      Alert.alert('Aviso', 'El turno se terminó correctamente', [
+        {
+          text: 'OK',
+        },
+      ])
+    }
+  }
+
   return (
     <Container>
       <ScrollView showsVerticalScrollIndicator={false} style={{ height: '100%' }}>
@@ -85,23 +104,7 @@ const EndShiftPage = () => {
                 ]}
                 rows={selectedWarehouse?.stock}
               />
-              <StyledButton
-                label="Terminar turno"
-                onPress={() => {
-                  result.length === 0
-                    ? alert('Indicá los stocks finales para cada producto')
-                    : console.log(result)
-                  end()
-                  navigation.dispatch(
-                    CommonActions.reset({ index: 0, routes: [{ name: 'dashboard' }] }),
-                  )
-                  Alert.alert('Aviso', 'El turno se terminó correctamente', [
-                    {
-                      text: 'OK',
-                    },
-                  ])
-                }}
-              />
+              <StyledButton label="Terminar turno" onPress={handleEndShift} />
             </>
           )}
         </View>

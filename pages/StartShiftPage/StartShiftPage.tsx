@@ -39,6 +39,23 @@ const StartShiftPage = () => {
     result.push({ product, iniStock })
   }
 
+  const handleStartShift = () => {
+    if (result.length === 0)
+      Alert.alert('Aviso', 'Indicá los stocks iniciales para cada producto', [
+        {
+          text: 'OK',
+        },
+      ])
+    console.log(result)
+    start()
+    navigation.dispatch(CommonActions.reset({ index: 0, routes: [{ name: 'dashboard' }] }))
+    Alert.alert('Aviso', 'El turno se inició correctamente', [
+      {
+        text: 'OK',
+      },
+    ])
+  }
+
   return (
     <Container>
       <ScrollView showsVerticalScrollIndicator={false} style={{ height: '100%' }}>
@@ -94,21 +111,7 @@ const StartShiftPage = () => {
                 ]}
                 rows={selectedWarehouse?.stock}
               />
-              <StyledButton
-                label="Iniciar turno"
-                onPress={() => {
-                  console.log(result)
-                  start()
-                  navigation.dispatch(
-                    CommonActions.reset({ index: 0, routes: [{ name: 'dashboard' }] }),
-                  )
-                  Alert.alert('Aviso', 'El turno se inició correctamente', [
-                    {
-                      text: 'OK',
-                    },
-                  ])
-                }}
-              />
+              <StyledButton label="Iniciar turno" onPress={handleStartShift} />
             </>
           )}
         </View>
