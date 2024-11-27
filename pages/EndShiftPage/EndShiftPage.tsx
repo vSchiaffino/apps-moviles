@@ -1,5 +1,5 @@
 import { View, ScrollView, Alert } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Container from '@/components/Container'
 import InfoCard from '@/components/InfoCard'
 import { Spacing } from '@/constants/Spacing'
@@ -7,36 +7,27 @@ import { useWarehouses } from '@/hooks/useWarehouses'
 import Sort from '@/models/Sort'
 import OutlinedSelect from '@/components/OutlinedSelect/OutlinedSelect'
 import Table from '@/components/Table/Table'
-import warehouseService from '@/services/warehouse.service'
-import { SetInitialModal } from './SetInitialModal'
-import { useWarehouseDetail } from '@/hooks/useWarehouseDetail'
+import { SetEndModal } from './SetEndModal'
 import useShift from '@/hooks/useShift'
 import StyledButton from '@/components/StyledButton'
-import Pagination from '@/models/Pagination'
 import { router, useNavigation } from 'expo-router'
 import { CommonActions } from '@react-navigation/native'
 
-const StartShiftPage = () => {
-  const [sort, setSort] = React.useState<Sort>({
-    field: 'name',
-    direction: 'ASC',
-  })
+const EndShiftPage = () => {
   const [selectedProduct, setSelectedProduct] = useState<any>(undefined)
   const defaultPagination = { page: 1, limit: 999 }
   const defaultSort: Sort = { field: 'name', direction: 'ASC' }
   const { warehouses, total } = useWarehouses(defaultPagination, defaultSort)
-  const [pagination, setPagination] = React.useState<Pagination>({ page: 1, limit: 5 })
   const [selectedWarehouse, setSelectedWarehouse] = useState<any>(warehouses?.first)
   const [showModal, setShowModal] = useState(false)
   const navigation = useNavigation()
-
   const { shift, start, end } = useShift()
 
-  //TODO: erase this when initial stock assignation is done
+  //TODO: erase this when final stock assignation is done
   var [result, setResult] = useState<Array<any>>([])
 
-  const handleSubmit = (product: any, iniStock: number) => {
-    result.push({ product, iniStock })
+  const handleSubmit = (product: any, finStock: number) => {
+    result.push({ product, finStock })
   }
 
   return (
@@ -44,21 +35,21 @@ const StartShiftPage = () => {
       <ScrollView showsVerticalScrollIndicator={false} style={{ height: '100%' }}>
         <View style={{ gap: Spacing.rowGap, padding: 16, paddingTop: 30 }}>
           {showModal && (
-            <SetInitialModal
+            <SetEndModal
               selectedProduct={selectedProduct}
               setShow={setShowModal}
               show={showModal}
               onSubmit={async (form: any) => {
                 const { quantity } = form
-                //TODO: set initial stock of selectedProduct
-                //Make sure initial stock doesnt exceed actual stock or equals zero
+                //TODO: set final stock of selectedProduct
+                //Make sure final stock doesnt exceed initial or actual stock
                 handleSubmit(selectedProduct, quantity)
                 setShowModal(false)
               }}
             />
           )}
           {selectedWarehouse === undefined && (
-            <InfoCard infoText="Seleccioná un depósito para comenzar el turno" />
+            <InfoCard infoText="Seleccioná un depósito para terminar el turno" />
           )}
           <OutlinedSelect
             label="Seleccioná un depósito"
@@ -86,8 +77,8 @@ const StartShiftPage = () => {
                   },
                   {
                     key: 'quantity',
-                    title: 'Inicial',
-                    getValue: (row) => 0, //should be equal to initial stock
+                    title: 'Final',
+                    getValue: (row) => 0, //should be equal to final stock
                     width: '30%',
                     align: 'flex-end',
                   },
@@ -95,14 +86,16 @@ const StartShiftPage = () => {
                 rows={selectedWarehouse?.stock}
               />
               <StyledButton
-                label="Iniciar turno"
+                label="Terminar turno"
                 onPress={() => {
-                  console.log(result)
-                  start()
+                  result.length === 0
+                    ? alert('Indicá los stocks finales para cada producto')
+                    : console.log(result)
+                  end()
                   navigation.dispatch(
                     CommonActions.reset({ index: 0, routes: [{ name: 'dashboard' }] }),
                   )
-                  Alert.alert('Aviso', 'El turno se inició correctamente', [
+                  Alert.alert('Aviso', 'El turno se terminó correctamente', [
                     {
                       text: 'OK',
                     },
@@ -117,4 +110,4 @@ const StartShiftPage = () => {
   )
 }
 
-export default StartShiftPage
+export default EndShiftPage

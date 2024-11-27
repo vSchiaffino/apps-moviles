@@ -24,13 +24,11 @@ const Dashboard = () => {
     { value: 75 },
   ]
   function endShift() {
-    router.push('/dashboard/reports') //Temporary until we make endshift page
-    end()
+    router.push('/dashboard/endshift')
   }
 
   function startShift() {
     router.push('/dashboard/startshift')
-    start()
   }
 
   return (
