@@ -23,6 +23,16 @@ const Dashboard = () => {
     { value: 90 },
     { value: 75 },
   ]
+  function endShift() {
+    router.push('/dashboard/reports') //Temporary until we make endshift page
+    end()
+  }
+
+  function startShift() {
+    router.push('/dashboard/startshift')
+    start()
+  }
+
   return (
     user && (
       <Container style={{ height: '100%' }}>
@@ -75,7 +85,9 @@ const Dashboard = () => {
               icon="time-outline"
               color={shift ? 'yellow' : 'primary'}
               text={shift ? 'Turno en curso' : 'Iniciar turno'}
-              onPress={() => (shift ? end() : start())}
+              onPress={() => {
+                shift ? endShift() : startShift()
+              }}
             />
           </View>
         </ScrollView>
