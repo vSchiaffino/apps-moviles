@@ -7,52 +7,38 @@ import { useWarehouses } from '@/hooks/useWarehouses'
 import Sort from '@/models/Sort'
 import OutlinedSelect from '@/components/OutlinedSelect/OutlinedSelect'
 import Table from '@/components/Table/Table'
-import warehouseService from '@/services/warehouse.service'
 import { SetInitialModal } from './SetInitialModal'
-import { useWarehouseDetail } from '@/hooks/useWarehouseDetail'
 import useShift from '@/hooks/useShift'
 import StyledButton from '@/components/StyledButton'
-import Pagination from '@/models/Pagination'
-import { router, useNavigation } from 'expo-router'
+import { useNavigation } from 'expo-router'
 import { CommonActions } from '@react-navigation/native'
 
 const StartShiftPage = () => {
-  const [sort, setSort] = React.useState<Sort>({
-    field: 'name',
-    direction: 'ASC',
-  })
   const [selectedProduct, setSelectedProduct] = useState<any>(undefined)
   const defaultPagination = { page: 1, limit: 999 }
   const defaultSort: Sort = { field: 'name', direction: 'ASC' }
   const { warehouses, total } = useWarehouses(defaultPagination, defaultSort)
-  const [pagination, setPagination] = React.useState<Pagination>({ page: 1, limit: 5 })
   const [selectedWarehouse, setSelectedWarehouse] = useState<any>()
   const [showModal, setShowModal] = useState(false)
   const navigation = useNavigation()
+  const [stocksArray, setStocksArray] = useState(warehouses)
 
-  useEffect(() => {
-    console.log('useEffect')
-    if (!selectedWarehouse && warehouses && warehouses.length > 0) {
-      setSelectedWarehouse(warehouses[0])
-    }
-  }, [warehouses])
   const { shift, start, end } = useShift()
 
-  //TODO: erase this when initial stock assignation is done
-  var [result, setResult] = useState<Array<any>>([])
+  useEffect(() => {
+    if (!stocksArray && !selectedWarehouse && warehouses && warehouses.length > 0) {
+      setSelectedWarehouse(warehouses[0])
+      setStocksArray(
+        warehouses?.map((warehouse: any) => ({
+          warehouseId: warehouse.id,
+          stock: warehouse.stock,
+        })),
+      )
+    }
+  }, [warehouses])
 
-  const handleSubmit = (product: any, iniStock: number) => {
-    result.push({ product, iniStock })
-  }
-
-  const handleStartShift = () => {
-    if (result.length === 0)
-      Alert.alert('Aviso', 'Indicá los stocks iniciales para cada producto', [
-        {
-          text: 'OK',
-        },
-      ])
-    console.log(result)
+  const handleStartShift = async () => {
+    //send stocksArray to endpoints
     start()
     navigation.dispatch(CommonActions.reset({ index: 0, routes: [{ name: 'dashboard' }] }))
     Alert.alert('Aviso', 'El turno se inició correctamente', [
@@ -60,6 +46,25 @@ const StartShiftPage = () => {
         text: 'OK',
       },
     ])
+  }
+
+  const updateStockArray = (warehouseId: number, productId: number, newQuantity: number) => {
+    setStocksArray((prevStocksArray: any) =>
+      prevStocksArray.map((warehouse: any) => {
+        if (warehouse.warehouseId === warehouseId) {
+          return {
+            ...warehouse,
+            stock: warehouse.stock.map((stockItem: any) => {
+              if (stockItem.product.id === productId) {
+                return { ...stockItem, quantity: newQuantity }
+              }
+              return stockItem
+            }),
+          }
+        }
+        return warehouse
+      }),
+    )
   }
 
   return (
@@ -73,16 +78,12 @@ const StartShiftPage = () => {
               show={showModal}
               onSubmit={async (form: any) => {
                 const { quantity } = form
-                //TODO: set initial stock of selectedProduct
-                //Make sure initial stock doesnt exceed actual stock or equals zero
-                handleSubmit(selectedProduct, quantity)
+                updateStockArray(selectedWarehouse.id, selectedProduct.id, quantity)
                 setShowModal(false)
               }}
             />
           )}
-          {selectedWarehouse === undefined && (
-            <InfoCard infoText="Seleccioná un depósito para comenzar el turno" />
-          )}
+          <InfoCard infoText="Registrá stocks iniciales para comenzar el turno" />
           <OutlinedSelect
             label="Seleccioná un depósito"
             options={warehouses}
@@ -91,35 +92,35 @@ const StartShiftPage = () => {
             setOption={(option) => setSelectedWarehouse(option)}
           />
           {selectedWarehouse !== undefined && (
-            <>
-              <Table
-                headerFont="geist"
-                onClickRow={(row) => {
-                  console.log(row.product)
-                  setShowModal(true)
-                  setSelectedProduct(row.product)
-                }}
-                columns={[
-                  {
-                    key: 'name',
-                    title: 'Nombre',
-                    width: '70%',
-                    getValue: (row) => row.product.name,
-                    align: 'flex-start',
-                  },
-                  {
-                    key: 'quantity',
-                    title: 'Inicial',
-                    getValue: (row) => 0, //should be equal to initial stock
-                    width: '30%',
-                    align: 'flex-end',
-                  },
-                ]}
-                rows={selectedWarehouse?.stock}
-              />
-              <StyledButton label="Iniciar turno" onPress={handleStartShift} />
-            </>
+            <Table
+              headerFont="geist"
+              onClickRow={(row) => {
+                setShowModal(true)
+                setSelectedProduct(row.product)
+              }}
+              columns={[
+                {
+                  key: 'name',
+                  title: 'Nombre',
+                  width: '70%',
+                  getValue: (row) => row.product.name,
+                  align: 'flex-start',
+                },
+                {
+                  key: 'quantity',
+                  title: 'Inicial',
+                  getValue: (row) => row.quantity,
+                  width: '30%',
+                  align: 'flex-end',
+                },
+              ]}
+              rows={
+                stocksArray.find((item: any) => item.warehouseId === selectedWarehouse.id)?.stock
+              }
+            />
           )}
+
+          <StyledButton label="Iniciar turno" onPress={handleStartShift} />
         </View>
       </ScrollView>
     </Container>

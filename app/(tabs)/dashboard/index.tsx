@@ -70,6 +70,14 @@ const Dashboard = () => {
                 }}
               />
             </View>
+            <IconCard
+              icon="time-outline"
+              color={shift ? 'yellow' : 'primary'}
+              text={shift ? 'Turno en curso' : 'Iniciar turno'}
+              onPress={() => {
+                shift ? endShift() : startShift()
+              }}
+            />
             <CardLineChart data={lineData} />
             <IconCard
               icon="bar-chart-outline"
@@ -77,14 +85,6 @@ const Dashboard = () => {
               text="Reportes"
               onPress={() => {
                 router.push('/dashboard/reports')
-              }}
-            />
-            <IconCard
-              icon="time-outline"
-              color={shift ? 'yellow' : 'primary'}
-              text={shift ? 'Turno en curso' : 'Iniciar turno'}
-              onPress={() => {
-                shift ? endShift() : startShift()
               }}
             />
           </View>
