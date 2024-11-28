@@ -24,7 +24,7 @@ const Dashboard = () => {
     { value: 75 },
   ]
   function endShift() {
-    router.push('/dashboard/endshift')
+    router.push('/dashboard/egress')
   }
 
   function startShift() {

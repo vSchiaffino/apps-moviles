@@ -10,7 +10,7 @@ import Table from '@/components/Table/Table'
 import { SetEndModal } from './SetEndModal'
 import useShift from '@/hooks/useShift'
 import StyledButton from '@/components/StyledButton'
-import { router, useNavigation } from 'expo-router'
+import { useNavigation } from 'expo-router'
 import { CommonActions } from '@react-navigation/native'
 
 const EndShiftPage = () => {
@@ -23,7 +23,7 @@ const EndShiftPage = () => {
   const navigation = useNavigation()
   const [stocksArray, setStocksArray] = useState(warehouses)
 
-  const { shift, start, end } = useShift()
+  const { end } = useShift()
 
   useEffect(() => {
     if (!stocksArray && !selectedWarehouse && warehouses && warehouses.length > 0) {
