@@ -14,6 +14,8 @@ import { useRoute } from '@react-navigation/native'
 import IconButton from '@/components/IconButton'
 import InfoCard from '@/components/InfoCard'
 import { router } from 'expo-router'
+import useShift from '@/hooks/useShift'
+import { SetEgressModal } from './SetEgressModal'
 
 const WarehouseDetailPage = () => {
   const {
@@ -24,9 +26,15 @@ const WarehouseDetailPage = () => {
   const { warehouse, refetch } = useWarehouseDetail(+id)
   const [showModal, setShowModal] = React.useState(false)
   const [selectedProduct, setSelectedProduct] = React.useState<any>(null)
+  const { shift } = useShift()
 
   const noProducts = products === undefined || products.length === 0
   const message = noProducts ? 'Añadí productos aquí' : 'Tocá el botón de arriba para añadir stock'
+
+  const setEgress = (productId: number, quantity: number) => {
+    console.log({ productId: productId, quantity: quantity })
+  }
+
   return (
     warehouse && (
       <Container style={{ gap: Spacing.rowGap, paddingHorizontal: 16 }}>
@@ -34,7 +42,7 @@ const WarehouseDetailPage = () => {
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ gap: 15, marginTop: 16 }}
         >
-          {showModal && (
+          {showModal && !shift ? (
             <AddStockModal
               selectedProduct={selectedProduct}
               products={products}
@@ -47,6 +55,18 @@ const WarehouseDetailPage = () => {
                   quantity: parseInt(quantity),
                 })
                 await refetch()
+                setShowModal(false)
+              }}
+            />
+          ) : (
+            <SetEgressModal
+              selectedProduct={selectedProduct}
+              products={products}
+              setShow={setShowModal}
+              show={showModal}
+              onSubmit={async (form: any) => {
+                const { quantity } = form
+                setEgress(selectedProduct.id, quantity) //implement egress
                 setShowModal(false)
               }}
             />
