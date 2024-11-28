@@ -3,9 +3,8 @@ import { View, ScrollView, StyleSheet, Dimensions } from 'react-native'
 import { BarChart } from 'react-native-gifted-charts'
 import Typography from '@/components/Typography'
 import DateSelect from '@/components/DateSelect'
-import SelectDateModal from './StockPage/SelectDateModal'
+import SelectDateModal from '@/pages/StockPage/SelectDateModal'
 import StyledButton from '@/components/StyledButton'
-import { Colors } from '@/constants/Colors'
 import { useReportData } from '@/hooks/useReportData'
 
 interface Sale {
@@ -24,7 +23,7 @@ interface APIResponse {
   stockLevels: { date: string; products: ProductStock[] }[]
 }
 
-const ReportsScreen = () => {
+const ReportExample = () => {
   const [selectedInitialDate, setSelectedInitialDate] = useState('')
   const [selectedFinalDate, setSelectedFinalDate] = useState('')
   const [initialModalVisible, setInitialModalVisible] = useState(false)
@@ -179,4 +178,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default ReportsScreen
+export default ReportExample
