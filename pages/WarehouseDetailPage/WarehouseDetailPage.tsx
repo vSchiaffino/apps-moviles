@@ -31,8 +31,8 @@ const WarehouseDetailPage = () => {
   const noProducts = products === undefined || products.length === 0
   const message = noProducts ? 'Añadí productos aquí' : 'Tocá el botón de arriba para añadir stock'
 
-  const setEgress = (productId: number, quantity: number) => {
-    console.log({ productId: productId, quantity: quantity })
+  const setEgress = (warehouseId: number, productId: number, quantity: number) => {
+    console.log({ warehouseId: warehouseId, productId: productId, quantity: quantity })
   }
 
   return (
@@ -66,7 +66,7 @@ const WarehouseDetailPage = () => {
               show={showModal}
               onSubmit={async (form: any) => {
                 const { quantity } = form
-                setEgress(selectedProduct.id, quantity) //implement egress
+                setEgress(warehouse.id, selectedProduct.id, quantity) //implement egress
                 setShowModal(false)
               }}
             />
