@@ -17,7 +17,7 @@ const StartShiftPage = () => {
   const [selectedProduct, setSelectedProduct] = useState<any>(undefined)
   const defaultPagination = { page: 1, limit: 999 }
   const defaultSort: Sort = { field: 'name', direction: 'ASC' }
-  const { warehouses, total } = useWarehouses(defaultPagination, defaultSort)
+  const { warehouses } = useWarehouses(defaultPagination, defaultSort)
   const [selectedWarehouse, setSelectedWarehouse] = useState<any>()
   const [showModal, setShowModal] = useState(false)
   const navigation = useNavigation()

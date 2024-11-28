@@ -17,19 +17,28 @@ const EndShiftPage = () => {
   const [selectedProduct, setSelectedProduct] = useState<any>(undefined)
   const defaultPagination = { page: 1, limit: 999 }
   const defaultSort: Sort = { field: 'name', direction: 'ASC' }
-  const { warehouses, total } = useWarehouses(defaultPagination, defaultSort)
+  const { warehouses } = useWarehouses(defaultPagination, defaultSort)
   const [selectedWarehouse, setSelectedWarehouse] = useState<any>()
   const [showModal, setShowModal] = useState(false)
   const navigation = useNavigation()
+  const [stocksArray, setStocksArray] = useState(warehouses)
+
   const { shift, start, end } = useShift()
 
   useEffect(() => {
-    if (!selectedWarehouse && warehouses && warehouses.length > 0) {
+    if (!stocksArray && !selectedWarehouse && warehouses && warehouses.length > 0) {
       setSelectedWarehouse(warehouses[0])
+      setStocksArray(
+        warehouses?.map((warehouse: any) => ({
+          warehouseId: warehouse.id,
+          stock: warehouse.stock,
+        })),
+      )
     }
   }, [warehouses])
 
   const handleEndShift = () => {
+    //send stocksArray to endpoints
     end()
     navigation.dispatch(CommonActions.reset({ index: 0, routes: [{ name: 'dashboard' }] }))
     Alert.alert('Aviso', 'El turno se terminó correctamente', [
@@ -37,6 +46,25 @@ const EndShiftPage = () => {
         text: 'OK',
       },
     ])
+  }
+
+  const updateStockArray = (warehouseId: number, productId: number, newQuantity: number) => {
+    setStocksArray((prevStocksArray: any) =>
+      prevStocksArray.map((warehouse: any) => {
+        if (warehouse.warehouseId === warehouseId) {
+          return {
+            ...warehouse,
+            stock: warehouse.stock.map((stockItem: any) => {
+              if (stockItem.product.id === productId) {
+                return { ...stockItem, quantity: newQuantity }
+              }
+              return stockItem
+            }),
+          }
+        }
+        return warehouse
+      }),
+    )
   }
 
   return (
@@ -50,6 +78,7 @@ const EndShiftPage = () => {
               show={showModal}
               onSubmit={async (form: any) => {
                 const { quantity } = form
+                updateStockArray(selectedWarehouse.id, selectedProduct.id, quantity)
                 setShowModal(false)
               }}
             />
@@ -66,7 +95,6 @@ const EndShiftPage = () => {
             <Table
               headerFont="geist"
               onClickRow={(row) => {
-                console.log(row.product)
                 setShowModal(true)
                 setSelectedProduct(row.product)
               }}
@@ -86,7 +114,9 @@ const EndShiftPage = () => {
                   align: 'flex-end',
                 },
               ]}
-              rows={selectedWarehouse?.stock}
+              rows={
+                stocksArray.find((item: any) => item.warehouseId === selectedWarehouse.id)?.stock
+              }
             />
           )}
           <StyledButton label="Terminar turno" onPress={handleEndShift} />
