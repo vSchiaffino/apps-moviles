@@ -84,7 +84,7 @@ const Dashboard = () => {
               color={'primary'}
               text="Reportes"
               onPress={() => {
-                router.push('/dashboard/reports')
+                router.push('/reports')
               }}
             />
           </View>

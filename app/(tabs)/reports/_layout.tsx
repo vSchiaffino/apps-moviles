@@ -6,16 +6,14 @@ const StackLayout = () => {
   const scheme = useColorScheme()
   return (
     <Stack
-      initialRouteName="dashboard"
+      initialRouteName="reports"
       screenOptions={{
         headerTitleStyle: { fontSize: 24 },
         headerTitleAlign: 'center',
       }}
     >
-      <Stack.Screen name="index" options={{ headerShown: false }} />
-      <Stack.Screen name="startshift" options={{ headerTitle: 'Iniciar Turno' }} />
-      <Stack.Screen name="endshift" options={{ headerTitle: 'Terminar Turno' }} />
-      <Stack.Screen name="egress" options={{ headerTitle: 'Egresos' }} />
+      <Stack.Screen name="index" options={{ headerTitle: 'Reportes'}} />
+      <Stack.Screen name="reportsExample" options={{ headerTitle: 'Reporte Ejemplo'}} />
     </Stack>
   )
 }
