@@ -1,4 +1,4 @@
-import { View } from 'react-native'
+import { Alert, View } from 'react-native'
 import React from 'react'
 import { useWarehouseDetail } from '@/hooks/useWarehouseDetail'
 import { Spacing } from '@/constants/Spacing'
@@ -82,12 +82,17 @@ const WarehouseDetailPage = () => {
           >
             <Typography variant="h5">Productos en stock</Typography>
             <IconButton
+              disabled={shift}
               icon="add-circle-outline"
               size={24}
               style={{ backgroundColor: 'transparent' }}
               onPress={() => {
-                noProducts ? router.push('/products') : setSelectedProduct(null)
-                setShowModal(true)
+                if (!shift) {
+                  noProducts ? router.push('/products') : setSelectedProduct(null)
+                  setShowModal(true)
+                } else {
+                  Alert.alert('No podés añadir stock cuando hay un turno activo')
+                }
               }}
             />
           </View>
