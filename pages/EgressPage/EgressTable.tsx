@@ -5,7 +5,7 @@ import Sort from '@/models/Sort'
 
 const EgressTable: React.FC<{
   onClickRow: (row: any) => void
-  sales: any[] 
+  sales: any[]
   total: number
   sort: Sort
   setSort: (sort: Sort) => void
@@ -36,13 +36,13 @@ const EgressTable: React.FC<{
         onChangeSort={setSort}
         headerFont="geist"
         columns={[
-          { key: 'productName', title: 'Producto', width: '35%', align: 'flex-start' },
-          { key: 'warehouseName', title: 'Depósito', width: '35%', align: 'flex-start' },
+          { key: 'warehouseName', title: 'Depósito', width: '40%', align: 'flex-start' },
+          { key: 'productName', title: 'Producto', width: '40%', align: 'center' },
           {
             key: 'quantity',
-            title: 'Cantidad',
-            width: '30%',
-            align: 'center',
+            title: 'stock',
+            width: '20%',
+            align: 'flex-end',
           },
         ]}
         pagination={{ ...pagination, total }}
@@ -52,6 +52,5 @@ const EgressTable: React.FC<{
     )
   )
 }
-
 
 export default EgressTable

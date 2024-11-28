@@ -1,13 +1,13 @@
 import Container from '@/components/Container'
-import { Animated, ScrollView, View } from 'react-native'
+import { Animated, Pressable, ScrollView, View } from 'react-native'
 import React, { useState, useRef, useEffect } from 'react'
 import Pagination from '@/models/Pagination'
 import Sort from '@/models/Sort'
 import InfoCard from '@/components/InfoCard'
-import ActionsList from '@/components/ActionsList'
 import EgressTable from './EgressTable'
 import StyledButton from '@/components/StyledButton'
 import { router } from 'expo-router'
+import { Spacing } from '@/constants/Spacing'
 
 const EgressPage = () => {
   const [pagination, setPagination] = useState<Pagination>({
@@ -89,7 +89,7 @@ const EgressPage = () => {
   }, [selectedRow])
 
   function handleSubmit(): void {
-    console.log("Turno Terminado IMPLEMENTAR")
+    console.log('Turno Terminado IMPLEMENTAR')
     router.push('/(tabs)/dashboard/endshift')
   }
 
@@ -100,34 +100,29 @@ const EgressPage = () => {
         style={{ height: '100%' }}
         contentContainerStyle={{ paddingBottom: 250 }}
       >
-        <View style={{ paddingLeft: 16, paddingRight: 16 }}>
+        <View style={{ padding: 16, gap: Spacing.rowGap }}>
           {flattenedSales && flattenedSales.length !== 0 ? (
-            <><EgressTable
-              onClickRow={() => { } }
-              selectedRow={selectedRow}
-              pagination={pagination}
-              sales={flattenedSales.slice(
-                (pagination.page - 1) * pagination.limit,
-                pagination.page * pagination.limit
-              )}
-              setPagination={setPagination}
-              setSort={setSort}
-              sort={sort}
-              total={total}
-              onLongPressRow={(row: any) => {
-                selectedRow !== undefined && selectedRow.id !== row.id
-                  ? setSelectedRow(row)
-                  : selectedRow === undefined
-                    ? setSelectedRow(row)
-                    : setSelectedRow(undefined)
-              } } />
-              <View style={{marginVertical:'5%'}}>
-                <StyledButton label="Cerrar turno" onPress={handleSubmit} />
-              </View>
-              </>
-            
+            <>
+              <EgressTable
+                onClickRow={() => {}}
+                selectedRow={selectedRow}
+                pagination={pagination}
+                sales={flattenedSales.slice(
+                  (pagination.page - 1) * pagination.limit,
+                  pagination.page * pagination.limit,
+                )}
+                setPagination={setPagination}
+                setSort={setSort}
+                sort={sort}
+                total={total}
+                onLongPressRow={() => {}}
+              />
+              <StyledButton label="Cerrar turno" onPress={handleSubmit} />
+            </>
           ) : (
-            <InfoCard infoText="No hay ventas registradas." />
+            <Pressable onPress={() => router.push('/warehouse')}>
+              <InfoCard infoText="No hay egresos registrados. Empezá a registar egresos en la pantalla de depósitos tocando aquí" />
+            </Pressable>
           )}
         </View>
       </ScrollView>
