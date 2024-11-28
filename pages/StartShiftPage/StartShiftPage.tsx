@@ -26,10 +26,16 @@ const StartShiftPage = () => {
   const defaultSort: Sort = { field: 'name', direction: 'ASC' }
   const { warehouses, total } = useWarehouses(defaultPagination, defaultSort)
   const [pagination, setPagination] = React.useState<Pagination>({ page: 1, limit: 5 })
-  const [selectedWarehouse, setSelectedWarehouse] = useState<any>(warehouses?.first)
+  const [selectedWarehouse, setSelectedWarehouse] = useState<any>()
   const [showModal, setShowModal] = useState(false)
   const navigation = useNavigation()
 
+  useEffect(() => {
+    console.log('useEffect')
+    if (!selectedWarehouse && warehouses && warehouses.length > 0) {
+      setSelectedWarehouse(warehouses[0])
+    }
+  }, [warehouses])
   const { shift, start, end } = useShift()
 
   //TODO: erase this when initial stock assignation is done
