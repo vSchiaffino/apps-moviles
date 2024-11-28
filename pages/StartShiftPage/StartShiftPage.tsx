@@ -12,6 +12,7 @@ import useShift from '@/hooks/useShift'
 import StyledButton from '@/components/StyledButton'
 import { useNavigation } from 'expo-router'
 import { CommonActions } from '@react-navigation/native'
+import Typography from '@/components/Typography'
 
 const StartShiftPage = () => {
   const [selectedProduct, setSelectedProduct] = useState<any>(undefined)
@@ -91,7 +92,7 @@ const StartShiftPage = () => {
             renderOption={(option) => option.name}
             setOption={(option) => setSelectedWarehouse(option)}
           />
-          {selectedWarehouse !== undefined && (
+          {selectedWarehouse !== undefined && selectedWarehouse.stock.length !== 0 ? (
             <Table
               headerFont="geist"
               onClickRow={(row) => {
@@ -118,6 +119,10 @@ const StartShiftPage = () => {
                 stocksArray.find((item: any) => item.warehouseId === selectedWarehouse.id)?.stock
               }
             />
+          ) : (
+            <Typography justify="center" variant="body">
+              Este depósito no tiene productos...
+            </Typography>
           )}
 
           <StyledButton label="Iniciar turno" onPress={handleStartShift} />
