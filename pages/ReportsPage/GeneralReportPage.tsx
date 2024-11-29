@@ -36,8 +36,8 @@ const GeneralReport = () => {
       useReportHook={useReportData} 
       calculateData={calculateData}
       subtitle="Comparación de Ventas y Disminución de Stock"
-      xAxisLabel="Días"
-      yAxisLabel="Unidades por pérdida"
+      xAxisLabel="Turnos"
+      yAxisLabel="Unidades perdidas"
     />
   );
 };

@@ -41,9 +41,9 @@ const ProductReport: React.FC = () => {
     <ReportComponent
       useReportHook={useReportHook}
       calculateData={calculateData}
-      subtitle="Comparación de Ventas y Disminución de Stock"
-      xAxisLabel="Días"
-      yAxisLabel="Unidades por pérdida"
+      subtitle="Comparación de Ventas y Disminución de Stock por Producto"
+      xAxisLabel="Productos"
+      yAxisLabel="Unidades perdidas"
     />
   );
 };
