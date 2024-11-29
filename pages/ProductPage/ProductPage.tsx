@@ -86,7 +86,6 @@ const ProductsPage = () => {
                   setEditingProduct(selectedRow)
                   setShowModal(true)
                   setSelectedRow(undefined)
-                  setSelectedRow(undefined)
                 } else {
                   Alert.alert(
                     'Turno activo',

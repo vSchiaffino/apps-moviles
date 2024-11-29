@@ -118,7 +118,7 @@ const WarehousePage = () => {
                 onPress: () => toggleView(),
               },
             ]}
-            aditionalIcons={[
+            additionalIcons={[
               {
                 icon: 'create-outline',
                 onPress: () => {

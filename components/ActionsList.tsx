@@ -1,9 +1,8 @@
 import { View, Text, Animated } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import IconList from '@/pages/IconList'
-import { Spacing } from '@/constants/Spacing'
 
-const ActionsList = ({ isRowSelected, mainIcons = [], aditionalIcons = [] }: any) => {
+const ActionsList = ({ isRowSelected, mainIcons = [], additionalIcons = [] }: any) => {
   const fadeAnim = useRef(new Animated.Value(1)).current
   const [hasFadedIn, setHasFadedIn] = useState(true)
 
@@ -28,7 +27,7 @@ const ActionsList = ({ isRowSelected, mainIcons = [], aditionalIcons = [] }: any
       }}
     >
       <Animated.View style={{ opacity: fadeAnim }}>
-        <IconList icons={isRowSelected ? aditionalIcons : mainIcons} />
+        <IconList icons={isRowSelected ? additionalIcons : mainIcons} />
       </Animated.View>
     </View>
   )
