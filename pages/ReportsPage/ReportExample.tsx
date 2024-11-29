@@ -111,7 +111,9 @@ const ReportExample = () => {
           visible={finalModalVisible}
           setVisible={setFinalModalVisible}
         />
-        <StyledButton label="Ver reportes" onPress={() => setShowReport(true)} />
+        <View style={{marginBottom:'5%'}}>
+          <StyledButton label="Ver reportes" onPress={() => setShowReport(true)} />
+        </View>
         {showReport && selectedInitialDate!=='' && selectedFinalDate!=='' ? (
           <View style={styles.chartContainer}>
             <Typography variant="subtitle" style={[styles.centeredText, { marginTop: 24 }]}>
