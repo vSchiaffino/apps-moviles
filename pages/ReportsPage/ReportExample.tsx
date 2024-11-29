@@ -17,6 +17,8 @@ const ReportExample = () => {
   const [showReport, setShowReport] = useState(false)
   const { report } = useReportData(selectedInitialDate, selectedFinalDate)
   const sum = (array: number[]) => array.reduce((a, b) => a + b, 0)
+  // const data = null
+  // Este report es para el stock general
   const data = report
     ?.map((report) => ({
       label: new Date(report.startDate)
@@ -32,6 +34,34 @@ const ReportExample = () => {
       id: report.id,
     }))
     .filter((r) => r.value > 0)
+
+  // Este es el codigo para report de productos
+  // const products = Array.from(
+  //   new Map(
+  //     report
+  //       ?.flatMap((r) =>
+  //         r.missing.flatMap((m) =>
+  //           m.stock.map((s) => ({ id: s.productId, name: s.product?.name })),
+  //         ),
+  //       )
+  //       .filter((product) => product.name !== undefined)
+  //       .map((product) => [product.id, product]),
+  //   ).values(),
+  // )
+  // const data = products.map(({ id, name }) => ({
+  //   label: name,
+  //   value: sum(
+  //     report
+  //       ?.flatMap((r) =>
+  //         r.missing.flatMap((m) =>
+  //           m.stock.filter((s) => s.productId === id).map((s) => s.quantity),
+  //         ),
+  //       )
+  //       .filter((q) => q > 0),
+  //   ),
+  // }))
+  // console.log(data)
+  // Este es el codigo de reports de depositos
 
   // gon este state es un ejemplo nomas de como podes usar el hook useOneShiftData para mostrar
   // despues el detalle de un shift en particular cuando tocan en el grafico
