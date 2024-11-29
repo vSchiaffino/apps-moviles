@@ -41,6 +41,7 @@ const WarehouseDetailPage = () => {
         <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ gap: 15, marginTop: 16 }}
+          keyboardShouldPersistTaps="handled"
         >
           {showModal && !shift ? (
             <AddStockModal

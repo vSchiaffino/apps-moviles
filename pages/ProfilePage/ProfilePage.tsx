@@ -10,7 +10,7 @@ import ChangePasswordTab from './ChangePasswordTab'
 import StyledButton from '@/components/StyledButton'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useAuthorizedUser } from '@/hooks/useUser'
-import { View } from 'react-native'
+import { KeyboardAvoidingView, Platform, View } from 'react-native'
 import { router } from 'expo-router'
 
 const ProfilePage = () => {
@@ -43,6 +43,7 @@ const ProfilePage = () => {
           paddingBottom: 76,
         }}
         showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
       >
         <ChangeProfilePictureModal
           saveImage={saveImage}

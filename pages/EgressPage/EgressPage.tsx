@@ -99,6 +99,7 @@ const EgressPage = () => {
         showsVerticalScrollIndicator={false}
         style={{ height: '100%' }}
         contentContainerStyle={{ paddingBottom: 250 }}
+        keyboardShouldPersistTaps="handled"
       >
         <View style={{ padding: 16, gap: Spacing.rowGap }}>
           {flattenedSales && flattenedSales.length !== 0 ? (

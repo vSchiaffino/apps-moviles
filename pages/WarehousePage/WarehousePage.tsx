@@ -75,6 +75,7 @@ const WarehousePage = () => {
           />
         )}
         <ScrollView
+          keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
           style={{ height: '100%' }}
           contentContainerStyle={{ paddingBottom: 250 }}
