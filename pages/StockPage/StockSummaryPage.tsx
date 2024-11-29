@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, FlatList, Pressable, Text, TextInput, StyleSheet } from 'react-native'
+import { View, FlatList, Pressable, Text, TextInput, StyleSheet, ScrollView } from 'react-native'
 import IconButton from '@/components/IconButton'
 import MutateEntityModal from '@/components/MutateEntityModal'
 import Container from '@/components/Container'
@@ -70,6 +70,7 @@ const StockSummaryPage = () => {
 
         <IconButton size={32} icon="add-outline" color="white" onPress={openModal} />
         <FlatList
+          keyboardShouldPersistTaps="handled"
           data={filteredItems}
           keyExtractor={(item) => item.id}
           contentContainerStyle={{ paddingTop: 16, paddingBottom: 80 }}

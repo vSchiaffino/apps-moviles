@@ -28,6 +28,7 @@ const StockManagerPage: React.FC = () => {
           paddingBottom: 120,
           gap: Spacing.rowGap,
         }}
+        keyboardShouldPersistTaps="handled"
       >
         <DateSelect
           label="Fecha del resumen"

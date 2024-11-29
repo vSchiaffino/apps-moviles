@@ -1,6 +1,5 @@
 import Container from '@/components/Container'
-import { Colors } from '@/constants/Colors'
-import { Animated, View } from 'react-native'
+import { Alert, Animated, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import React, { useEffect, useRef, useState } from 'react'
 import ProductModal from './ProductModal'
@@ -10,6 +9,7 @@ import Pagination from '@/models/Pagination'
 import Sort from '@/models/Sort'
 import ActionsList from '@/components/ActionsList'
 import InfoCard from '@/components/InfoCard'
+import useShift from '@/hooks/useShift'
 
 const ProductsPage = () => {
   const [pagination, setPagination] = React.useState<Pagination>({
@@ -27,6 +27,8 @@ const ProductsPage = () => {
   const [selectedRow, setSelectedRow] = useState<any>(undefined)
   const fadeAnim = useRef(new Animated.Value(1)).current
   const [hasFadedIn, setHasFadedIn] = useState(true)
+
+  const { shift } = useShift()
 
   useEffect(() => {
     if (hasFadedIn) {
@@ -63,22 +65,52 @@ const ProductsPage = () => {
         showsVerticalScrollIndicator={false}
         style={{ height: '100%' }}
         contentContainerStyle={{ paddingBottom: 250 }}
+        keyboardShouldPersistTaps="handled"
       >
         <ActionsList
           isRowSelected={selectedRow}
-          onPressCreate={() => {
-            setEditingProduct(null)
-            setShowModal(true)
-          }}
-          onPressDelete={() => {
-            setSelectedRow(undefined)
-            remove(selectedRow.id)
-          }}
-          onPressEdit={() => {
-            setEditingProduct(selectedRow)
-            setShowModal(true)
-            setSelectedRow(undefined)
-          }}
+          mainIcons={[
+            {
+              icon: 'add-circle-outline',
+              onPress: () => {
+                setEditingProduct(null)
+                setShowModal(true)
+              },
+            },
+          ]}
+          additionalIcons={[
+            {
+              icon: 'create-outline',
+              onPress: () => {
+                if (!shift) {
+                  setEditingProduct(selectedRow)
+                  setShowModal(true)
+                  setSelectedRow(undefined)
+                } else {
+                  Alert.alert(
+                    'Turno activo',
+                    'No podés editar un producto mientras un turno está activo',
+                  )
+                }
+              },
+              disabled: shift,
+            },
+            {
+              icon: 'trash-outline',
+              onPress: () => {
+                if (!shift) {
+                  setSelectedRow(undefined)
+                  remove(selectedRow.id)
+                } else {
+                  Alert.alert(
+                    'Turno activo',
+                    'No podés eliminar un producto mientras un turno está activo',
+                  )
+                }
+              },
+              disabled: shift,
+            },
+          ]}
         />
         <View style={{ paddingLeft: 16, paddingRight: 16 }}>
           {products === undefined ? (

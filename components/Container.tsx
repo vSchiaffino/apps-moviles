@@ -1,7 +1,17 @@
-import { View, Text, StyleProp, ViewStyle, Animated, Easing, useColorScheme } from 'react-native'
+import {
+  View,
+  Text,
+  StyleProp,
+  ViewStyle,
+  Animated,
+  Easing,
+  useColorScheme,
+  KeyboardAvoidingView,
+} from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import { Colors } from '@/constants/Colors'
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native'
+import { ScrollView } from 'react-native-gesture-handler'
 
 export interface ContainerProps {
   children: React.ReactNode
@@ -23,16 +33,18 @@ const Container: React.FC<ContainerProps> = ({ children, style, animated = true 
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Animated.View
-        style={{
-          // transform: animated ? [{ translateX: slideAnim }] : undefined,
-          width: '100%',
-          backgroundColor: colorScheme === 'dark' ? DarkTheme : DefaultTheme,
-          ...Object(style),
-        }}
-      >
-        {children}
-      </Animated.View>
+      <KeyboardAvoidingView behavior="height">
+        <Animated.View
+          style={{
+            // transform: animated ? [{ translateX: slideAnim }] : undefined,
+            width: '100%',
+            backgroundColor: colorScheme === 'dark' ? DarkTheme : DefaultTheme,
+            ...Object(style),
+          }}
+        >
+          {children}
+        </Animated.View>
+      </KeyboardAvoidingView>
     </ThemeProvider>
   )
 }

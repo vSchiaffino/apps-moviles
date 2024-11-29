@@ -68,7 +68,11 @@ const EndShiftPage = () => {
 
   return (
     <Container>
-      <ScrollView showsVerticalScrollIndicator={false} style={{ height: '100%' }}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={{ height: '100%' }}
+        keyboardShouldPersistTaps="handled"
+      >
         <View style={{ gap: Spacing.rowGap, padding: 16, paddingTop: 30 }}>
           {showModal && (
             <SetEndModal
