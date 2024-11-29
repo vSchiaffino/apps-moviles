@@ -9,7 +9,7 @@ import { useReportData } from '@/hooks/useReportData'
 import InfoCard from '@/components/InfoCard'
 import useOneShiftData from '@/hooks/useOneShiftData'
 
-const ReportExample = () => {
+const WarehouseReport = () => {
   const [selectedInitialDate, setSelectedInitialDate] = useState('')
   const [selectedFinalDate, setSelectedFinalDate] = useState('')
   const [initialModalVisible, setInitialModalVisible] = useState(false)
@@ -18,52 +18,6 @@ const ReportExample = () => {
   const { report } = useReportData(selectedInitialDate, selectedFinalDate)
   const sum = (array: number[]) => array.reduce((a, b) => a + b, 0)
 
-  // --------------  Decomentar report es para el stock general
-  // const data = report
-  //   ?.map((report) => ({
-  //     label: new Date(report.startDate)
-  //       .toLocaleString('es-ES', {
-  //         day: '2-digit',
-  //         month: '2-digit',
-  //         hour: '2-digit',
-  //         minute: '2-digit',
-  //         hour12: false,
-  //       })
-  //       .replace(',', ''),
-  //     value: sum(report.missing.map((missing) => sum(missing.stock.map((s) => s.quantity)))),
-  //     id: report.id,
-  //   }))
-  //   .filter((r) => r.value > 0)
-  // -------------------------------------------------------
-
-  // ---------  Descomentar el codigo para report de productos
-  // const products = Array.from(
-  //   new Map(
-  //     report
-  //       ?.flatMap((r) =>
-  //         r.missing.flatMap((m) =>
-  //           m.stock.map((s) => ({ id: s.productId, name: s.product?.name })),
-  //         ),
-  //       )
-  //       .filter((product) => product.name !== undefined)
-  //       .map((product) => [product.id, product]),
-  //   ).values(),
-  // )
-  // const data = products.map(({ id, name }) => ({
-  //   label: name,
-  //   value: sum(
-  //     report
-  //       ?.flatMap((r) =>
-  //         r.missing.flatMap((m) =>
-  //           m.stock.filter((s) => s.productId === id).map((s) => s.quantity),
-  //         ),
-  //       )
-  //       .filter((q) => q > 0),
-  //   ),
-  // }))
-  // -------------------------------------------------------
-
-  // ---- Descomentar para ver el reporte de depositos -----
   const warehouses =
     report &&
     Array.from(
@@ -86,64 +40,12 @@ const ReportExample = () => {
         .filter((q) => q > 0),
     ),
   }))
-  // -------------------------------------------------------
 
   // gon este state es un ejemplo nomas de como podes usar el hook useOneShiftData para mostrar
   // despues el detalle de un shift en particular cuando tocan en el grafico
   const [id, setId] = useState<number | undefined>(undefined)
   const { shift } = useOneShiftData(id)
   console.log('shift', shift)
-
-  // report.forEach((r) => console.log(r.missing))
-  // const processDataForCharts = () => {
-  //   if (!report) return { barData: [], lineData: [] }
-
-  //   let barData: any[] = []
-  //   let lineData: any[] = []
-
-  //   // Pérdidas por fecha
-  //   report.sales.forEach((sale) => {
-  //     // Filtrar los registros de stock para la fecha de la venta
-  //     const stockOnSaleDate = report.stockLevels.filter((stock) => stock.date === sale.date)
-
-  //     // Si no hay registros de stock para esa fecha, no se procesan las pérdidas
-  //     if (stockOnSaleDate.length === 0) {
-  //       return // No hay stock para esta fecha, por lo que no se cuentan pérdidas
-  //     }
-
-  //     let totalSales = sale.products.reduce((sum: any, product: any) => sum + product.quantity, 0)
-  //     let totalLosses = 0
-
-  //     // Comparar ventas con stock para cada producto en la fecha de venta
-  //     stockOnSaleDate.forEach((stock) => {
-  //       stock.products.forEach((product) => {
-  //         const stockChange = product.initialStock - product.finalStock
-  //         const actualSales =
-  //           sale.products.find((p) => p.productId == (product.productId as any))?.quantity || 0
-  //         const validLoss = stockChange >= actualSales ? stockChange - actualSales : 0
-  //         totalLosses += validLoss
-  //       })
-  //     })
-
-  //     // Si hubo una pérdida, se agrega al gráfico de barras
-  //     if (totalLosses > 0) {
-  //       barData.push({
-  //         label: sale.date,
-  //         value: totalLosses,
-  //       })
-  //     }
-  //   })
-
-  //   return { barData, lineData }
-  // }
-
-  // const { barData, lineData } = processDataForCharts()
-
-  const screenWidth = Dimensions.get('window').width
-  const barWidth = 30
-  // const chartWidth = Math.min(barData.length * barWidth, screenWidth * 0.8)
-  const maxDays = 5
-  // const displayedData = barData.slice(-maxDays)
 
   return (
     <ScrollView style={{ height: '100%' }}>
@@ -246,4 +148,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default ReportExample
+export default WarehouseReport

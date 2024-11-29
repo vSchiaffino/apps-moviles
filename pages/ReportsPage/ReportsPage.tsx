@@ -17,9 +17,9 @@ const ReportsScreen = () => {
               gap: 20,
             }}
           >
-            <IconCard icon={'podium-outline'} color={'primary'} text={'Perdida de Stock General'} onPress={()=>{router.push('/reports/reportsExample')}}></IconCard>
-            <IconCard icon={'beer-outline'} color={'primary'} text={'Perdida de stock por Producto' } onPress={()=>{router.push('/reports/reportsExample')}}></IconCard>
-            <IconCard icon={'archive-outline'} color={'primary'} text={'Perdida de stock por Deposito'} onPress={()=>{router.push('/reports/reportsExample')}}></IconCard>
+            <IconCard icon={'podium-outline'} color={'primary'} text={'Perdida de Stock General'} onPress={()=>{router.push('/reports/general-report')}}></IconCard>
+            <IconCard icon={'beer-outline'} color={'primary'} text={'Perdida de stock por Producto' } onPress={()=>{router.push('/reports/product-report')}}></IconCard>
+            <IconCard icon={'archive-outline'} color={'primary'} text={'Perdida de stock por Deposito'} onPress={()=>{router.push('/reports/warehouse-report')}}></IconCard>
           </View>
       </ScrollView>
     </Container>

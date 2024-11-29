@@ -13,7 +13,9 @@ const StackLayout = () => {
       }}
     >
       <Stack.Screen name="index" options={{ headerTitle: 'Reportes'}} />
-      <Stack.Screen name="reportsExample" options={{ headerTitle: 'Reporte Ejemplo'}} />
+      <Stack.Screen name="general-report" options={{ headerTitle: 'Reporte general'}} />
+      <Stack.Screen name="product-report" options={{ headerTitle: 'Reporte de productos'}} />
+      <Stack.Screen name="warehouse-report" options={{ headerTitle: 'Reporte de depositos'}} />
     </Stack>
   )
 }
