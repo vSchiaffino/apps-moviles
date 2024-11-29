@@ -23,13 +23,50 @@ export default function useShift() {
   return {
     ...rest,
     shift: data,
-    start: async () => {
-      await shiftService.start()
+    start: async (stocks: any[]) => {
+      await shiftService.start(
+        stocks.map((stock) => ({
+          warehouseId: stock.warehouseId,
+          stock: stock.stock.map(({ product, quantity }: any) => ({
+            productId: product.id,
+            quantity,
+          })),
+        })),
+      )
       refetch()
     },
-    end: async () => {
-      await shiftService.endCurrent()
+    end: async (stocks: any[]) => {
+      await shiftService.endCurrent(
+        stocks.map((stock) => ({
+          warehouseId: stock.warehouseId,
+          stock: stock.stock.map(({ product, quantity }: any) => ({
+            productId: product.id,
+            quantity,
+          })),
+        })),
+      )
       refetch()
     },
   }
 }
+
+/**
+[
+    {
+        "warehouseId": 10,
+        "stock": [
+            {"productId": 1, "quantity": 2}
+        ]
+    },
+        {
+        "warehouseId": 11,
+        "stock": [
+            {"productId": 1, "quantity": 2},
+            {"productId": 5, "quantity": 2}
+        ]
+    }
+] 
+  
+  
+  
+ */

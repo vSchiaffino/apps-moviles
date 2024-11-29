@@ -39,8 +39,7 @@ const StartShiftPage = () => {
   }, [warehouses])
 
   const handleStartShift = async () => {
-    //send stocksArray to endpoints
-    start()
+    start(stocksArray)
     navigation.dispatch(CommonActions.reset({ index: 0, routes: [{ name: 'dashboard' }] }))
     Alert.alert('Aviso', 'El turno se inició correctamente', [
       {

@@ -12,15 +12,15 @@ export class ShiftsService {
     Error('Server error')
   }
 
-  async endCurrent() {
-    const response = await apiService.post('/shifts/end', {})
+  async endCurrent(stocks: any[]) {
+    const response = await apiService.post('/shifts/end', stocks)
     if (response.status === 201) return
     const { message, field } = await response.json()
     throw new ApiValidationError(message, field)
   }
 
-  async start() {
-    const response = await apiService.post('/shifts', {})
+  async start(stocks: any[]) {
+    const response = await apiService.post('/shifts', stocks)
     if (response.status === 201) return
     const { message, field } = await response.json()
     throw new ApiValidationError(message, field)
