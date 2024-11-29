@@ -14,6 +14,7 @@ export interface Icon {
   onPress?: (event: GestureResponderEvent) => void
   mode?: string
   library?: string
+  disabled?: boolean
 }
 
 const IconList = ({ icons, style }: IconProps) => {
@@ -28,8 +29,9 @@ const IconList = ({ icons, style }: IconProps) => {
         ...style,
       }}
     >
-      {icons.map(({ icon, onPress, mode = 'opacity', library }, index) => (
+      {icons.map(({ icon, onPress, mode = 'opacity', library, disabled }, index) => (
         <IconButton
+          disabled={disabled}
           key={index}
           library={library as any}
           mode={mode as any}

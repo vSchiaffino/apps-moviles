@@ -89,6 +89,7 @@ const EgressPage = () => {
   }, [selectedRow])
 
   function handleSubmit(): void {
+    console.log('Turno Terminado IMPLEMENTAR')
     router.push('/(tabs)/dashboard/endshift')
   }
 

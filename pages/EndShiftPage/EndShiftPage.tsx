@@ -38,8 +38,7 @@ const EndShiftPage = () => {
   }, [warehouses])
 
   const handleEndShift = () => {
-    //send stocksArray to endpoints
-    end()
+    end(stocksArray)
     navigation.dispatch(CommonActions.reset({ index: 0, routes: [{ name: 'dashboard' }] }))
     Alert.alert('Aviso', 'El turno se terminó correctamente', [
       {
