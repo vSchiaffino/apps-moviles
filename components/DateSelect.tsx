@@ -1,9 +1,10 @@
 import React, { useState, useRef } from 'react'
-import { View, Text, StyleSheet, Animated, Pressable } from 'react-native'
+import { View, Text, StyleSheet, Animated, Pressable, useColorScheme } from 'react-native'
 import { MaterialIcons } from '@expo/vector-icons'
 import { Calendar } from 'react-native-calendars'
 import { Colors } from '@/constants/Colors'
 import Typography from './Typography'
+import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native'
 
 export interface DateSelectProps {
   label: string
@@ -24,6 +25,7 @@ const DateSelect: React.FC<DateSelectProps> = ({
   errorMessage = '',
   disabled = false,
 }) => {
+  const scheme = useColorScheme()
   const [isFocused, setIsFocused] = useState(false)
   const animatedValue = useRef(new Animated.Value(0)).current
 
@@ -49,75 +51,77 @@ const DateSelect: React.FC<DateSelectProps> = ({
   }
 
   return (
-    <View style={styles.container}>
-      <Animated.Text
-        style={[
-          styles.label,
-          {
-            backgroundColor: Colors.gray[100],
-            zIndex: isFocused || !isEmpty ? 1 : -1,
-            color: disabled
-              ? Colors.gray[500]
-              : showError
-                ? Colors.danger[600]
-                : isFocused
-                  ? Colors.primary[600]
-                  : Colors.gray[900],
-          },
-          isEmpty
-            ? {
-                transform: [{ translateY: labelPosition }],
-              }
-            : {
-                transform: [{ translateY: -7 }],
-              },
-        ]}
-      >
-        {label}
-      </Animated.Text>
-      <View style={styles.inputWrapper}>
-        <MaterialIcons
-          name="date-range"
-          size={24}
-          color={Colors.gray[900]}
-          style={styles.icon}
-          onPress={onPressIcon}
-        />
-        <Pressable
+    <ThemeProvider value={scheme === 'dark' ? DarkTheme : DefaultTheme}>
+      <View style={styles.container}>
+        <Animated.Text
           style={[
-            styles.input,
+            styles.label,
             {
-              borderWidth: isFocused || showError ? 1.5 : 0.75,
-              borderColor: showError
-                ? Colors.danger[600]
-                : isFocused
-                  ? Colors.primary[600]
-                  : Colors.gray[900],
-              opacity: disabled ? 0.4 : 1,
+              backgroundColor: DefaultTheme.colors.background,
+              zIndex: isFocused || !isEmpty ? 1 : -1,
+              color: disabled
+                ? Colors.gray[500]
+                : showError
+                  ? Colors.danger[600]
+                  : isFocused
+                    ? Colors.primary[600]
+                    : Colors.gray[900],
             },
+            isEmpty
+              ? {
+                  transform: [{ translateY: labelPosition }],
+                }
+              : {
+                  transform: [{ translateY: -7 }],
+                },
           ]}
-          onPress={onPressIcon}
         >
-          <Text style={styles.inputText}>{value || 'Seleccionar fecha'}</Text>
-        </Pressable>
-      </View>
-
-      {showError && errorMessage && (
-        <Typography variant="subtitle" color="danger">
-          {errorMessage}
-        </Typography>
-      )}
-
-      {isFocused && (
-        <View style={styles.calendarContainer}>
-          <Calendar
-            onDayPress={handleDayPress}
-            markedDates={{ [value]: { selected: true, selectedColor: 'blue' } }}
-            monthFormat={'yyyy MMMM'}
+          {label}
+        </Animated.Text>
+        <View style={styles.inputWrapper}>
+          <MaterialIcons
+            name="date-range"
+            size={24}
+            color={Colors.gray[900]}
+            style={styles.icon}
+            onPress={onPressIcon}
           />
+          <Pressable
+            style={[
+              styles.input,
+              {
+                borderWidth: isFocused || showError ? 1.5 : 0.75,
+                borderColor: showError
+                  ? Colors.danger[600]
+                  : isFocused
+                    ? Colors.primary[600]
+                    : Colors.gray[900],
+                opacity: disabled ? 0.4 : 1,
+              },
+            ]}
+            onPress={onPressIcon}
+          >
+            <Text style={styles.inputText}>{value || 'Seleccionar fecha'}</Text>
+          </Pressable>
         </View>
-      )}
-    </View>
+
+        {showError && errorMessage && (
+          <Typography variant="subtitle" color="danger">
+            {errorMessage}
+          </Typography>
+        )}
+
+        {isFocused && (
+          <View style={styles.calendarContainer}>
+            <Calendar
+              onDayPress={handleDayPress}
+              markedDates={{ [value]: { selected: true, selectedColor: 'blue' } }}
+              monthFormat={'yyyy MMMM'}
+            />
+          </View>
+        )}
+      </View>
+    </ThemeProvider>
   )
 }
 
@@ -145,7 +149,7 @@ const styles = StyleSheet.create({
     marginLeft: 4,
   },
   input: {
-    backgroundColor: Colors.gray[100],
+    backgroundColor: DefaultTheme.colors.background,
     position: 'relative',
     borderRadius: 8,
     paddingTop: 12,
@@ -164,7 +168,6 @@ const styles = StyleSheet.create({
     top: 50,
     left: 0,
     right: 0,
-    backgroundColor: '#fff',
     borderRadius: 8,
     elevation: 10,
     padding: 20,

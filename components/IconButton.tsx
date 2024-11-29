@@ -12,6 +12,7 @@ export interface AddButtonProps extends TouchableOpacityProps {
   color?: string
   size?: number
   mode?: 'opacity' | 'highlight'
+  disabled?: boolean
 }
 
 const IconButton: React.FC<AddButtonProps> = ({
@@ -22,6 +23,7 @@ const IconButton: React.FC<AddButtonProps> = ({
   icon,
   color = 'black',
   size,
+  disabled = false,
   ...rest
 }) => {
   const MainComponent: any =
@@ -32,6 +34,7 @@ const IconButton: React.FC<AddButtonProps> = ({
       hitSlop={20}
       style={[
         {
+          opacity: disabled ? 0.3 : 1,
           flexDirection: 'row',
           backgroundColor: Colors.primary[600],
           justifyContent: 'center',

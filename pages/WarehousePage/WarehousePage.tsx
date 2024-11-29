@@ -1,4 +1,4 @@
-import { ScrollView, View } from 'react-native'
+import { Alert, ScrollView, View } from 'react-native'
 import React, { useState } from 'react'
 import Container from '@/components/Container'
 import { Spacing } from '@/constants/Spacing'
@@ -13,6 +13,7 @@ import { useNavigation } from 'expo-router'
 import ActionsList from '@/components/ActionsList'
 import InfoCard from '@/components/InfoCard'
 import { NativeStackNavigationProp } from 'react-native-screens/lib/typescript/native-stack/types'
+import useShift from '@/hooks/useShift'
 
 export type WarehouseStackParamList = {
   'warehouse-page': undefined
@@ -36,6 +37,9 @@ const WarehousePage = () => {
   const [showSaveModal, setShowSaveModal] = useState(false)
   const [showTransferModal, setShowTransferModal] = useState(false)
   const [cardList, setCardList] = useState(true)
+
+  const { shift } = useShift()
+
   function toggleView() {
     setCardList((prev) => !prev)
   }
@@ -77,32 +81,75 @@ const WarehousePage = () => {
         >
           <ActionsList
             isRowSelected={selectedRow}
-            onPressCreate={() => {
-              setEditingWarehouse(null)
-              setShowSaveModal(true)
-            }}
-            onPressDelete={() => {
-              setSelectedRow(undefined)
-              remove(selectedRow.id)
-            }}
-            aditionalIcons={[
+            mainIcons={[
               {
-                icon: !cardList ? 'grid-outline' : 'list-outline',
-                onPress: () => toggleView(),
+                icon: 'add-circle-outline',
+                onPress: () => {
+                  if (!shift) {
+                    setEditingWarehouse(null)
+                    setShowSaveModal(true)
+                  } else {
+                    Alert.alert(
+                      'Turno activo',
+                      'No podés agregar depósitos mientras un turno está activo',
+                    )
+                  }
+                },
+                disabled: shift,
               },
               {
                 icon: 'compare-arrows',
                 onPress: () => {
-                  setShowTransferModal(true)
+                  if (!shift) {
+                    setShowTransferModal(true)
+                  } else {
+                    Alert.alert(
+                      'Turno activo',
+                      'No podés transferir productos mientras un turno está activo',
+                    )
+                  }
                 },
                 library: 'mui',
+                disabled: shift,
+              },
+              {
+                icon: !cardList ? 'grid-outline' : 'list-outline',
+                onPress: () => toggleView(),
               },
             ]}
-            onPressEdit={() => {
-              setEditingWarehouse(selectedRow)
-              setShowSaveModal(true)
-              setSelectedRow(undefined)
-            }}
+            aditionalIcons={[
+              {
+                icon: 'create-outline',
+                onPress: () => {
+                  if (!shift) {
+                    setEditingWarehouse(selectedRow)
+                    setShowSaveModal(true)
+                    setSelectedRow(undefined)
+                  } else {
+                    Alert.alert(
+                      'Turno activo',
+                      'No podés editar un depósito mientras un turno está activo',
+                    )
+                  }
+                },
+                disabled: shift,
+              },
+              {
+                icon: 'trash-outline',
+                onPress: () => {
+                  if (!shift) {
+                    setSelectedRow(undefined)
+                    remove(selectedRow.id)
+                  } else {
+                    Alert.alert(
+                      'Turno activo',
+                      'No podés eliminar un depósito mientras un turno está activo',
+                    )
+                  }
+                },
+                disabled: shift,
+              },
+            ]}
           />
 
           {!cardList ? (
@@ -131,10 +178,14 @@ const WarehousePage = () => {
                   sort={sort}
                   setSort={setSort}
                   onPressRow={(row: any) => {
-                    navigate('warehouse-detail', {
-                      id: row.id,
-                      name: row.name,
-                    })
+                    if (selectedRow === undefined) {
+                      navigate('warehouse-detail', {
+                        id: row.id,
+                        name: row.name,
+                      })
+                    } else {
+                      setSelectedRow(undefined)
+                    }
                   }}
                   onLongPressRow={(row: any) => {
                     selectedRow !== undefined && selectedRow.id !== row.id

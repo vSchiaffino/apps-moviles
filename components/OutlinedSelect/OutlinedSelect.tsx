@@ -1,9 +1,10 @@
-import { View, Text, StyleSheet, Pressable, Animated } from 'react-native'
+import { View, Text, StyleSheet, Pressable, Animated, useColorScheme } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import { Colors } from '@/constants/Colors'
 import Typography from '../Typography'
 import SelectItems from './SelectItems'
 import { OutlinedInputProps } from '../OutlinedInput'
+import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native'
 
 export interface OutlinedSelectProps extends Partial<OutlinedInputProps> {
   option: any
@@ -26,8 +27,9 @@ const OutlinedSelect: React.FC<OutlinedSelectProps> = ({
   renderOption = (option: any) => option,
   error = false,
   errorMessage = '',
-  backgroundColor = Colors.gray[100],
+  backgroundColor = DefaultTheme.colors.background,
 }) => {
+  const scheme = useColorScheme()
   const [isFocused, setIsFocused] = useState(false)
   useEffect(() => {
     animateLabel(isFocused || !!option ? 1 : 0)
@@ -61,73 +63,75 @@ const OutlinedSelect: React.FC<OutlinedSelectProps> = ({
   })
 
   return (
-    <View style={styles.container}>
-      {label && (
-        <Animated.Text
+    <ThemeProvider value={scheme === 'dark' ? DarkTheme : DefaultTheme}>
+      <View style={styles.container}>
+        {label && (
+          <Animated.Text
+            style={[
+              styles.label,
+              {
+                backgroundColor: backgroundColor,
+                zIndex: isLabelOnTop ? 1 : -1,
+                color: disabled
+                  ? Colors.gray[500]
+                  : showError
+                    ? Colors.danger[600]
+                    : isFocused
+                      ? Colors.primary[600]
+                      : Colors.gray[900],
+                userSelect: 'none',
+              },
+              {
+                transform: [{ translateY: labelPosition }],
+              },
+            ]}
+          >
+            {label}
+          </Animated.Text>
+        )}
+        <Pressable
+          ref={inputRef}
+          onPress={disabled ? () => {} : handlePress}
           style={[
-            styles.label,
+            styles.input,
             {
-              backgroundColor,
-              zIndex: isLabelOnTop ? 1 : -1,
-              color: disabled
-                ? Colors.gray[500]
-                : showError
-                  ? Colors.danger[600]
-                  : isFocused
-                    ? Colors.primary[600]
-                    : Colors.gray[900],
-              userSelect: 'none',
-            },
-            {
-              transform: [{ translateY: labelPosition }],
+              borderWidth: isFocused || showError ? 1.5 : 0.75,
+              borderColor: showError
+                ? Colors.danger[600]
+                : isFocused
+                  ? Colors.primary[600]
+                  : Colors.gray[900],
+              opacity: disabled ? 0.4 : 1,
             },
           ]}
         >
-          {label}
-        </Animated.Text>
-      )}
-      <Pressable
-        ref={inputRef}
-        onPress={handlePress}
-        style={[
-          styles.input,
-          {
-            borderWidth: isFocused || showError ? 1.5 : 0.75,
-            borderColor: showError
-              ? Colors.danger[600]
-              : isFocused
-                ? Colors.primary[600]
-                : Colors.gray[900],
-            opacity: disabled ? 0.4 : 1,
-          },
-        ]}
-      >
-        <Typography variant="body" color="dark">
-          {!!option && renderOption(option)}
-        </Typography>
-      </Pressable>
-      {!!errorMessage && (
-        <Typography variant="subtitle" color="danger">
-          {errorMessage}
-        </Typography>
-      )}
+          <Typography variant="body" color="dark">
+            {!!option && renderOption(option)}
+          </Typography>
+        </Pressable>
+        {!!errorMessage && (
+          <Typography variant="subtitle" color="danger">
+            {errorMessage}
+          </Typography>
+        )}
 
-      {isFocused && (
-        <SelectItems
-          inputMeasures={inputMeasures}
-          onDismiss={() => {
-            setIsFocused(false)
-            option === '' ? animateLabel(0) : undefined
-          }}
-          renderOption={renderOption}
-          options={options}
-          onSelectOption={(selectedOption) => {
-            setOption(selectedOption)
-            setIsFocused(false)
-          }}
-        />
-      )}
-    </View>
+        {isFocused && (
+          <SelectItems
+            inputMeasures={inputMeasures}
+            onDismiss={() => {
+              setIsFocused(false)
+              option === '' ? animateLabel(0) : undefined
+            }}
+            renderOption={renderOption}
+            options={options}
+            onSelectOption={(selectedOption) => {
+              setOption(selectedOption)
+              setIsFocused(false)
+            }}
+          />
+        )}
+      </View>
+    </ThemeProvider>
   )
 }
 
