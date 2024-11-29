@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReportComponent from '@/components/ReportChart';
 import { useReportData } from '@/hooks/useReportData';
+import useOneShiftData from '@/hooks/useOneShiftData';
 
 interface Warehouse {
   id: string;

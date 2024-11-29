@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import ReportComponent from '@/components/ReportChart';
 import { useReportData } from '@/hooks/useReportData';
+import useOneShiftData from '@/hooks/useOneShiftData'
 
 const ProductReport: React.FC = () => {
   const useReportHook = useReportData;

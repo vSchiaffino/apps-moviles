@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReportComponent from '@/components/ReportChart';
 import { useReportData } from '@/hooks/useReportData';
+import GeneralReportChart from '@/components/GeneralReportChart';
 
 type ChartData = {
     label: string; 
@@ -32,7 +33,7 @@ const GeneralReport = () => {
   };
 
   return (
-    <ReportComponent
+    <GeneralReportChart
       useReportHook={useReportData} 
       calculateData={calculateData}
       subtitle="Comparación de Ventas y Disminución de Stock"
