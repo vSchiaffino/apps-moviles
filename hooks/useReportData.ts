@@ -8,7 +8,7 @@ export function useReportData(initialDate: string, finalDate: string) {
   })
 
   return {
-    report: data as ReportData,
+    report: data as Report[],
     ...rest,
   }
 }

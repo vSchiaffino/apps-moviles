@@ -25,7 +25,35 @@ interface Sale {
   products: SaleProduct[]
 }
 
-interface ReportData {
-  stockLevels: StockLevel[]
-  sales: Sale[]
+interface Product {
+  id: number
+  name: string
+}
+
+interface StockItem {
+  quantity: string
+  productId: number
+  product: Product
+}
+
+interface WarehouseStock {
+  stock: StockItem[]
+  warehouseId: number
+  warehouse: Warehouse
+}
+
+interface Warehouse {
+  id: number
+  name: string
+  capacity: number
+  stock: StockItem[]
+}
+
+interface Report {
+  id: number
+  startDate: string
+  startStock: WarehouseStock[]
+  endDate: string
+  endStock: WarehouseStock[]
+  missing: WarehouseStock[]
 }
