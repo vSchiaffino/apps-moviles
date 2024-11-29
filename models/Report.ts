@@ -31,7 +31,7 @@ interface Product {
 }
 
 interface StockItem {
-  quantity: string
+  quantity: number
   productId: number
   product: Product
 }

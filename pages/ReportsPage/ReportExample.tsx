@@ -7,6 +7,7 @@ import SelectDateModal from '@/pages/StockPage/SelectDateModal'
 import StyledButton from '@/components/StyledButton'
 import { useReportData } from '@/hooks/useReportData'
 import InfoCard from '@/components/InfoCard'
+import useOneShiftData from '@/hooks/useOneShiftData'
 
 const ReportExample = () => {
   const [selectedInitialDate, setSelectedInitialDate] = useState('')
@@ -15,18 +16,29 @@ const ReportExample = () => {
   const [finalModalVisible, setFinalModalVisible] = useState(false)
   const [showReport, setShowReport] = useState(false)
   const { report } = useReportData(selectedInitialDate, selectedFinalDate)
-  const data = report?.map((report) => ({
-    label: new Date(report.startDate)
-      .toLocaleString('es-ES', {
-        day: '2-digit',
-        month: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: false,
-      })
-      .replace(',', ''),
-    value: report.missing.length,
-  }))
+  const sum = (array: number[]) => array.reduce((a, b) => a + b, 0)
+  const data = report
+    ?.map((report) => ({
+      label: new Date(report.startDate)
+        .toLocaleString('es-ES', {
+          day: '2-digit',
+          month: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: false,
+        })
+        .replace(',', ''),
+      value: sum(report.missing.map((missing) => sum(missing.stock.map((s) => s.quantity)))),
+      id: report.id,
+    }))
+    .filter((r) => r.value > 0)
+
+  // gon este state es un ejemplo nomas de como podes usar el hook useOneShiftData para mostrar
+  // despues el detalle de un shift en particular cuando tocan en el grafico
+  const [id, setId] = useState<number | undefined>(undefined)
+  const { shift } = useOneShiftData(id)
+  console.log('shift', shift)
+
   // report.forEach((r) => console.log(r.missing))
   // const processDataForCharts = () => {
   //   if (!report) return { barData: [], lineData: [] }

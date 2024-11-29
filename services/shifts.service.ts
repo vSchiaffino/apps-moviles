@@ -11,6 +11,12 @@ export class ShiftsService {
 
     Error('Server error')
   }
+  async findOne(id: number): Promise<Report | null> {
+    const response = await apiService.get(`/shifts/${id}`)
+    if (response.status === 200) return response.json() as Promise<Report>
+    if (response.status === 404) return null
+    return null
+  }
 
   async endCurrent(stocks: any[]) {
     const response = await apiService.post('/shifts/end', stocks)
