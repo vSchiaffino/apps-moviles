@@ -6,6 +6,7 @@ import DateSelect from '@/components/DateSelect'
 import SelectDateModal from '@/pages/StockPage/SelectDateModal'
 import StyledButton from '@/components/StyledButton'
 import { useReportData } from '@/hooks/useReportData'
+import InfoCard from '@/components/InfoCard'
 
 interface Sale {
   productId: string
@@ -111,7 +112,7 @@ const ReportExample = () => {
           setVisible={setFinalModalVisible}
         />
         <StyledButton label="Ver reportes" onPress={() => setShowReport(true)} />
-        {showReport && (
+        {showReport && selectedInitialDate!=='' && selectedFinalDate!=='' ? (
           <View style={styles.chartContainer}>
             <Typography variant="subtitle" style={[styles.centeredText, { marginTop: 24 }]}>
               Comparación de Ventas y Disminución de Stock
@@ -135,7 +136,9 @@ const ReportExample = () => {
               </Typography>
             </ScrollView>
           </View>
-        )}
+        ) : (
+          <InfoCard infoText="Seleccionar un rango de fechas para ver los reportes" />
+        )} 
       </View>
     </ScrollView>
   )
