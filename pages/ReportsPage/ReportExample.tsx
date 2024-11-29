@@ -17,25 +17,26 @@ const ReportExample = () => {
   const [showReport, setShowReport] = useState(false)
   const { report } = useReportData(selectedInitialDate, selectedFinalDate)
   const sum = (array: number[]) => array.reduce((a, b) => a + b, 0)
-  // const data = null
-  // Este report es para el stock general
-  const data = report
-    ?.map((report) => ({
-      label: new Date(report.startDate)
-        .toLocaleString('es-ES', {
-          day: '2-digit',
-          month: '2-digit',
-          hour: '2-digit',
-          minute: '2-digit',
-          hour12: false,
-        })
-        .replace(',', ''),
-      value: sum(report.missing.map((missing) => sum(missing.stock.map((s) => s.quantity)))),
-      id: report.id,
-    }))
-    .filter((r) => r.value > 0)
 
-  // Este es el codigo para report de productos
+  // --------------  Decomentar report es para el stock general
+  // const data = report
+  //   ?.map((report) => ({
+  //     label: new Date(report.startDate)
+  //       .toLocaleString('es-ES', {
+  //         day: '2-digit',
+  //         month: '2-digit',
+  //         hour: '2-digit',
+  //         minute: '2-digit',
+  //         hour12: false,
+  //       })
+  //       .replace(',', ''),
+  //     value: sum(report.missing.map((missing) => sum(missing.stock.map((s) => s.quantity)))),
+  //     id: report.id,
+  //   }))
+  //   .filter((r) => r.value > 0)
+  // -------------------------------------------------------
+
+  // ---------  Descomentar el codigo para report de productos
   // const products = Array.from(
   //   new Map(
   //     report
@@ -60,8 +61,32 @@ const ReportExample = () => {
   //       .filter((q) => q > 0),
   //   ),
   // }))
-  // console.log(data)
-  // Este es el codigo de reports de depositos
+  // -------------------------------------------------------
+
+  // ---- Descomentar para ver el reporte de depositos -----
+  const warehouses =
+    report &&
+    Array.from(
+      new Map(
+        report
+          ?.flatMap((r) => r.missing.map((m) => ({ name: m.warehouse.name, id: m.warehouse.id })))
+          .map((warehouse) => [warehouse.id, warehouse]),
+      ).values(),
+    )
+
+  const data = warehouses?.map(({ id, name }) => ({
+    label: name,
+    value: sum(
+      report
+        ?.flatMap((r) =>
+          r.missing
+            .filter((m) => m.warehouse.id === id)
+            .flatMap((m) => sum(m.stock.map((s) => s.quantity))),
+        )
+        .filter((q) => q > 0),
+    ),
+  }))
+  // -------------------------------------------------------
 
   // gon este state es un ejemplo nomas de como podes usar el hook useOneShiftData para mostrar
   // despues el detalle de un shift en particular cuando tocan en el grafico
