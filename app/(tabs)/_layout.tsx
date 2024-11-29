@@ -92,6 +92,7 @@ export default function RootLayout(this: any) {
                   }}
                 />
               ))}
+              <Tabs.Screen name="reports" options={{ href: null }} />
             </Tabs>
           </GestureHandlerRootView>
         </QueryClientProvider>

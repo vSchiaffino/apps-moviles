@@ -49,24 +49,3 @@ export default function useShift() {
     },
   }
 }
-
-/**
-[
-    {
-        "warehouseId": 10,
-        "stock": [
-            {"productId": 1, "quantity": 2}
-        ]
-    },
-        {
-        "warehouseId": 11,
-        "stock": [
-            {"productId": 1, "quantity": 2},
-            {"productId": 5, "quantity": 2}
-        ]
-    }
-] 
-  
-  
-  
- */
