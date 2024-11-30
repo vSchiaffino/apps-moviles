@@ -57,7 +57,7 @@ const PersonalDataTab = () => {
       contentContainerStyle={{ padding: 16, gap: Spacing.rowGap + 10 }}
     >
       <Typography variant="h6" color="gray">
-        Datos Personales
+        Cambiar Datos Personales
       </Typography>
       <ValidatedForm
         formProps={{ defaultValues: user }}
