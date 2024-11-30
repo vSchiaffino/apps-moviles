@@ -1,4 +1,4 @@
-import { View } from 'react-native'
+import { ScrollView, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import ValidatedForm, { ValidatedField } from '@/components/ValidatedForm'
 import MutateEntityModal, { MutateEntityModalProps } from '@/components/MutateEntityModal'
@@ -6,6 +6,7 @@ import { Spacing } from '@/constants/Spacing'
 import { useWarehouses } from '@/hooks/useWarehouses'
 import useProducts from '@/hooks/useProducts'
 import Sort from '@/models/Sort'
+import { useForm } from 'react-hook-form'
 
 export interface TransferWarehouseModalProps
   extends Omit<MutateEntityModalProps, 'children' | 'entityName' | 'isCreating'> {
@@ -18,7 +19,6 @@ const TransferWarehouseModal: React.FC<TransferWarehouseModalProps> = ({ onSubmi
   const [origin, setOrigin] = useState<any>(null)
   const { products } = useProducts(defaultPagination, defaultSort)
   const { warehouses } = useWarehouses(defaultPagination, defaultSort)
-  console.log(origin ? origin.stock.map((stock: any) => stock.product) : products)
   const fields: ValidatedField[] = [
     {
       name: 'origin',
@@ -43,10 +43,10 @@ const TransferWarehouseModal: React.FC<TransferWarehouseModalProps> = ({ onSubmi
       component: 'select',
       inputProps: {
         backgroundColor: 'white',
-        // TODO: show only products in the origin warehouse
         options: origin ? origin.stock.map((stock: any) => stock.product) : products,
         renderOption: (option: any) => option.name,
         optionsYOffset: 38,
+        disabled: !origin,
       },
     },
     {
@@ -62,6 +62,7 @@ const TransferWarehouseModal: React.FC<TransferWarehouseModalProps> = ({ onSubmi
       component: 'input',
       inputProps: {
         backgroundColor: 'white',
+        disabled: !origin,
       },
     },
     {
@@ -73,26 +74,27 @@ const TransferWarehouseModal: React.FC<TransferWarehouseModalProps> = ({ onSubmi
       component: 'select',
       inputProps: {
         backgroundColor: 'white',
-        options: warehouses,
+        options: warehouses?.filter((warehouse: any) => warehouse.id !== origin?.id),
         optionsYOffset: 38,
-        // TODO: filter only warehouses with capacity and different from origin
         renderOption: (option: any) => option.name,
+        disabled: !origin,
       },
     },
   ]
   return (
     <MutateEntityModal title="Transferencia" {...rest}>
-      <View style={{ flexDirection: 'column', gap: Spacing.rowGap, padding: 20 }}>
-        <ValidatedForm
-          fields={fields}
-          onSubmit={onSubmit}
-          submitLabel={'Transferir'}
-          onFormChange={(name, value) => {
-            console.log('onFormChange', name, value)
-            if (name === 'origin') setOrigin(value)
-          }}
-        />
-      </View>
+      <ScrollView keyboardShouldPersistTaps="handled" keyboardDismissMode="on-drag">
+        <View style={{ flexDirection: 'column', gap: Spacing.rowGap, padding: 16 }}>
+          <ValidatedForm
+            fields={fields}
+            onSubmit={onSubmit}
+            submitLabel={'Transferir'}
+            onFormChange={(name, value) => {
+              if (name === 'origin') setOrigin(value)
+            }}
+          />
+        </View>
+      </ScrollView>
     </MutateEntityModal>
   )
 }
