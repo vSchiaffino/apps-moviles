@@ -9,10 +9,10 @@ import WarehouseModal from './WarehouseModal'
 import Pagination from '@/models/Pagination'
 import Sort from '@/models/Sort'
 import TransferWarehouseModal from './WarehouseTransferModal'
-import { useNavigation } from 'expo-router'
+import { router, useNavigation } from 'expo-router'
 import ActionsList from '@/components/ActionsList'
 import InfoCard from '@/components/InfoCard'
-import { NativeStackNavigationProp } from 'react-native-screens/lib/typescript/native-stack/types'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import useShift from '@/hooks/useShift'
 
 export type WarehouseStackParamList = {
@@ -180,10 +180,7 @@ const WarehousePage = () => {
                   setSort={setSort}
                   onPressRow={(row: any) => {
                     if (selectedRow === undefined) {
-                      navigate('warehouse-detail', {
-                        id: row.id,
-                        name: row.name,
-                      })
+                      router.push({ pathname: '/warehouse/[id]', params: { id: row.id as number } })
                     } else {
                       setSelectedRow(undefined)
                     }
