@@ -34,11 +34,11 @@ export default function RootLayout(this: any) {
   }
 
   const tabs = [
-    { name: 'products', iconName: 'cube' },
-    { name: 'stock-manager', iconName: 'archive' },
-    { name: 'dashboard', iconName: 'home' },
-    { name: 'warehouse', iconName: 'warehouse' },
-    { name: 'profile', iconName: 'person' },
+    { name: 'products', iconName: 'cube', title: 'Productos' },
+    { name: 'stock-manager', iconName: 'archive', title: 'Stock' },
+    { name: 'dashboard', iconName: 'home', title: 'Home' },
+    { name: 'warehouse', iconName: 'warehouse', title: 'Depósitos' },
+    { name: 'profile', iconName: 'person', title: 'Cuenta' },
   ]
 
   const queryClient = new QueryClient()
@@ -50,8 +50,9 @@ export default function RootLayout(this: any) {
             <Tabs
               backBehavior="history"
               screenOptions={() => ({
-                tabBarHideOnKeyboard: true,
                 headerShown: false,
+                tabBarHideOnKeyboard: true,
+                detachInactiveScreens: false,
                 tabBarVisibilityAnimationConfig: {
                   hide: {
                     config: { duration: 150 },
@@ -72,12 +73,11 @@ export default function RootLayout(this: any) {
                 },
               })}
             >
-              {tabs.map(({ name, iconName }, index) => (
+              {tabs.map(({ name, iconName, title }, index) => (
                 <Tabs.Screen
                   key={index}
                   name={name}
                   options={{
-                    tabBarShowLabel: false,
                     tabBarButton: ({ accessibilityState }) => (
                       <TabBarButton
                         iconName={iconName}
