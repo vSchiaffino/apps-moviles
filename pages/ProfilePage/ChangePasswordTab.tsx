@@ -50,7 +50,7 @@ const ChangePasswordTab = () => {
   return (
     <ScrollView
       style={{ height: '100%' }}
-      contentContainerStyle={{ padding: 16, gap: Spacing.rowGap }}
+      contentContainerStyle={{ padding: 16, gap: Spacing.rowGap + 10 }}
     >
       <Typography variant="h6" color="gray">
         Contraseña
