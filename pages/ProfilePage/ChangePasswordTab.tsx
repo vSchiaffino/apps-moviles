@@ -1,8 +1,10 @@
 import Typography from '@/components/Typography'
 import ValidatedForm, { ValidatedField } from '@/components/ValidatedForm'
+import { Spacing } from '@/constants/Spacing'
 import userService from '@/services/user.service'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import React from 'react'
+import { ScrollView } from 'react-native'
 
 const ChangePasswordTab = () => {
   const fields: ValidatedField[] = [
@@ -46,7 +48,10 @@ const ChangePasswordTab = () => {
     })
   }
   return (
-    <>
+    <ScrollView
+      style={{ height: '100%' }}
+      contentContainerStyle={{ padding: 16, gap: Spacing.rowGap }}
+    >
       <Typography variant="h6" color="gray">
         Contraseña
       </Typography>
@@ -63,7 +68,7 @@ const ChangePasswordTab = () => {
         fields={fields}
         successMessage={'Contraseña cambiada correctamente'}
       />
-    </>
+    </ScrollView>
   )
 }
 

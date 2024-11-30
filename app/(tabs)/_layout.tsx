@@ -50,7 +50,6 @@ export default function RootLayout(this: any) {
             <Tabs
               backBehavior="history"
               screenOptions={() => ({
-                unmountOnBlur: true,
                 tabBarHideOnKeyboard: true,
                 headerShown: false,
                 tabBarVisibilityAnimationConfig: {
