@@ -26,13 +26,14 @@ const WarehouseDetailPage = () => {
   const { warehouse, refetch } = useWarehouseDetail(+id)
   const [showModal, setShowModal] = React.useState(false)
   const [selectedProduct, setSelectedProduct] = React.useState<any>(null)
-  const { shift } = useShift()
+  const { shift, registerEgress } = useShift()
 
   const noProducts = products === undefined || products.length === 0
   const message = noProducts ? 'Añadí productos aquí' : 'Tocá el botón de arriba para añadir stock'
 
-  const setEgress = (warehouseId: number, productId: number, quantity: number) => {
-    console.log({ warehouseId: warehouseId, productId: productId, quantity: quantity })
+  const setEgress = async (warehouseId: number, productId: number, quantity: number) => {
+    await registerEgress({ warehouseId, productId, quantity })
+    await refetch()
   }
 
   return (

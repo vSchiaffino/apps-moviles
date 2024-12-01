@@ -15,7 +15,7 @@ const StackLayout = () => {
       <Stack.Screen name="index" options={{ headerShown: false }} />
       <Stack.Screen name="startshift" options={{ headerTitle: 'Iniciar Turno' }} />
       <Stack.Screen name="endshift" options={{ headerTitle: 'Terminar Turno' }} />
-      <Stack.Screen name="egress" options={{ headerTitle: 'Egresos' }} />
+      <Stack.Screen name="egress" options={{ headerTitle: 'Egresos del turno' }} />
     </Stack>
   )
 }

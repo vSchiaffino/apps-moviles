@@ -47,5 +47,12 @@ export default function useShift() {
       )
       refetch()
     },
+    registerEgress: async (egress: any) => {
+      await shiftService.registerEgress({
+        productId: Number(egress.productId),
+        warehouseId: Number(egress.warehouseId),
+        quantity: Number(egress.quantity),
+      })
+    },
   }
 }

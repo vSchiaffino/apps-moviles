@@ -1,53 +1,40 @@
 import React from 'react'
 import Table from '@/components/Table/Table'
-import Pagination from '@/models/Pagination'
-import Sort from '@/models/Sort'
+import { Egress } from '@/models/shift'
 
-const EgressTable: React.FC<{
-  onClickRow: (row: any) => void
-  sales: any[]
-  total: number
-  sort: Sort
-  setSort: (sort: Sort) => void
-  pagination: Pagination
-  setPagination: (pagination: Pagination) => void
-  selectedRow?: any
-  onLongPressRow: (row: any) => void
-}> = ({
-  onClickRow,
-  sales,
-  total,
-  sort,
-  setSort,
-  pagination,
-  setPagination,
-  selectedRow,
-  onLongPressRow,
-}) => {
+export interface EgressTableProps {
+  egresses: Egress[]
+}
+
+const EgressTable: React.FC<EgressTableProps> = ({ egresses }) => {
   return (
-    sales && (
+    egresses && (
       <Table
-        selectedRow={selectedRow}
-        sortingFields={['warehouseName']}
-        entityName="Ventas"
-        onClickRow={onClickRow}
-        onLongPressRow={onLongPressRow}
-        sort={sort}
-        onChangeSort={setSort}
+        entityName="Egresos"
         headerFont="geist"
         columns={[
-          { key: 'warehouseName', title: 'Depósito', width: '40%', align: 'flex-start' },
-          { key: 'productName', title: 'Producto', width: '40%', align: 'center' },
+          {
+            key: 'warehouse',
+            title: 'Depósito',
+            width: '30%',
+            align: 'flex-start',
+            getValue: (row) => row.warehouse.name,
+          },
+          {
+            key: 'product',
+            title: 'Producto',
+            width: '40%',
+            align: 'center',
+            getValue: (row) => row.product.name,
+          },
           {
             key: 'quantity',
-            title: 'stock',
-            width: '20%',
+            title: 'cantidad',
+            width: '30%',
             align: 'flex-end',
           },
         ]}
-        pagination={{ ...pagination, total }}
-        onChangePagination={setPagination}
-        rows={sales}
+        rows={egresses}
       />
     )
   )
