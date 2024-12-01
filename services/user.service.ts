@@ -3,7 +3,8 @@ import apiService from './api.service'
 
 export class UserService {
   public async login(user: string, password: string) {
-    return await apiService.post('/users/login', { user, password })
+    const token = await AsyncStorage.getItem('expoPushToken')
+    return await apiService.post('/users/login', { user, password, token })
   }
 
   public async register(createUserDto: {
