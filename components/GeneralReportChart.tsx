@@ -48,6 +48,8 @@ const ReportComponent: React.FC<ReportComponentProps> = ({
     setIsModalOpen(true)
   }
 
+  const selectedShiftData = data.find(item => item.id === selectedId)
+
   return (
     <ScrollView style={{ height: '100%' }}>
       <View style={{ padding: 16 }}>
@@ -118,7 +120,9 @@ const ReportComponent: React.FC<ReportComponentProps> = ({
             <Typography variant="body">ID del Turno: {shift.id}</Typography>
             <Typography variant="body">Fecha de Inicio: {new Date(shift.startDate).toLocaleString()}</Typography>
             <Typography variant="body">Fecha de Fin: {shift.endDate ? new Date(shift.endDate).toLocaleString() : 'En curso'}</Typography>
-            <Typography variant="body">Cantidad de perdidas: {data.map(item => item.value).join(', ')}</Typography>
+            <Typography variant="body">
+              Cantidad de perdidas: {selectedShiftData ? selectedShiftData.value : 'No disponible'}
+            </Typography>
           </View>
         ) : (
           <View style={styles.modalContent}>
