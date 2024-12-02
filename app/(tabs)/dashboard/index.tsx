@@ -71,12 +71,16 @@ const Dashboard = () => {
                 shift ? endShift() : startShift()
               }}
             />
+
             <CardLineChart
+              title="Egresos"
+              errorMessage="No hay suficientes egresos para mostrar"
               data={(chartData || []).map((data: any) => ({
                 label: data.date,
                 value: data.quantity,
               }))}
             />
+
             <IconCard
               icon="bar-chart-outline"
               color={'primary'}
