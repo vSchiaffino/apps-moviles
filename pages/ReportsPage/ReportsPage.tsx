@@ -21,7 +21,7 @@ const ReportsScreen = () => {
             color={'primary'}
             text={'Perdida de Stock General'}
             onPress={() => {
-              router.push('/reports/reportsExample')
+              router.push('/reports/general-report')
             }}
           ></IconCard>
           <IconCard
@@ -29,7 +29,7 @@ const ReportsScreen = () => {
             color={'primary'}
             text={'Perdida de stock por Producto'}
             onPress={() => {
-              router.push('/reports/reportsExample')
+              router.push('/reports/product-report')
             }}
           ></IconCard>
           <IconCard
@@ -37,7 +37,7 @@ const ReportsScreen = () => {
             color={'primary'}
             text={'Perdida de stock por Deposito'}
             onPress={() => {
-              router.push('/reports/reportsExample')
+              router.push('/reports/warehouse-report')
             }}
           ></IconCard>
         </View>

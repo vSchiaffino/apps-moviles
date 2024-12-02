@@ -1,7 +1,7 @@
 import { useAuthorizedUser } from '@/hooks/useUser'
-import ReportExample from '@/pages/ReportsPage/ReportExample'
+import GeneralReport from '@/pages/ReportsPage/GeneralReportPage'
 
 export default function () {
   useAuthorizedUser()
-  return <ReportExample />
+  return <GeneralReport />
 }
