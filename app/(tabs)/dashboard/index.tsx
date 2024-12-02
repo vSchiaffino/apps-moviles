@@ -1,28 +1,19 @@
 import CardLineChart from '@/components/charts/CardLineChart'
 import Container from '@/components/Container'
 import IconCard from '@/components/IconCard'
-import StyledButton from '@/components/StyledButton'
 import Typography from '@/components/Typography'
+import useChartData from '@/hooks/useChartData'
 import useShift from '@/hooks/useShift'
 import { useAuthorizedUser } from '@/hooks/useUser'
-import { router, useNavigation } from 'expo-router'
+import { router } from 'expo-router'
 import React from 'react'
 import { View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 
 const Dashboard = () => {
   const { user } = useAuthorizedUser()
-  const { shift, start, end } = useShift()
-  const lineData = [
-    { value: 0 },
-    { value: 20 },
-    { value: 8 },
-    { value: 40 },
-    { value: 12 },
-    { value: 30 },
-    { value: 90 },
-    { value: 75 },
-  ]
+  const { shift } = useShift()
+  const { chartData } = useChartData()
   function endShift() {
     router.push('/dashboard/egress')
   }
@@ -78,7 +69,9 @@ const Dashboard = () => {
                 shift ? endShift() : startShift()
               }}
             />
-            <CardLineChart data={lineData} />
+            <CardLineChart
+              data={(chartData || []).map((data) => ({ label: data.date, value: data.quantity }))}
+            />
             <IconCard
               icon="bar-chart-outline"
               color={'primary'}

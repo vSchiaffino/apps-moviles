@@ -29,24 +29,31 @@ const CardLineChart: React.FC<CardLineChartProps> = ({ data }) => {
     >
       <View style={{ padding: 20 }}>
         <Typography color="primary" variant="body">
-          Ingresos
+          Egresos
         </Typography>
         <Typography color="primary" variant="bolder">
-          $19.76M
+          {data.reduce((acc, curr) => acc + curr.value, 0)} Egresos
         </Typography>
         <View style={{ flexDirection: 'row', gap: 4 }}>
           <Typography color="primary" variant="bold">
-            +38.98%
+            {(
+              ((data[data.length - 1]?.value - data[data.length - 2]?.value) /
+                (data.reduce((acc, curr) => acc + curr.value, 0) / data.length)) *
+              100
+            ).toFixed(2)}
+            %
           </Typography>
           <Typography color="primary" variant="body">
-            que los anteriores 30 días
+            que ayer
           </Typography>
         </View>
       </View>
       <LineChart
         areaChart
-        hideAxesAndRules
         curved
+        xAxisColor={Colors.primary[600]}
+        yAxisColor={Colors.primary[600]}
+        xAxisLabelTextStyle={{ color: Colors.primary[600] }}
         yAxisLabelWidth={0}
         data={data}
         height={200}

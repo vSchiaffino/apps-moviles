@@ -40,6 +40,13 @@ export class ShiftsService {
     const { message, field } = await response.json()
     throw new ApiValidationError(message, field)
   }
+
+  async getChartData() {
+    const response = await apiService.get('/shifts/chart')
+    if (response.status === 200) return await response.json()
+    const { message, field } = await response.json()
+    throw new ApiValidationError(message, field)
+  }
 }
 
 const shiftService = new ShiftsService()
