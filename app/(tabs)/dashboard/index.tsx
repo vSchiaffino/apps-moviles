@@ -8,6 +8,7 @@ import useShift from '@/hooks/useShift'
 import { useAuthorizedUser } from '@/hooks/useUser'
 import { router } from 'expo-router'
 import React, { useEffect, useState } from 'react'
+import { View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
@@ -27,12 +28,12 @@ const Dashboard = () => {
   return (
     user && (
       <Container style={{ height: '100%' }}>
-        <SafeAreaView>
+        <View>
           <ScrollView
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{
               padding: 16,
-              paddingTop: 0,
+              paddingTop: 20,
               justifyContent: 'center',
               alignItems: 'center',
               gap: 20,
@@ -116,7 +117,7 @@ const Dashboard = () => {
               }}
             />
           </ScrollView>
-        </SafeAreaView>
+        </View>
       </Container>
     )
   )

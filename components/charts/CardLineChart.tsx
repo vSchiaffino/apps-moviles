@@ -36,13 +36,10 @@ const CardLineChart: React.FC<CardLineChartProps> = ({
         margin: 0,
       }}
     >
-      {data.length >= 3 ? (
-        <View style={{ padding: 20 }}>
-          <Typography color="primary" variant="body">
-            {title}
-          </Typography>
-          <Typography color="primary" variant="bolder">
-            {data.reduce((acc, curr) => acc + curr.value, 0)} Egresos
+      {data.length >= 2 ? (
+        <View style={{ padding: 10 }}>
+          <Typography color="primary" variant="h5">
+            {data.reduce((acc, curr) => acc + curr.value, 0)} {title}
           </Typography>
           <View style={{ flexDirection: 'row', gap: 4 }}>
             <Typography color="primary" variant="bold">
@@ -68,9 +65,10 @@ const CardLineChart: React.FC<CardLineChartProps> = ({
           </Typography>
         </View>
       )}
-      {data.length >= 3 ? (
+      {data.length >= 2 ? (
         <LineChart
           areaChart
+          isAnimated
           curved
           xAxisColor={colorPallete[600]}
           yAxisColor={colorPallete[600]}
