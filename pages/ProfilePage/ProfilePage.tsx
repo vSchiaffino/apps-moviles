@@ -55,7 +55,7 @@ const ProfilePage = () => {
           onPress={async () => {
             setUser(null)
             await AsyncStorage.clear()
-            router.push('/login')
+            router.replace('/login')
           }}
         />
       </ScrollView>
