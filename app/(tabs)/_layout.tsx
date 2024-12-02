@@ -35,7 +35,7 @@ export default function RootLayout(this: any) {
 
   const tabs = [
     { name: 'products', iconName: 'cube', title: 'Productos' },
-    { name: 'stock-manager', iconName: 'archive', title: 'Stock' },
+    { name: 'reports', iconName: 'bar-chart', title: 'Reportes' },
     { name: 'dashboard', iconName: 'home', title: 'Home' },
     { name: 'warehouse', iconName: 'warehouse', title: 'Depósitos' },
     { name: 'profile', iconName: 'person', title: 'Cuenta' },
@@ -91,7 +91,6 @@ export default function RootLayout(this: any) {
                   }}
                 />
               ))}
-              <Tabs.Screen name="reports" options={{ href: null }} />
             </Tabs>
           </GestureHandlerRootView>
         </QueryClientProvider>
