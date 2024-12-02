@@ -2,12 +2,12 @@ import CardLineChart from '@/components/charts/CardLineChart'
 import Container from '@/components/Container'
 import IconCard from '@/components/IconCard'
 import Typography from '@/components/Typography'
+import { Colors } from '@/constants/Colors'
 import useChartData from '@/hooks/useChartData'
 import useShift from '@/hooks/useShift'
 import { useAuthorizedUser } from '@/hooks/useUser'
 import { router } from 'expo-router'
-import React from 'react'
-import { View } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import { ScrollView } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
@@ -15,6 +15,7 @@ const Dashboard = () => {
   const { user } = useAuthorizedUser()
   const { shift } = useShift()
   const { chartData } = useChartData()
+
   function endShift() {
     router.push('/dashboard/egress')
   }
@@ -39,14 +40,45 @@ const Dashboard = () => {
             }}
           >
             <Typography variant="h4">Bienvenido {user.user}</Typography>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
+            <Typography
+              variant="h5"
+              style={{ width: '100%', paddingTop: 10, paddingHorizontal: 10 }}
+            >
+              Atajos
+            </Typography>
+            <ScrollView
+              showsHorizontalScrollIndicator={false}
+              horizontal
+              style={{ marginHorizontal: -16 }}
+              contentContainerStyle={{
+                paddingTop: 2,
+                paddingBottom: 10,
                 gap: 20,
+                paddingHorizontal: 16,
               }}
+              keyboardShouldPersistTaps="handled"
             >
               <IconCard
+                style={{ width: 125, height: 125 }}
+                icon={shift ? 'alert-outline' : 'time-outline'}
+                color={shift ? 'danger' : 'primary'}
+                text={shift ? 'Turno activo' : 'Iniciar turno'}
+                onPress={() => {
+                  shift ? endShift() : startShift()
+                }}
+                isShiftActive={!!shift}
+              />
+              <IconCard
+                style={{ width: 125, height: 125 }}
+                icon="warehouse"
+                color={'gray'}
+                text="Depósitos"
+                onPress={() => {
+                  router.push('/warehouse')
+                }}
+              />
+              <IconCard
+                style={{ width: 125, height: 125 }}
                 icon="cube-outline"
                 color={'primary'}
                 text="Productos"
@@ -55,23 +87,21 @@ const Dashboard = () => {
                 }}
               />
               <IconCard
-                icon="warehouse"
-                color={'gray'}
-                text="Depósitos"
+                style={{ width: 125, height: 125 }}
+                icon="person"
+                color={'primary'}
+                text="Cuenta"
                 onPress={() => {
-                  router.push('/warehouse')
+                  router.push('/profile')
                 }}
               />
-            </View>
-            <IconCard
-              icon="time-outline"
-              color={shift ? 'yellow' : 'primary'}
-              text={shift ? 'Turno en curso' : 'Iniciar turno'}
-              onPress={() => {
-                shift ? endShift() : startShift()
-              }}
-            />
-
+            </ScrollView>
+            <Typography
+              variant="h5"
+              style={{ width: '100%', paddingTop: 10, paddingHorizontal: 10 }}
+            >
+              Métricas
+            </Typography>
             <CardLineChart
               title="Egresos"
               errorMessage="No hay suficientes egresos para mostrar"
