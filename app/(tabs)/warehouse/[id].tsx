@@ -1,5 +1,5 @@
 import { Alert, View } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useWarehouseDetail } from '@/hooks/useWarehouseDetail'
 import { Spacing } from '@/constants/Spacing'
 import Typography from '@/components/Typography'
@@ -11,9 +11,10 @@ import useProducts from '@/hooks/useProducts'
 import warehouseService from '@/services/warehouse.service'
 import IconButton from '@/components/IconButton'
 import InfoCard from '@/components/InfoCard'
-import { router, useLocalSearchParams } from 'expo-router'
+import { router, useLocalSearchParams, useNavigation } from 'expo-router'
 import useShift from '@/hooks/useShift'
 import { SetEgressModal } from '../../../pages/WarehouseDetailPage/SetEgressModal'
+import { CommonActions } from '@react-navigation/native'
 
 const WarehouseDetailPage = () => {
   const params = useLocalSearchParams()
@@ -65,7 +66,7 @@ const WarehouseDetailPage = () => {
               show={showModal}
               onSubmit={async (form: any) => {
                 const { quantity } = form
-                setEgress(warehouse.id, selectedProduct.id, quantity) //implement egress
+                setEgress(warehouse.id, selectedProduct.id, quantity)
                 setShowModal(false)
               }}
             />
@@ -81,7 +82,7 @@ const WarehouseDetailPage = () => {
           >
             <Typography variant="h5">{warehouse.name}</Typography>
             <IconButton
-              disabled={shift}
+              disabled={!!shift}
               icon="add-circle-outline"
               size={24}
               style={{ backgroundColor: 'transparent' }}

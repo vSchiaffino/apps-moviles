@@ -31,19 +31,15 @@ const Dashboard = () => {
           <ScrollView
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{
-              marginTop: 20,
               padding: 16,
+              paddingTop: 0,
               justifyContent: 'center',
               alignItems: 'center',
               gap: 20,
               paddingBottom: 120,
             }}
           >
-            <Typography variant="h4">Bienvenido {user.user}</Typography>
-            <Typography
-              variant="h5"
-              style={{ width: '100%', paddingTop: 10, paddingHorizontal: 10 }}
-            >
+            <Typography variant="h5" style={{ width: '100%', paddingHorizontal: 10 }}>
               Atajos
             </Typography>
             <ScrollView
