@@ -9,6 +9,7 @@ import { router, useNavigation } from 'expo-router'
 import React from 'react'
 import { View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 const Dashboard = () => {
   const { user } = useAuthorizedUser()
@@ -34,15 +35,16 @@ const Dashboard = () => {
   return (
     user && (
       <Container style={{ height: '100%' }}>
-        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{}}>
-          <View
-            style={{
-              marginTop: 70,
+        <SafeAreaView>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{
+              marginTop: 20,
               padding: 16,
               justifyContent: 'center',
               alignItems: 'center',
               gap: 20,
-              paddingBottom: 100,
+              paddingBottom: 120,
             }}
           >
             <Typography variant="h4">Bienvenido {user.user}</Typography>
@@ -87,8 +89,8 @@ const Dashboard = () => {
                 router.push('/reports')
               }}
             />
-          </View>
-        </ScrollView>
+          </ScrollView>
+        </SafeAreaView>
       </Container>
     )
   )
