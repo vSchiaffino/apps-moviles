@@ -1,8 +1,8 @@
+import TabsSelectorMaterial from '@/pages/ProfilePage/TabsSelectorMaterial'
 import React from 'react'
-import ProfilePage from '@/pages/ProfilePage/ProfilePage'
 
-const profile = () => {
-  return <ProfilePage />
+const materialtabbar = () => {
+  return <TabsSelectorMaterial />
 }
 
-export default profile
+export default materialtabbar

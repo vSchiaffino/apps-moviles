@@ -1,21 +1,16 @@
 import Typography from '@/components/Typography'
 import ValidatedForm, { ValidatedField } from '@/components/ValidatedForm'
+import { Spacing } from '@/constants/Spacing'
+import { useAuthorizedUser } from '@/hooks/useUser'
 import React from 'react'
+import { ScrollView } from 'react-native'
 
-export interface PersonalDataTabProps {
-  user: {
-    user: string
-    name: string
-    lastName: string
-    mail: string
+const PersonalDataTab = () => {
+  const { user, editUser } = useAuthorizedUser()
+  const onSubmit = async (form: any) => {
+    await editUser(form)
   }
-  onSubmit: (form: any) => Promise<void>
-}
 
-const PersonalDataTab: React.FC<PersonalDataTabProps> = ({
-  user,
-  onSubmit,
-}: PersonalDataTabProps) => {
   const fields: ValidatedField[] = [
     {
       name: 'name',
@@ -57,9 +52,12 @@ const PersonalDataTab: React.FC<PersonalDataTabProps> = ({
     },
   ]
   return (
-    <>
+    <ScrollView
+      style={{ height: '100%' }}
+      contentContainerStyle={{ padding: 16, gap: Spacing.rowGap + 10 }}
+    >
       <Typography variant="h6" color="gray">
-        Datos Personales
+        Cambiar Datos Personales
       </Typography>
       <ValidatedForm
         formProps={{ defaultValues: user }}
@@ -68,7 +66,7 @@ const PersonalDataTab: React.FC<PersonalDataTabProps> = ({
         fields={fields}
         successMessage="Usuario actualizado correctamente"
       />
-    </>
+    </ScrollView>
   )
 }
 

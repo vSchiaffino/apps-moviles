@@ -5,25 +5,22 @@ import { Spacing } from '@/constants/Spacing'
 import Typography from '@/components/Typography'
 import Container from '@/components/Container'
 import { ScrollView } from 'react-native-gesture-handler'
-import { Colors } from '@/constants/Colors'
 import Table from '@/components/Table/Table'
-import { AddStockModal } from './AddStockModal'
+import { AddStockModal } from '../../../pages/WarehouseDetailPage/AddStockModal'
 import useProducts from '@/hooks/useProducts'
 import warehouseService from '@/services/warehouse.service'
-import { useRoute } from '@react-navigation/native'
 import IconButton from '@/components/IconButton'
 import InfoCard from '@/components/InfoCard'
-import { router } from 'expo-router'
+import { router, useLocalSearchParams } from 'expo-router'
 import useShift from '@/hooks/useShift'
-import { SetEgressModal } from './SetEgressModal'
+import { SetEgressModal } from '../../../pages/WarehouseDetailPage/SetEgressModal'
 
 const WarehouseDetailPage = () => {
-  const {
-    params: { id },
-  }: any = useRoute()
+  const params = useLocalSearchParams()
+  const id = parseInt(params.id as string, 10)
 
   const { products } = useProducts({ page: 1, limit: 999 }, { field: 'name', direction: 'DESC' })
-  const { warehouse, refetch } = useWarehouseDetail(+id)
+  const { warehouse, refetch } = useWarehouseDetail(id)
   const [showModal, setShowModal] = React.useState(false)
   const [selectedProduct, setSelectedProduct] = React.useState<any>(null)
   const { shift, registerEgress } = useShift()
@@ -78,11 +75,11 @@ const WarehouseDetailPage = () => {
               flexDirection: 'row',
               justifyContent: 'space-between',
               alignItems: 'center',
-              paddingHorizontal: 16,
+              paddingRight: 16,
               paddingTop: 10,
             }}
           >
-            <Typography variant="h5">Productos en stock</Typography>
+            <Typography variant="h5">{warehouse.name}</Typography>
             <IconButton
               disabled={shift}
               icon="add-circle-outline"
