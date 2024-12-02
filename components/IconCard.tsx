@@ -109,7 +109,7 @@ const IconCard = ({
           />
         )}
       </Animated.View>
-      <Typography color={color} variant="body">
+      <Typography color={color} variant="body" numberOfLines={1}>
         {text}
       </Typography>
     </Card>
