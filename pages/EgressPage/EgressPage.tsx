@@ -27,13 +27,13 @@ const EgressPage = () => {
           {shift?.egresses && shift.egresses.length ? (
             <>
               <EgressTable egresses={shift.egresses} />
-              <StyledButton label="Cerrar turno" onPress={handleSubmit} />
             </>
           ) : (
             <Pressable onPress={() => router.push('/warehouse')}>
               <InfoCard infoText="No hay egresos registrados. Empezá a registar egresos en la pantalla de depósitos tocando aquí" />
             </Pressable>
           )}
+          <StyledButton label="Cerrar turno" onPress={handleSubmit} />
         </View>
       </ScrollView>
     </Container>
