@@ -72,7 +72,10 @@ const Dashboard = () => {
               }}
             />
             <CardLineChart
-              data={(chartData || []).map((data) => ({ label: data.date, value: data.quantity }))}
+              data={(chartData || []).map((data: any) => ({
+                label: data.date,
+                value: data.quantity,
+              }))}
             />
             <IconCard
               icon="bar-chart-outline"
