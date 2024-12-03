@@ -1,9 +1,11 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import apiService from './api.service'
+import * as Notifications from 'expo-notifications'
 
 export class UserService {
   public async login(user: string, password: string) {
-    const token = await AsyncStorage.getItem('expoPushToken')
+    const data = await Notifications.getExpoPushTokenAsync()
+    const token = data.data
     return await apiService.post('/users/login', { user, password, token })
   }
 
